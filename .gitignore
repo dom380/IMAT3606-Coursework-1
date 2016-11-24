@@ -27,3 +27,12 @@
 *.exe
 *.out
 *.app
+
+#Docs
+*/doc
+*.html
+*.png
+*.doc*
+*.pdf
+*.css
+*.js
