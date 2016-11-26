@@ -1,17 +1,20 @@
+#include "RenderGL.h"
 #include <GL/glew.h>
 #include "GL/glfw3.h"
 #include <cstdlib>
 #include <stdio.h>
-#define WINDOW_HEIGHT 500
-#define WINDOW_WIDTH 500
-GLFWwindow *window;
 
-////////////////////////////////////////////////////////
-/////// Main loop  /////////////////////////////////////
-////////////////////////////////////////////////////////
+
+#define WINDOW_HEIGHT 800
+#define WINDOW_WIDTH 1024
+GLFWwindow *window;
+RenderGL renderer = RenderGL(WINDOW_WIDTH, WINDOW_HEIGHT);
+shared_ptr<Model> modelTest = std::make_shared<Model>();
+
+// Main loop 
 void mainLoop() {
 	while (!glfwWindowShouldClose(window) && !glfwGetKey(window, GLFW_KEY_ESCAPE)) {
-		//GLUtils::checkForOpenGLError(__FILE__,__LINE__);
+		renderer.render();
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
@@ -47,9 +50,14 @@ int main() {
 		fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
 
 	}
+	
 
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-
+	//modelTest->init("./cube.obj", "./texture.bmp");
+	modelTest->init("./cube.obj", "./texture.bmp");
+	renderer.addModel(modelTest);
+	renderer.init();
+	string check = OpenGLSupport().GetError();
 	mainLoop();
 
 	// Close window and terminate GLFW
