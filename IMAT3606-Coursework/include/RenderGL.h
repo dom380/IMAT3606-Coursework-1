@@ -1,6 +1,7 @@
 #pragma once
 #ifndef RENDERGL_H
 #define RENDERGL_H
+#include "Graphics.h"
 #include <gl\glew.h>
 #include "GL\glm\glm\gtc\matrix_transform.hpp"
 #include "GL\glm\glm\gtx\transform.hpp"
@@ -12,12 +13,13 @@ using std::string; using std::vector;
 #include <memory>
 using std::shared_ptr;
 
-class RenderGL {
+class RenderGL : public Graphics {
 public:
 	RenderGL(int width, int height);
 	~RenderGL();
-	void init();
+	bool init();
 	void render();
+	void exit();
 	Shader getShader();
 	void setShader(Shader shader);
 	void addModel(shared_ptr<Model> &model);
