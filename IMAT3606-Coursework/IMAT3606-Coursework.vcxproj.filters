@@ -51,11 +51,11 @@
     <ClCompile Include="include\Engine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\GUI\Button.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
     <ClCompile Include="source\GUI\Font.cpp">
       <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="include\Input.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -108,6 +108,12 @@
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
     <ClInclude Include="include\GUI\Font.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utils\Transform.h">
+      <Filter>Header Files\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GUI\OnClickTest.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
   </ItemGroup>

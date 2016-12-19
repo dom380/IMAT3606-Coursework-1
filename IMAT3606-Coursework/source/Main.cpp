@@ -14,7 +14,7 @@ Engine engine = Engine();
 int main() {
 	engine.init();
 	renderer.init();
-
+	Input::getInstance().registerMouseListener(renderer.buttonTest);
 	modelTest->init("./cube.obj", "./texture.bmp");
 	renderer.addModel(modelTest); //todo move models into Screen class that manages what to draw
 

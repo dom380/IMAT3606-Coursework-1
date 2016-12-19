@@ -5,7 +5,6 @@
 #include "utils\Bitmap.h"
 #include "utils\Texture.h"
 #include "utils\ObjReader.h"
-#include "utils\GLSupport.h"
 #include "GL\glew.h"
 #include <gl/gl.h>
 #include <gl/glu.h>
@@ -19,7 +18,6 @@ public:
 	Model();
 	~Model();
 	void init(char* objFile, char* textureFile);
-	void render(GLuint shaderProgram); //TODO change this method? Should models know how to draw themselves? Or just store data?
 	void render(Shader &shaderProgram);
 private:
 	bool initalised = false;

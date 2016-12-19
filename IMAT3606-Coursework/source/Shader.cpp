@@ -1,4 +1,5 @@
 #include "Shader.h"
+#include "utils\GLSupport.h"
 
 
 Shader::Shader()

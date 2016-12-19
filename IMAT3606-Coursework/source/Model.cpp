@@ -14,8 +14,8 @@ void Model::init(char * objFile, char * textureFile)
 	if (initalised) return;
 	vector<glm::vec4> vertices; vector<glm::vec3> normals; vector<glm::vec2> textures; vector<GLushort>indices;
 	ObjReader().readObj(objFile, vertices, normals, textures, indices);
-	
 	glGenBuffers(4, vboHandles);
+
 	//Create IBO
 	GLuint indiceBuffer = vboHandles[0];
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiceBuffer);
@@ -65,29 +65,16 @@ void Model::init(char * objFile, char * textureFile)
 	initalised = true;
 }
 
-void Model::render(GLuint shaderProgram)
-{
-	if (!initalised) return;
-	glActiveTexture(textureId);
-	glBindTexture(GL_TEXTURE_2D, texture->object());
-	GLint loc = glGetUniformLocation(shaderProgram, "tex");
-	glUniform1f(loc, textureId);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER);
-	glBindVertexArray(vaoHandle);
-	glDrawElements(GL_TRIANGLES, indexSize, GL_UNSIGNED_BYTE, BUFFER_OFFSET(0));
-	glBindVertexArray(0);
-}
-
 void Model::render(Shader &shaderProgram)
 {
+	//TODO Move to graphics object
 	if (!initalised) return;
+	shaderProgram.bindShader();
 	glBindVertexArray(vaoHandle);
 	glActiveTexture(GL_TEXTURE0);
-	string check = OpenGLSupport().GetError();
 	glBindTexture(GL_TEXTURE_2D, texture->object());
 	shaderProgram.setUniform("tex", 0);
 	glDrawElements(GL_TRIANGLES, indexSize, GL_UNSIGNED_SHORT, BUFFER_OFFSET(0));
-	check = OpenGLSupport().GetError();
 	glBindVertexArray(0);
 }
 

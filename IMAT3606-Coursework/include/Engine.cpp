@@ -32,7 +32,8 @@ void Engine::init()
 		exit();
 	}
 	glfwMakeContextCurrent(window);
-	//glfwSetKeyCallback(window, key_callback);
+	glfwSetKeyCallback(window, &inputHandler.keyboardCallback);
+	glfwSetMouseButtonCallback(window, &inputHandler.mouseButtonCallback);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);	
 }
 

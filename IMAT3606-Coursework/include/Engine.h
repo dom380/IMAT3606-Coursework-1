@@ -4,6 +4,7 @@
 #include "AssetManager.h"
 #include "Graphics.h"
 #include "GL/glfw3.h"
+#include "Input.h"
 class Engine {
 public:
 
@@ -20,7 +21,7 @@ public:
 private:
 	Graphics* renderer;
 	GLFWwindow* window;
-
+	Input &inputHandler = Input::getInstance();
 	bool closed;
 };
 
