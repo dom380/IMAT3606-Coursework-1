@@ -40,6 +40,7 @@ void Engine::init()
 void Engine::mainLoop()
 {
 	while (!glfwWindowShouldClose(window) && !glfwGetKey(window, GLFW_KEY_ESCAPE)) {
+		//todo change to use screens and add timer
 		renderer->render();
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -50,6 +51,7 @@ void Engine::exit()
 {
 	if (closed) return;
 	renderer->exit();
+	AssetManager::getInstance()->exit();
 
 	// Close window and terminate GLFW
 	glfwTerminate();
@@ -60,4 +62,39 @@ void Engine::exit()
 void Engine::setModules(Graphics * graphics)
 {
 	renderer = graphics;
+}
+
+unsigned int Engine::registerScreen(shared_ptr<Screen> screen)
+{
+	gameScreens.emplace(std::pair<unsigned int, shared_ptr<Screen>>(currentScreenId++, screen));
+	return currentScreenId;
+}
+
+shared_ptr<Screen> Engine::getActiveScreen()
+{
+	return activeScreen.second;
+}
+
+void Engine::switchScreen(unsigned int screenId)
+{
+	auto it = gameScreens.find(screenId);
+	if (it == gameScreens.end()) {
+		//todo throw exeception
+	}
+	else {
+		activeScreen = *it;
+	}
+}
+
+void Engine::replaceScreen(unsigned int screenId)
+{
+	auto it = gameScreens.find(screenId);
+	if (it == gameScreens.end()) {
+		//todo throw exeception
+	} else{
+		activeScreen.second.reset();
+		unsigned int idToRemove = activeScreen.first;
+		activeScreen = *it;
+		gameScreens.erase(idToRemove);
+	}
 }

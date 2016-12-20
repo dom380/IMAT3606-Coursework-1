@@ -1,1 +1,26 @@
 #pragma once
+#ifndef ASSETMANAGER_H
+#define ASSETMANAGER_H
+#include <memory>
+using std::shared_ptr;
+#include <map>
+using std::map;
+#include <utils\Texture.h>
+#include <string>
+using std::string;
+class AssetManager {
+public:
+	static shared_ptr<AssetManager> getInstance();
+	shared_ptr<Texture> getTexture(const char* filePath);
+	void exit();
+private:
+	AssetManager() {};
+	AssetManager(AssetManager const&) {}; // prevent copies
+	void operator=(AssetManager const&) {}; // prevent assignments
+	static bool initialised;
+	static shared_ptr<AssetManager> instance;
+
+	map<string, shared_ptr<Texture>> textures;
+};
+
+#endif // !ASSETMANAGER_H

@@ -141,6 +141,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="include\AssetManager.cpp" />
     <ClCompile Include="include\Engine.cpp" />
     <ClCompile Include="include\Input.cpp" />
     <ClCompile Include="source\GUI\Font.cpp" />
@@ -165,6 +166,7 @@
     <ClInclude Include="include\Input.h" />
     <ClInclude Include="include\Model.h" />
     <ClInclude Include="include\RenderGL.h" />
+    <ClInclude Include="include\Screen.h" />
     <ClInclude Include="include\Shader.h" />
     <ClInclude Include="include\utils\Bitmap.h" />
     <ClInclude Include="include\utils\GLSupport.h" />

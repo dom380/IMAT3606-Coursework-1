@@ -3,6 +3,7 @@
 #define TRANSFORM_H
 #include <gl\glm\glm\glm.hpp>
 #include <gl\glm\glm\gtc\quaternion.hpp>
+#include <gl\glm\glm\gtx\quaternion.hpp>
 
 
 class Transform {

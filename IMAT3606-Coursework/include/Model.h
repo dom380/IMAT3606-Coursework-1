@@ -5,34 +5,38 @@
 #include "utils\Bitmap.h"
 #include "utils\Texture.h"
 #include "utils\ObjReader.h"
-#include "GL\glew.h"
-#include <gl/gl.h>
-#include <gl/glu.h>
+#include "Graphics.h"
 #include "GL\glm\glm\glm.hpp"
 #include "Shader.h"
+#include "utils\Transform.h"
 #include <vector>
 using std::vector;
+#include "AssetManager.h"
 
 class Model {
 public:
-	Model();
+	Model(Graphics* graphics);
 	~Model();
 	void init(char* objFile, char* textureFile);
-	void render(Shader &shaderProgram);
+	void render();
+	shared_ptr<Texture> getTexture();
+	unsigned int getVertArray();
+	size_t getIndexSize();
+	Transform transform;
 private:
 	bool initalised = false;
+	Graphics* graphics;
+	unsigned int verticesId;
+	unsigned int texCoordsId;
+	unsigned int normalsId;
+	unsigned int indexId;
+	unsigned int textureId;
 
-	GLuint verticesId;
-	GLuint texCoordsId;
-	GLuint normalsId;
-	GLuint indexId;
-	GLuint textureId;
+	size_t indexSize;
 
-	GLsizei indexSize;
-
-	GLuint vboHandles[4];
-	GLuint vaoHandle;
-
-	Texture* texture;
+	unsigned int vboHandles[4];
+	unsigned int vaoHandle;
+	Shader shader;
+	shared_ptr<Texture> texture;
 };
 #endif // !MODEL_H

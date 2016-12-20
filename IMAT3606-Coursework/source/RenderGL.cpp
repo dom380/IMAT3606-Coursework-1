@@ -2,6 +2,7 @@
 #ifndef NDEBUG
 #include <utils\GLSupport.h>
 #endif
+#define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
 
 RenderGL::RenderGL(int width, int height)
@@ -26,17 +27,10 @@ bool RenderGL::init()
 
 	}
 	glEnable(GL_DEPTH_TEST);
-	shaderProg.compileShader("./shaders/basic.vert", GL_VERTEX_SHADER);
-	shaderProg.compileShader("./shaders/basic.frag", GL_FRAGMENT_SHADER);
-	shaderProg.link();
-	shaderProg.bindShader();
-	model = glm::translate(model, glm::vec3(0.0f, 0.0f,0.0f));
+	modelMat = glm::translate(modelMat, glm::vec3(0.0f, 0.0f,0.0f));
 	//todo move these to camera class?
-	glm::mat4 view = glm::lookAt(glm::vec3(0.0f, 0.0f, 6.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	glm::mat4 perspective = glm::perspective(glm::radians(45.f), (GLfloat)width / (GLfloat)height, 0.1f, 1000.0f);
-	shaderProg.setUniform("mModel", model);
-	shaderProg.setUniform("mView", view);
-	shaderProg.setUniform("mProjection", perspective);
+	viewMat = glm::lookAt(glm::vec3(0.0f, 0.0f, 6.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	perspectiveMat = glm::perspective(glm::radians(45.f), (GLfloat)width / (GLfloat)height, 0.1f, 1000.0f);
 
 	//todo remove test code:
 
@@ -46,7 +40,8 @@ bool RenderGL::init()
 	Font font(ft, "./resources/fonts/arial.ttf", this);
 	font.compile();
 	Transform transform(glm::vec3(30.0,30.0,-1.0), glm::vec3(1.0,1.0,1.0), glm::quat());
-	buttonTest = std::make_shared<Button<OnClickTest>>(text, font, transform, this);
+	buttonTest = std::make_shared<Button>(text, font, transform, this);
+	buttonTest->addOnClickFn(OnClickTest());
 
 	return true;
 }
@@ -54,17 +49,18 @@ bool RenderGL::init()
 void RenderGL::render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	shaderProg.bindShader();
 	angle++;
 	if (angle>360.f)
 	{
-		angle -= 360;
+		angle -= 360.f;
 	}
-	glm::mat4 modelV = glm::rotate(glm::radians(angle),glm::vec3(1.0f,1.0f,1.0f)) *model;
-	shaderProg.setUniform("mModel", modelV);
 	//TODO Move list of models out of renderer
 	for (shared_ptr<Model> model : models) {
-		model->render(shaderProg);
+		model->transform.orientation.x = 1.0f;
+		model->transform.orientation.y = 1.0f;
+		model->transform.orientation.z = 1.0f;
+		model->transform.orientation.w = glm::radians(angle);
+		model->render();
 	}
 	buttonTest->render();
 }
@@ -73,16 +69,6 @@ void RenderGL::exit() {
 	for (shared_ptr<Model> model : models) {
 		model.reset();
 	}
-}
-
-Shader RenderGL::getShader()
-{
-	return shaderProg;
-}
-
-void RenderGL::setShader(Shader shader)
-{
-	shaderProg = shader;
 }
 
 void RenderGL::addModel(shared_ptr<Model> &model)
@@ -197,6 +183,62 @@ void RenderGL::buildFontTexture(FT_Face& fontFace, unsigned int& textureID)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 }
 
-void RenderGL::renderModel(Model model)
+void RenderGL::bufferModelData(vector<glm::vec4>& vertices, vector<glm::vec3>& normals, vector<glm::vec2>& textures, 
+	vector<unsigned short>& indices, unsigned int& vaoHandle)
 {
+	unsigned int vboHandles[4];
+	glGenBuffers(4, vboHandles);
+	//Create IBO
+	GLuint indiceBuffer = vboHandles[0];
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiceBuffer);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort) * indices.size(), &indices[0], GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	//Create VBO
+	GLuint vertexBuffer = vboHandles[1];
+	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec4) * vertices.size(), glm::value_ptr(vertices[0]), GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	//Create VBO for textureCoords
+	GLuint texCoordBuffer = vboHandles[2];
+	glBindBuffer(GL_ARRAY_BUFFER, texCoordBuffer);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec2) * textures.size(), glm::value_ptr(textures[0]), GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	//Creat VBO for normals
+	GLuint normalBuffer = vboHandles[3];
+	glBindBuffer(GL_ARRAY_BUFFER, normalBuffer);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * normals.size(), glm::value_ptr(normals[0]), GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	//Create Vertex Array Object
+	glGenVertexArrays(1, &vaoHandle);
+	glBindVertexArray(vaoHandle);
+	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
+	glEnableVertexAttribArray(2);
+	//Bind VBOs to VAO
+	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+	glVertexAttribPointer(0, 4, GL_FLOAT, false, 0, (GLubyte *)NULL);
+	glBindBuffer(GL_ARRAY_BUFFER, texCoordBuffer);
+	glVertexAttribPointer(1, 2, GL_FLOAT, false, 0, (GLubyte *)NULL);
+	glBindBuffer(GL_ARRAY_BUFFER, normalBuffer);
+	glVertexAttribPointer(2, 3, GL_FLOAT, false, 0, (GLubyte *)NULL);
+	//Bind IBO to VAO
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiceBuffer);
+	//unbind VAO
+	glBindVertexArray(0);
+}
+
+void RenderGL::renderModel(Model& model, Shader& shaderProgram)
+{
+	shaderProgram.bindShader();
+	glBindVertexArray(model.getVertArray());
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, model.getTexture()->object());
+	glm::quat orientation = model.transform.orientation;
+	glm::mat4 mMat = modelMat * glm::translate(model.transform.position) * glm::rotate(orientation.w, glm::vec3(orientation.x, orientation.y, orientation.z)) * glm::scale(model.transform.scale);
+	shaderProgram.setUniform("tex", 0);
+	shaderProgram.setUniform("mView", viewMat);
+	shaderProgram.setUniform("mProjection", perspectiveMat);
+	shaderProgram.setUniform("mModel", mMat);
+	glDrawElements(GL_TRIANGLES, model.getIndexSize(), GL_UNSIGNED_SHORT, BUFFER_OFFSET(0));
+	glBindVertexArray(0);
 }

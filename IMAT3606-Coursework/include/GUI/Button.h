@@ -11,7 +11,6 @@ using std::string;
 #include <gl\glm\glm\gtc\matrix_transform.hpp>
 #include <algorithm> 
 
-template <typename OnClick> //Maybe change this to use function pointer?
 class Button : public EventListener {
 private:
 	struct AABB {
@@ -21,6 +20,8 @@ private:
 	unsigned int VAO, VBO;
 	Graphics* graphics;
 	float charX, charY; //Current position of next character to render
+
+	std::function<void()> onClickCallback;
 
 	void init(Font textfont, Transform pos) {
 		font = textfont;
@@ -50,7 +51,6 @@ protected:
 	Font font;
 	Shader textShader;
 	Transform transform;
-	OnClick onClick;
 public:
 	//Constructors
 	Button() {};
@@ -92,13 +92,13 @@ public:
 		int x = event.x, y = graphics->getHeight() - event.y;
 		if ((x >= aabb.x) && (x <= aabb.x + aabb.width) && (y >= aabb.y) && (y <= aabb.y + aabb.height))
 		{
-			onClick();
+			onClickCallback();
 		}
 	};
 	
-	//void addOnClickFn(OnClick c) {
-	//	onClick = c;
-	//};
+	void addOnClickFn(std::function<void()> c) {
+		onClickCallback = c;
+	};
 
 	void render() {
 		graphics->renderText(text, font, transform, VAO, VBO, textShader);

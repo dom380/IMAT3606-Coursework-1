@@ -8,7 +8,7 @@
 #define WINDOW_HEIGHT 800
 #define WINDOW_WIDTH 1024
 RenderGL renderer = RenderGL(WINDOW_WIDTH, WINDOW_HEIGHT);
-shared_ptr<Model> modelTest = std::make_shared<Model>();
+shared_ptr<Model> modelTest = std::make_shared<Model>(&renderer);
 Engine engine = Engine();
 
 int main() {

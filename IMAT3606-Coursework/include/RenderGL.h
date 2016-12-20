@@ -23,8 +23,6 @@ public:
 	bool init();
 	void render();
 	void exit();
-	Shader getShader();
-	void setShader(Shader shader);
 	void addModel(shared_ptr<Model> &model);
 	void setModels(vector<shared_ptr<Model>> &modelList);
 	int getWidth();
@@ -32,19 +30,23 @@ public:
 	void buildTextShader(unsigned int &vertArrayObj, unsigned int &vertBuffObj, Shader &textShader);
 	void renderText(string& text, Font& font, Transform& transform, unsigned int VAO, unsigned int VBO, Shader& textShader);
 	void buildFontTexture(FT_Face& fontFace, unsigned int& textureID);
+	void bufferModelData(vector<glm::vec4>& vertices, vector<glm::vec3>& normals, vector<glm::vec2>& textures,
+		vector<unsigned short>& indices, unsigned int& vaoHandle);
 
-	void renderModel(Model model);
-
+	void renderModel(Model& model, Shader& shaderProgram);
 	//todo remove
-	shared_ptr<Button<OnClickTest>> buttonTest;
+	shared_ptr<Button> buttonTest;
 
 private:
 	int width;
 	int height;
-	Shader shaderProg;
+	//Shader shaderProg;
 	vector<shared_ptr<Model>> models;
 	float angle;
-	glm::mat4 model = glm::mat4();
+	glm::mat4 modelMat = glm::mat4();
+	glm::mat4 viewMat = glm::mat4();
+	glm::mat4 perspectiveMat = glm::mat4();
+
 };
 
 #endif // !RENDERGL_H

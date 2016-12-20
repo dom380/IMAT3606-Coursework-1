@@ -8,7 +8,7 @@ ObjReader::~ObjReader()
 {
 }
 
-void ObjReader::readObj(char * filePath, vector<glm::vec4>& vertices, vector<glm::vec3>& normals, vector<glm::vec2>& textures, vector<GLushort>&indices)
+void ObjReader::readObj(char * filePath, vector<glm::vec4>& vertices, vector<glm::vec3>& normals, vector<glm::vec2>& textures, vector<unsigned short>&indices)
 {
 	unpackedVertices.clear();
 	unpackedNormals.clear();
@@ -89,13 +89,13 @@ void ObjReader::readObj(char * filePath, vector<glm::vec4>& vertices, vector<glm
 		} //end if
 	
 	}
-	GLushort nextIndex = 0;
+	unsigned short nextIndex = 0;
 	int arraySize = faceIndices.size();
 	for (int i = 0; i < arraySize; i += 3) {
 		for (int j = 0; j < 3; j++)
 		{
 			glm::vec3 face = faceIndices.at(i + j);
-			std::unordered_map<glm::vec3, GLushort>::iterator it = indexVerticeMap.find(face);
+			std::unordered_map<glm::vec3, unsigned short>::iterator it = indexVerticeMap.find(face);
 			if (it != indexVerticeMap.end())
 			{
 				indices.push_back(it->second);
@@ -110,7 +110,7 @@ void ObjReader::readObj(char * filePath, vector<glm::vec4>& vertices, vector<glm
 					normals.push_back(unpackedNormals.at(face.z));
 				}
 				indices.push_back(nextIndex);
-				indexVerticeMap.insert(std::pair<glm::vec3, GLushort>(face, nextIndex));
+				indexVerticeMap.insert(std::pair<glm::vec3, unsigned short>(face, nextIndex));
 				nextIndex++;
 			}
 
