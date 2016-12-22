@@ -23,7 +23,6 @@ void Model::init(char * objFile, char * textureFile)
 	texture = new Texture(bmp);*/
 	texture = AssetManager::getInstance()->getTexture(textureFile);
 
-	//indexSize = static_cast<GLsizei>(indices.size());
 	indexSize = indices.size();
 
 	shader.compileShader("./shaders/basic.vert", GL_VERTEX_SHADER);

@@ -27,11 +27,30 @@ shared_ptr<Texture> AssetManager::getTexture(const char * filePath)
 	return ptr;	
 }
 
+shared_ptr<Font> AssetManager::getFont(char * fontPath, Graphics* graphics)
+{
+	string sFontPath = string(fontPath);
+	auto it = fonts.find(sFontPath);
+	if (it != fonts.end()) {
+		return it->second;
+	}
+	FT_Library ft;
+	FT_Error error = FT_Init_FreeType(&ft);
+	shared_ptr<Font> fontPtr(new Font(ft, fontPath, graphics));
+	fontPtr->compile();
+	fonts.emplace(std::pair<string, shared_ptr<Font>>(string(fontPath), fontPtr));
+	return fontPtr;
+}
+
 void AssetManager::exit()
 {
 	//probably don't need this but be extra sure to free memory
 	for (auto it : textures) {
 		it.second.reset();
 	}
+	for (auto it : fonts) {
+		it.second.reset();
+	}
 	textures.clear();
+	fonts.clear();
 }

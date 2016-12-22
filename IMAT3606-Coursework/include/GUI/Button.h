@@ -10,6 +10,7 @@ using std::string;
 #include <Graphics.h>
 #include <gl\glm\glm\gtc\matrix_transform.hpp>
 #include <algorithm> 
+#include <functional>
 
 class Button : public EventListener {
 private:

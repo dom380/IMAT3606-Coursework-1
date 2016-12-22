@@ -21,7 +21,7 @@ public:
 	RenderGL(int width, int height);
 	~RenderGL();
 	bool init();
-	void render();
+	void prepare();
 	void exit();
 	void addModel(shared_ptr<Model> &model);
 	void setModels(vector<shared_ptr<Model>> &modelList);
@@ -34,15 +34,13 @@ public:
 		vector<unsigned short>& indices, unsigned int& vaoHandle);
 
 	void renderModel(Model& model, Shader& shaderProgram);
-	//todo remove
-	shared_ptr<Button> buttonTest;
+	
 
 private:
 	int width;
 	int height;
 	//Shader shaderProg;
 	vector<shared_ptr<Model>> models;
-	float angle;
 	glm::mat4 modelMat = glm::mat4();
 	glm::mat4 viewMat = glm::mat4();
 	glm::mat4 perspectiveMat = glm::mat4();

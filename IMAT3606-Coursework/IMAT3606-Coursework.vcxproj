@@ -141,10 +141,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="include\AssetManager.cpp" />
-    <ClCompile Include="include\Engine.cpp" />
-    <ClCompile Include="include\Input.cpp" />
+    <ClCompile Include="source\AssetManager.cpp" />
+    <ClCompile Include="source\Engine.cpp" />
+    <ClCompile Include="source\GameScreen.cpp" />
     <ClCompile Include="source\GUI\Font.cpp" />
+    <ClCompile Include="source\GUI\MenuScreen.cpp" />
+    <ClCompile Include="source\Input.cpp" />
     <ClCompile Include="source\Main.cpp" />
     <ClCompile Include="source\Model.cpp" />
     <ClCompile Include="source\RenderGL.cpp" />
@@ -156,6 +158,7 @@
   <ItemGroup>
     <ClInclude Include="include\AssetManager.h" />
     <ClInclude Include="include\Engine.h" />
+    <ClInclude Include="include\GameScreen.h" />
     <ClInclude Include="include\Graphics.h" />
     <ClInclude Include="include\GUI\Button.h" />
     <ClInclude Include="include\GUI\Event.h" />
@@ -163,6 +166,7 @@
     <ClInclude Include="include\GUI\EventType.h" />
     <ClInclude Include="include\GUI\Font.h" />
     <ClInclude Include="include\GUI\OnClickTest.h" />
+    <ClInclude Include="include\GUI\MenuScreen.h" />
     <ClInclude Include="include\Input.h" />
     <ClInclude Include="include\Model.h" />
     <ClInclude Include="include\RenderGL.h" />

@@ -8,10 +8,12 @@ using std::map;
 #include <utils\Texture.h>
 #include <string>
 using std::string;
+#include <GUI\Font.h>
 class AssetManager {
 public:
 	static shared_ptr<AssetManager> getInstance();
 	shared_ptr<Texture> getTexture(const char* filePath);
+	shared_ptr<Font> getFont(char* fontPath, Graphics* graphics);
 	void exit();
 private:
 	AssetManager() {};
@@ -19,7 +21,7 @@ private:
 	void operator=(AssetManager const&) {}; // prevent assignments
 	static bool initialised;
 	static shared_ptr<AssetManager> instance;
-
+	map<string, shared_ptr<Font>> fonts;
 	map<string, shared_ptr<Texture>> textures;
 };
 

@@ -31,38 +31,14 @@ bool RenderGL::init()
 	//todo move these to camera class?
 	viewMat = glm::lookAt(glm::vec3(0.0f, 0.0f, 6.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	perspectiveMat = glm::perspective(glm::radians(45.f), (GLfloat)width / (GLfloat)height, 0.1f, 1000.0f);
-
-	//todo remove test code:
-
-	string text("Button_test");
-	FT_Library ft;
-	FT_Error error = FT_Init_FreeType(&ft);
-	Font font(ft, "./resources/fonts/arial.ttf", this);
-	font.compile();
-	Transform transform(glm::vec3(30.0,30.0,-1.0), glm::vec3(1.0,1.0,1.0), glm::quat());
-	buttonTest = std::make_shared<Button>(text, font, transform, this);
-	buttonTest->addOnClickFn(OnClickTest());
-
 	return true;
 }
 
-void RenderGL::render()
+void RenderGL::prepare()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	angle++;
-	if (angle>360.f)
-	{
-		angle -= 360.f;
-	}
-	//TODO Move list of models out of renderer
-	for (shared_ptr<Model> model : models) {
-		model->transform.orientation.x = 1.0f;
-		model->transform.orientation.y = 1.0f;
-		model->transform.orientation.z = 1.0f;
-		model->transform.orientation.w = glm::radians(angle);
-		model->render();
-	}
-	buttonTest->render();
+
+	//buttonTest->render();
 }
 
 void RenderGL::exit() {
@@ -107,7 +83,7 @@ void RenderGL::buildTextShader(unsigned int &vertArrayObj, unsigned int &vertBuf
 	textShader.compileShader("./shaders/text.frag", GL_FRAGMENT_SHADER);
 	textShader.link();
 	textShader.bindShader();
-	glm::mat4 projection = glm::ortho(0.0f, 1024.0f, 0.0f, 800.0f);
+	glm::mat4 projection = glm::ortho(0.0f, (float)width, 0.0f, (float)height);
 	textShader.setUniform("projection", projection);
 	textShader.setUniform("textColour", glm::vec3(1.0, 1.0, 1.0));
 	textShader.setUniform("tex", 0);

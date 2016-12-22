@@ -40,8 +40,8 @@ void Engine::init()
 void Engine::mainLoop()
 {
 	while (!glfwWindowShouldClose(window) && !glfwGetKey(window, GLFW_KEY_ESCAPE)) {
-		//todo change to use screens and add timer
-		renderer->render();
+		renderer->prepare();
+		activeScreen.second->render(1.f);
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
@@ -66,7 +66,9 @@ void Engine::setModules(Graphics * graphics)
 
 unsigned int Engine::registerScreen(shared_ptr<Screen> screen)
 {
-	gameScreens.emplace(std::pair<unsigned int, shared_ptr<Screen>>(currentScreenId++, screen));
+	currentScreenId++;
+	gameScreens.emplace(std::pair<unsigned int, shared_ptr<Screen>>(currentScreenId, screen));
+	screen->setID(currentScreenId);
 	return currentScreenId;
 }
 
