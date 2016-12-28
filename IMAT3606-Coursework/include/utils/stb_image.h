@@ -1,3 +1,4 @@
+#pragma warning (disable : 4312)
 /* stb_image - v1.46 - public domain JPEG/PNG reader - http://nothings.org/stb_image.c
    when you control the images you're loading
                                      no warranty implied; use at your own risk

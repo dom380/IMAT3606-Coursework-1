@@ -9,9 +9,9 @@ GameScreen::GameScreen(Graphics * renderer)
 	models.push_back(modelTest);
 }
 
-void GameScreen::render(float dt)
+void GameScreen::update(double dt)
 {
-	angle++;
+	angle += dt;
 	if (angle>360.f)
 	{
 		angle -= 360.f;
@@ -21,6 +21,12 @@ void GameScreen::render(float dt)
 		model->transform.orientation.y = 1.0f;
 		model->transform.orientation.z = 1.0f;
 		model->transform.orientation.w = glm::radians(angle);
+	}
+}
+
+void GameScreen::render()
+{
+	for (shared_ptr<Model> model : models) {
 		model->render();
 	}
 }

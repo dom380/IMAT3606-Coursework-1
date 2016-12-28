@@ -1,0 +1,23 @@
+<game>
+	<screens>
+		
+		<screen type="game" name="GameScreen">
+			<models>
+				<model>
+					<file>./cube.obj</file>
+					<texture>./texture.bmp</texture>
+					<position>
+						<x>0.0</x>
+						<y>0.0</y>
+						<z>0.0</z>
+					</position>
+					<scale>
+						<x>1.0</x>
+						<y>1.0</y>
+						<z>1.0</z>
+					</scale>
+				</model>
+			</models>
+		</screen>
+	</screens>
+</game>

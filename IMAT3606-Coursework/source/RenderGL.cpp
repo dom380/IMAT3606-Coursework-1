@@ -83,6 +83,9 @@ void RenderGL::buildTextShader(unsigned int &vertArrayObj, unsigned int &vertBuf
 	textShader.compileShader("./shaders/text.frag", GL_FRAGMENT_SHADER);
 	textShader.link();
 	textShader.bindShader();
+#ifndef NDEBUG
+	string check = OpenGLSupport().GetError();
+#endif
 	glm::mat4 projection = glm::ortho(0.0f, (float)width, 0.0f, (float)height);
 	textShader.setUniform("projection", projection);
 	textShader.setUniform("textColour", glm::vec3(1.0, 1.0, 1.0));
@@ -133,6 +136,9 @@ void RenderGL::renderText(string& text, Font& font, Transform& transform, unsign
 		// Now advance cursors for next glyph (note that advance is number of 1/64 pixels)
 		charX += (character.offset >> 6) *  transform.scale.x; // Bitshift by 6 to get value in pixels (2^6 = 64)
 	}
+#ifndef NDEBUG
+	check = OpenGLSupport().GetError();
+#endif
 	glDisable(GL_BLEND);
 }
 
@@ -215,6 +221,6 @@ void RenderGL::renderModel(Model& model, Shader& shaderProgram)
 	shaderProgram.setUniform("mView", viewMat);
 	shaderProgram.setUniform("mProjection", perspectiveMat);
 	shaderProgram.setUniform("mModel", mMat);
-	glDrawElements(GL_TRIANGLES, model.getIndexSize(), GL_UNSIGNED_SHORT, BUFFER_OFFSET(0));
+	glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(model.getIndexSize()), GL_UNSIGNED_SHORT, BUFFER_OFFSET(0));
 	glBindVertexArray(0);
 }

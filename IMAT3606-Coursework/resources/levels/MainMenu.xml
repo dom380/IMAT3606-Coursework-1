@@ -1,0 +1,48 @@
+<screen type="menu" name="MainMenu">
+<strings>
+	<string>
+		<position>
+			<x>30</x>
+			<y>650</y>
+		</position>
+		<scale>
+			<x>1.0</x>
+			<y>1.0</y>
+			<z>1.0</z>
+		</scale>
+		<value>Menu</value>
+	</string>
+</strings>
+<buttons>
+	<button>
+		<position>
+			<x>30</x>
+			<y>500</y>
+		</position>
+		<scale>
+			<x>1.0</x>
+			<y>1.0</y>
+			<z>1.0</z>
+		</scale>
+		<value>Start</value>
+		<function type="SWITCH_SCREEN">
+			<params>
+				<param name="screenId" type="int" >2</param>
+			</params>
+		</function>
+	</button>
+	<button>
+		<position>
+			<x>30</x>
+			<y>440</y>
+		</position>
+		<scale>
+			<x>1.0</x>
+			<y>1.0</y>
+			<z>1.0</z>
+		</scale>
+		<value>Exit</value>
+		<function type="EXIT"></function>
+	</button>
+</buttons>
+</screen>

@@ -13,9 +13,6 @@ using std::string; using std::vector;
 #include <memory>
 using std::shared_ptr;
 
-#include <GUI\Button.h>
-#include <GUI\OnClickTest.h>
-
 class RenderGL : public Graphics {
 public:
 	RenderGL(int width, int height);

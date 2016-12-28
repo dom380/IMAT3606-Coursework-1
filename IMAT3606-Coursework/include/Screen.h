@@ -4,7 +4,8 @@
 
 class Screen {
 public:
-	virtual void render(float dt) = 0;
+	virtual void update(double dt) = 0;
+	virtual void render() = 0;
 	virtual void resize(int width, int height) = 0;
 	virtual void dispose() = 0;
 	void setID(unsigned int id) {

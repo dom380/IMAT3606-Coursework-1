@@ -90,7 +90,7 @@ void ObjReader::readObj(char * filePath, vector<glm::vec4>& vertices, vector<glm
 	
 	}
 	unsigned short nextIndex = 0;
-	int arraySize = faceIndices.size();
+	size_t arraySize = faceIndices.size(); //static_cast<int>(faceIndices.size());
 	for (int i = 0; i < arraySize; i += 3) {
 		for (int j = 0; j < 3; j++)
 		{

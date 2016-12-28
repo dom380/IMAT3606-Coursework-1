@@ -1,9 +1,22 @@
 #include "Engine.h"
-#define WINDOW_HEIGHT 800
-#define WINDOW_WIDTH 1024
+#include <algorithm>
+#include <utils\tinyxml2.h>
+#include <utils\OnClickFunctions.h>
+#include <utils\LevelLoader.h>
+
+
 Engine::Engine()
 {
 	closed = false;
+	timer = Timer();
+}
+
+Engine::Engine(float w, float h)
+{
+	width = w;
+	height = h;
+	closed = false;
+	timer = Timer();
 }
 
 Engine::~Engine()
@@ -16,9 +29,9 @@ void Engine::init()
 	// Initialize GLFW
 	if (!glfwInit()) exit();
 
-	//	 Select OpenGL 4.3 with a forward compatible core profile.
+	//	 Select OpenGL 4.0 with a forward compatible core profile.
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, true);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_RESIZABLE, false);
@@ -26,7 +39,7 @@ void Engine::init()
 	glfwWindowHint(GLFW_DOUBLEBUFFER, true);
 
 	// Open the window
-	window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "IMAT3606-CourseWork", NULL, NULL);
+	window = glfwCreateWindow(width, height, "IMAT3606-CourseWork", NULL, NULL);
 	if (!window) {
 		glfwTerminate();
 		exit();
@@ -39,9 +52,27 @@ void Engine::init()
 
 void Engine::mainLoop()
 {
+	double t = 0.0;
+	double dt = 1 / 60.0;
+	timer.start();
+	auto currentTime = timer.getElapsedTime();
+	//variable timestep
 	while (!glfwWindowShouldClose(window) && !glfwGetKey(window, GLFW_KEY_ESCAPE)) {
-		renderer->prepare();
-		activeScreen.second->render(1.f);
+		double newTime = timer.getElapsedTime();
+		double frameTime = newTime - currentTime; 
+		currentTime = newTime; //set current time
+
+		while (frameTime > 0.0) //While there is still time to update the simulation
+		{
+			float deltaTime = std::min(frameTime, dt);
+			renderer->prepare();
+			activeScreen.second->update(dt);
+
+			frameTime -= deltaTime;
+			t += deltaTime;
+		}
+		activeScreen.second->render();
+
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
@@ -50,13 +81,14 @@ void Engine::mainLoop()
 void Engine::exit()
 {
 	if (closed) return;
+	timer.stop();
 	renderer->exit();
 	AssetManager::getInstance()->exit();
 
 	// Close window and terminate GLFW
 	glfwTerminate();
 	closed = true;
-
+	std::exit(0);
 }
 
 void Engine::setModules(Graphics * graphics)
@@ -99,4 +131,14 @@ void Engine::replaceScreen(unsigned int screenId)
 		activeScreen = *it;
 		gameScreens.erase(idToRemove);
 	}
+}
+
+void Engine::loadConfig()
+{
+	tinyxml2::XMLDocument config;
+	tinyxml2::XMLError ec = config.LoadFile("config.xml");
+	//TODO load game screen from xml
+	//TODO map screens to xml file name, if not there load in, avoids issues with ID and loading order?
+	LevelLoader::loadLevel(this, renderer, "./resources/levels/MainMenu.xml");
+	this->switchScreen(1);
 }

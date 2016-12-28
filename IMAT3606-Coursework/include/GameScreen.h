@@ -13,7 +13,8 @@ class GameScreen : public Screen
 public:
 	GameScreen(Graphics* renderer);
 	~GameScreen() {};
-	void render(float dt);
+	void update(double dt);
+	void render();
 	void resize(int width, int height);
 	void dispose();
 
@@ -21,7 +22,7 @@ private:
 	vector<shared_ptr<Model>> models;
 	Graphics* renderer;
 
-	float angle;
+	double angle;
 };
 
 #endif // !GAMESCREEN_H

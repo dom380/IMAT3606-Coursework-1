@@ -1,16 +1,21 @@
 #pragma once
 #ifndef BUTTON_H
 #define BUTTON_H
+#define NOMINMAX
 #include <string>
 using std::string;
 #include "EventListener.h"
 #include "Font.h"
 #include "Shader.h"
 #include <utils\Transform.h>
+#include <GUI\TextBox.h>
 #include <Graphics.h>
 #include <gl\glm\glm\gtc\matrix_transform.hpp>
 #include <algorithm> 
 #include <functional>
+#include <memory>
+using std::shared_ptr;
+
 
 class Button : public EventListener {
 private:
@@ -18,18 +23,15 @@ private:
 		float x, y, width, height;
 	};
 	AABB aabb;
-	unsigned int VAO, VBO;
 	Graphics* graphics;
-	float charX, charY; //Current position of next character to render
+	shared_ptr<TextBox> textbox;
 
 	std::function<void()> onClickCallback;
 
 	void init(Font textfont, Transform pos) {
+		textbox = shared_ptr<TextBox>(new TextBox(text, textfont, pos, graphics));
 		font = textfont;
 		transform = pos;
-		charX = pos.position.x;
-		charY = pos.position.y;
-		graphics->buildTextShader(VAO, VBO, textShader);
 		buildAABB();
 	};
 
@@ -50,7 +52,6 @@ private:
 protected:
 	string text;
 	Font font;
-	Shader textShader;
 	Transform transform;
 public:
 	//Constructors
@@ -67,12 +68,7 @@ public:
 	};
 	~Button(){};
 	Button& operator=(Button& other) {
-		this->charX = other.charX;
-		this->charY = other.charY;
 		this->text = other.text;
-		this->VAO = other.VAO;
-		this->VBO = other.VBO;
-		this->textShader = other.textShader;
 		this->transform = other.transform;
 		this->font = other.font;
 		this->graphics = other.graphics;
@@ -102,7 +98,7 @@ public:
 	};
 
 	void render() {
-		graphics->renderText(text, font, transform, VAO, VBO, textShader);
+		textbox->render();
 	}
 };
 

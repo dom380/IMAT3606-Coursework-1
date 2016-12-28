@@ -1,11 +1,14 @@
 #pragma once
 #ifndef ENGINE_H
 #define ENGINE_H
+#define NOMINMAX
 #include "AssetManager.h"
 #include "Graphics.h"
 #include "GL/glfw3.h"
 #include "Input.h"
 #include "Screen.h"
+#include "GUI\MenuScreen.h"
+#include "utils\Timer.h"
 #include <map>
 using std::map;
 
@@ -13,6 +16,7 @@ class Engine {
 public:
 
 	Engine();
+	Engine(float w, float h);
 	~Engine();
 	void init();
 	void mainLoop();
@@ -42,7 +46,12 @@ public:
 	*/
 	void replaceScreen(unsigned int screenId);
 
+	void loadConfig();
+
 private:
+	//Private Methods
+	
+	//Private members
 	Graphics* renderer;
 	GLFWwindow* window;
 	Input &inputHandler = Input::getInstance();
@@ -50,6 +59,9 @@ private:
 	std::pair<int,shared_ptr<Screen>> activeScreen;
 	bool closed;
 	unsigned int currentScreenId = 0;
+	float width;
+	float height;
+	Timer timer;
 };
 
 #endif // !ENGINE_H
