@@ -1,23 +1,23 @@
 #pragma once
 #ifndef MODEL_H
 #define MODEL_H
-#include "utils\stb_image.h"
-#include "utils\Bitmap.h"
-#include "utils\Texture.h"
+#include "Graphics\stb_image.h"
+#include "Graphics\Bitmap.h"
+#include "Graphics\Texture.h"
 #include "utils\ObjReader.h"
 #include "Graphics.h"
 #include "GL\glm\glm\glm.hpp"
 #include "Shader.h"
-#include "utils\Transform.h"
+#include "Graphics\Transform.h"
 #include <vector>
 using std::vector;
 #include "AssetManager.h"
 
 class Model {
 public:
-	Model(Graphics* graphics);
+	Model(shared_ptr<Graphics>& graphics);
 	~Model();
-	void init(char* objFile, char* textureFile);
+	void init(const char* objFile, const char* textureFile);
 	void render();
 	shared_ptr<Texture> getTexture();
 	unsigned int getVertArray();
@@ -25,7 +25,7 @@ public:
 	Transform transform;
 private:
 	bool initalised = false;
-	Graphics* graphics;
+	shared_ptr<Graphics> graphics;
 	unsigned int verticesId;
 	unsigned int texCoordsId;
 	unsigned int normalsId;

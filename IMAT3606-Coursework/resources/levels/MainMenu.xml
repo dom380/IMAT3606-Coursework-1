@@ -27,7 +27,7 @@
 		<value>Start</value>
 		<function type="SWITCH_SCREEN">
 			<params>
-				<param name="screenId" type="int" >2</param>
+				<param name="screenId" type="int" >Level1</param>
 			</params>
 		</function>
 	</button>

@@ -16,7 +16,7 @@ class ObjReader {
 public:
 	ObjReader();
 	~ObjReader();
-	void readObj(char * filePath, vector<glm::vec4>& vertices, vector<glm::vec3>& normals, vector<glm::vec2>& textures, vector<unsigned short>&indices);
+	void readObj(const char * filePath, vector<glm::vec4>& vertices, vector<glm::vec3>& normals, vector<glm::vec2>& textures, vector<unsigned short>&indices);
 private:
 	vector<glm::vec3> faceIndices; //x = position index. y = texture index. z = normal index
 	std::unordered_map<glm::vec3, unsigned short> indexVerticeMap;

@@ -11,16 +11,16 @@ using std::vector;
 class GameScreen : public Screen
 {
 public:
-	GameScreen(Graphics* renderer);
+	GameScreen(shared_ptr<Graphics>& renderer);
 	~GameScreen() {};
 	void update(double dt);
 	void render();
 	void resize(int width, int height);
 	void dispose();
-
+	void addModel(shared_ptr<Model> model);
 private:
 	vector<shared_ptr<Model>> models;
-	Graphics* renderer;
+	shared_ptr<Graphics> renderer;
 
 	double angle;
 };

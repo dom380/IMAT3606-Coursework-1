@@ -17,14 +17,14 @@
  */
 
 //#include "stdafx.h"
-#include "utils/Bitmap.h"
+#include "Graphics/Bitmap.h"
 #include <stdexcept>
 #include <cstdlib>
 
 //uses stb_image to try load files
 #define STBI_FAILURE_USERMSG
 #define STB_IMAGE_IMPLEMENTATION
-#include "utils/stb_image.h"
+#include "Graphics/stb_image.h"
 
 
 

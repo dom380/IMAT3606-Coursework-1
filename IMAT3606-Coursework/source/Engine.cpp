@@ -1,4 +1,5 @@
 #include "Engine.h"
+#include <RenderGL.h>
 #include <algorithm>
 #include <utils\tinyxml2.h>
 #include <utils\OnClickFunctions.h>
@@ -11,10 +12,10 @@ Engine::Engine()
 	timer = Timer();
 }
 
-Engine::Engine(float w, float h)
+Engine::Engine(int width, int height)
 {
-	width = w;
-	height = h;
+	this->width = width;
+	this->height = height;
 	closed = false;
 	timer = Timer();
 }
@@ -26,6 +27,9 @@ Engine::~Engine()
 
 void Engine::init()
 {
+	//Read configuration file
+	loadConfig();
+
 	// Initialize GLFW
 	if (!glfwInit()) exit();
 
@@ -47,7 +51,10 @@ void Engine::init()
 	glfwMakeContextCurrent(window);
 	glfwSetKeyCallback(window, &inputHandler.keyboardCallback);
 	glfwSetMouseButtonCallback(window, &inputHandler.mouseButtonCallback);
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);	
+
+	renderer = buildRenderer(graphicsContext);
+	renderer->init();
+	loadFirstLevel();
 }
 
 void Engine::mainLoop()
@@ -64,7 +71,7 @@ void Engine::mainLoop()
 
 		while (frameTime > 0.0) //While there is still time to update the simulation
 		{
-			float deltaTime = std::min(frameTime, dt);
+			double deltaTime = std::min(frameTime, dt);
 			renderer->prepare();
 			activeScreen.second->update(dt);
 
@@ -91,17 +98,12 @@ void Engine::exit()
 	std::exit(0);
 }
 
-void Engine::setModules(Graphics * graphics)
+string Engine::registerScreen(shared_ptr<Screen> screen)
 {
-	renderer = graphics;
-}
-
-unsigned int Engine::registerScreen(shared_ptr<Screen> screen)
-{
-	currentScreenId++;
-	gameScreens.emplace(std::pair<unsigned int, shared_ptr<Screen>>(currentScreenId, screen));
-	screen->setID(currentScreenId);
-	return currentScreenId;
+	//currentScreenId++;
+	gameScreens.emplace(std::pair<string, shared_ptr<Screen>>(screen->getID(), screen));
+	//screen->setID(currentScreenId);
+	return screen->getID();
 }
 
 shared_ptr<Screen> Engine::getActiveScreen()
@@ -109,25 +111,43 @@ shared_ptr<Screen> Engine::getActiveScreen()
 	return activeScreen.second;
 }
 
-void Engine::switchScreen(unsigned int screenId)
+void Engine::switchScreen(string screenId)
 {
 	auto it = gameScreens.find(screenId);
 	if (it == gameScreens.end()) {
-		//todo throw exeception
+		//try to load level
+		string path = "./resources/levels/" + screenId + ".xml";
+		if (LevelLoader::loadLevel(this, renderer, path.c_str()))
+		{
+			switchScreen(screenId);
+		}
+		else
+		{
+			std::cerr << "Failed to load level: " << screenId << std::endl;
+		}
 	}
 	else {
 		activeScreen = *it;
 	}
 }
 
-void Engine::replaceScreen(unsigned int screenId)
+void Engine::replaceScreen(string screenId)
 {
 	auto it = gameScreens.find(screenId);
 	if (it == gameScreens.end()) {
-		//todo throw exeception
+		//try to load level
+		string path = "./resources/levels/" + screenId + ".xml";
+		if (LevelLoader::loadLevel(this, renderer, path.c_str()))
+		{
+			replaceScreen(screenId);
+		}
+		else
+		{
+			std::cerr << "Failed to load level: " << screenId << std::endl;
+		}
 	} else{
 		activeScreen.second.reset();
-		unsigned int idToRemove = activeScreen.first;
+		string idToRemove = activeScreen.first;
 		activeScreen = *it;
 		gameScreens.erase(idToRemove);
 	}
@@ -137,8 +157,37 @@ void Engine::loadConfig()
 {
 	tinyxml2::XMLDocument config;
 	tinyxml2::XMLError ec = config.LoadFile("config.xml");
-	//TODO load game screen from xml
-	//TODO map screens to xml file name, if not there load in, avoids issues with ID and loading order?
-	LevelLoader::loadLevel(this, renderer, "./resources/levels/MainMenu.xml");
-	this->switchScreen(1);
+	if (ec != tinyxml2::XMLError::XML_SUCCESS) {
+		std::cerr << "Failed to read configuration. Exiting..." << std::endl;
+		exit();
+	}
+	tinyxml2::XMLElement* element = config.RootElement();
+	width = element->FirstChildElement("width")!=NULL ? element->FirstChildElement("width")->IntText(1024) : 1024;
+	height = element->FirstChildElement("height")!=NULL ? element->FirstChildElement("height")->IntText(720) : 720;
+	initialScreenId = element->FirstChildElement("initScreen") != NULL ? element->FirstChildElement("initScreen")->GetText() : "MainMenu";
+	string renderer = element->FirstChildElement("renderer")!= NULL ? element->FirstChildElement("renderer")->GetText() : "OPEN_GL";
+	graphicsContext = enumParser.parse(renderer);// GraphicsContext::OPEN_GL; 
+}
+
+void Engine::loadFirstLevel()
+{
+	string levelPath = "./resources/levels/" + initialScreenId + ".xml";
+	if (!LevelLoader::loadLevel(this, renderer, levelPath.c_str())) {
+		std::cerr << "Failed to load initial level..." << std::endl << "Exiting" << std::endl;
+		std::exit(1);
+	}
+	this->switchScreen(initialScreenId);
+}
+
+shared_ptr<Graphics> Engine::buildRenderer(GraphicsContext renderType)
+{
+	switch (renderType) 
+	{
+	case GraphicsContext::OPEN_GL:
+	{
+		return std::make_shared<RenderGL>(width, height);
+	}
+	default: //Default to OpenGL
+		return std::make_shared<RenderGL>(width, height);
+	};
 }

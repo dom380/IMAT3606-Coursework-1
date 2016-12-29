@@ -1,6 +1,6 @@
 #include <GUI\MenuScreen.h>
 
-MenuScreen::MenuScreen(Graphics* graphics, Engine* engine)
+MenuScreen::MenuScreen(shared_ptr<Graphics>& graphics, Engine* engine)
 {
 	this->engine = engine;
 	this->graphics = graphics;

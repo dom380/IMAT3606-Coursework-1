@@ -15,7 +15,7 @@ class MenuScreen : public Screen {
 public:
 	MenuScreen() {};
 	~MenuScreen() {};
-	MenuScreen(Graphics* graphics, Engine* engine);
+	MenuScreen(shared_ptr<Graphics>& graphics, Engine* engine);
 	void update(double dt);
 	void render();
 	void resize(int width, int height);
@@ -24,7 +24,7 @@ public:
 	void addTextBox(shared_ptr<TextBox> textbox);
 
 private:
-	Graphics* graphics;
+	shared_ptr<Graphics> graphics;
 	Engine* engine;
 	vector<shared_ptr<Button>> buttons;
 	vector<shared_ptr<TextBox>> textBoxes;

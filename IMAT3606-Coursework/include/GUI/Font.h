@@ -13,7 +13,7 @@ class Font {
 public:
 	Font() {};
 	Font(Font* font);
-	Font(FT_Library ftLib, char* fontPath, Graphics* graphics);
+	Font(FT_Library ftLib, char* fontPath, shared_ptr<Graphics>& graphics);
 	void compile();
 	class Character {
 	public:
@@ -35,7 +35,7 @@ private:
 	FT_Face fontFace;
 	map<char, Character> charMap;
 	bool compiled = false;
-	Graphics* graphics;
+	shared_ptr<Graphics> graphics;
 };
 
 #endif // !FONT_H

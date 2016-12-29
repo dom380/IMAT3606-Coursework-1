@@ -5,7 +5,7 @@
 using std::shared_ptr;
 #include <map>
 using std::map;
-#include <utils\Texture.h>
+#include <Graphics\Texture.h>
 #include <string>
 using std::string;
 #include <GUI\Font.h>
@@ -13,7 +13,7 @@ class AssetManager {
 public:
 	static shared_ptr<AssetManager> getInstance();
 	shared_ptr<Texture> getTexture(const char* filePath);
-	shared_ptr<Font> getFont(char* fontPath, Graphics* graphics);
+	shared_ptr<Font> getFont(char* fontPath, shared_ptr<Graphics>& graphics);
 	void exit();
 private:
 	AssetManager() {};

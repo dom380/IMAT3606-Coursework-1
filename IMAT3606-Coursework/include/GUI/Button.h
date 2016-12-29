@@ -7,7 +7,7 @@ using std::string;
 #include "EventListener.h"
 #include "Font.h"
 #include "Shader.h"
-#include <utils\Transform.h>
+#include <Graphics\Transform.h>
 #include <GUI\TextBox.h>
 #include <Graphics.h>
 #include <gl\glm\glm\gtc\matrix_transform.hpp>
@@ -23,7 +23,7 @@ private:
 		float x, y, width, height;
 	};
 	AABB aabb;
-	Graphics* graphics;
+	shared_ptr<Graphics> graphics;
 	shared_ptr<TextBox> textbox;
 
 	std::function<void()> onClickCallback;
@@ -56,12 +56,12 @@ protected:
 public:
 	//Constructors
 	Button() {};
-	Button(string text, Font textfont, Transform pos, Graphics* graphics) {
+	Button(string text, Font textfont, Transform pos, shared_ptr<Graphics>& graphics) {
 		this->text = text;
 		this->graphics = graphics;
 		init(textfont, pos);
 	};
-	Button(const char* text, Font textfont, Transform pos, Graphics* graphics) {
+	Button(const char* text, Font textfont, Transform pos, shared_ptr<Graphics>& graphics) {
 		this->text = string(text);
 		this->graphics = graphics;
 		init(textfont, pos);

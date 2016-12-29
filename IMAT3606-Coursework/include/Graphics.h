@@ -2,9 +2,10 @@
 #ifndef GRAPHICS_H
 #define GRAPHICS_H
 #include <Shader.h>
-//#include <Model.h>
+#include <memory>
+using std::shared_ptr;
 #include <GUI\Font.h>
-#include <utils\Transform.h>
+#include <Graphics\Transform.h>
 #include <vector>
 using std::vector;
 class Font;

@@ -1,12 +1,12 @@
 #include "GameScreen.h"
 
-GameScreen::GameScreen(Graphics * renderer)
+GameScreen::GameScreen(shared_ptr<Graphics>& renderer)
 {
 	this->renderer = renderer;
 	//todo read in from xml
-	shared_ptr<Model> modelTest = std::make_shared<Model>(renderer);
-	modelTest->init("./cube.obj", "./texture.bmp");
-	models.push_back(modelTest);
+	//shared_ptr<Model> modelTest = std::make_shared<Model>(renderer);
+	//modelTest->init("./cube.obj", "./texture.bmp");
+	//models.push_back(modelTest);
 }
 
 void GameScreen::update(double dt)
@@ -37,4 +37,9 @@ void GameScreen::resize(int width, int height)
 
 void GameScreen::dispose()
 {
+}
+
+void GameScreen::addModel(shared_ptr<Model> model)
+{
+	models.push_back(model);
 }

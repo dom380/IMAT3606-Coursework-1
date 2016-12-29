@@ -8,7 +8,7 @@ ObjReader::~ObjReader()
 {
 }
 
-void ObjReader::readObj(char * filePath, vector<glm::vec4>& vertices, vector<glm::vec3>& normals, vector<glm::vec2>& textures, vector<unsigned short>&indices)
+void ObjReader::readObj(const char * filePath, vector<glm::vec4>& vertices, vector<glm::vec3>& normals, vector<glm::vec2>& textures, vector<unsigned short>&indices)
 {
 	unpackedVertices.clear();
 	unpackedNormals.clear();
@@ -18,8 +18,9 @@ void ObjReader::readObj(char * filePath, vector<glm::vec4>& vertices, vector<glm
 	std::fstream inStream;
 	inStream.open(filePath);
 	if (!inStream.is_open()) {
-		std::cout << "Error opening file " << filePath << std::endl;
-		exit(1);
+		std::string errorMsg = "Error opening file ";
+		errorMsg += filePath;
+		throw std::runtime_error(errorMsg);
 	}
 
 	std::string newLine;

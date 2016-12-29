@@ -1,13 +1,13 @@
 #include "..\..\include\GUI\TextBox.h"
 
-TextBox::TextBox(string text, Font textfont, Transform pos, Graphics * graphics)
+TextBox::TextBox(string text, Font textfont, Transform pos, shared_ptr<Graphics>& graphics)
 {
 	this->text = text;
 	this->graphics = graphics;
 	init(textfont, pos);
 }
 
-TextBox::TextBox(const char * text, Font textfont, Transform pos, Graphics * graphics)
+TextBox::TextBox(const char * text, Font textfont, Transform pos, shared_ptr<Graphics>& graphics)
 {
 	this->text = string(text);
 	this->graphics = graphics;

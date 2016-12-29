@@ -27,6 +27,7 @@ bool RenderGL::init()
 
 	}
 	glEnable(GL_DEPTH_TEST);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	modelMat = glm::translate(modelMat, glm::vec3(0.0f, 0.0f,0.0f));
 	//todo move these to camera class?
 	viewMat = glm::lookAt(glm::vec3(0.0f, 0.0f, 6.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f));

@@ -1,6 +1,6 @@
 #include "..\include\Model.h"
 
-Model::Model(Graphics* graphics)
+Model::Model(shared_ptr<Graphics>& graphics)
 {
 	this->graphics = graphics;
 }
@@ -9,7 +9,7 @@ Model::~Model() {
 	texture.reset();
 }
 
-void Model::init(char * objFile, char * textureFile)
+void Model::init(const char * objFile, const char * textureFile)
 {
 	if (initalised) return;
 	vector<glm::vec4> vertices; vector<glm::vec3> normals; vector<glm::vec2> textures; vector<unsigned short>indices;

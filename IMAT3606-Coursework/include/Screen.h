@@ -1,6 +1,8 @@
 #pragma once
 #ifndef SCREEN_H
 #define SCREEN
+#include <string>
+using std::string;
 
 class Screen {
 public:
@@ -8,14 +10,14 @@ public:
 	virtual void render() = 0;
 	virtual void resize(int width, int height) = 0;
 	virtual void dispose() = 0;
-	void setID(unsigned int id) {
+	void setID(string id) {
 		screenId = id;
 	};
-	unsigned int getID() {
+	string getID() {
 		return screenId;
 	}
 protected:
-	unsigned int screenId;
+	string screenId;
 };
 
 #endif // !SCREEN_H

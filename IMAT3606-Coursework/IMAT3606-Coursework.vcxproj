@@ -141,10 +141,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="include\utils\tinyxml2.cpp" />
     <ClCompile Include="source\AssetManager.cpp" />
     <ClCompile Include="source\Engine.cpp" />
     <ClCompile Include="source\GameScreen.cpp" />
+    <ClCompile Include="source\Graphics\Bitmap.cpp" />
+    <ClCompile Include="source\Graphics\Texture.cpp" />
     <ClCompile Include="source\GUI\Font.cpp" />
     <ClCompile Include="source\GUI\MenuScreen.cpp" />
     <ClCompile Include="source\GUI\TextBox.cpp" />
@@ -153,16 +154,20 @@
     <ClCompile Include="source\Model.cpp" />
     <ClCompile Include="source\RenderGL.cpp" />
     <ClCompile Include="source\Shader.cpp" />
-    <ClCompile Include="source\utils\Bitmap.cpp" />
+    <ClCompile Include="source\utils\EnumParser.cpp" />
     <ClCompile Include="source\utils\ObjReader.cpp" />
-    <ClCompile Include="source\utils\Texture.cpp" />
     <ClCompile Include="source\utils\Timer.cpp" />
+    <ClCompile Include="source\utils\tinyxml2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\AssetManager.h" />
     <ClInclude Include="include\Engine.h" />
     <ClInclude Include="include\GameScreen.h" />
     <ClInclude Include="include\Graphics.h" />
+    <ClInclude Include="include\Graphics\Bitmap.h" />
+    <ClInclude Include="include\Graphics\stb_image.h" />
+    <ClInclude Include="include\Graphics\Texture.h" />
+    <ClInclude Include="include\Graphics\Transform.h" />
     <ClInclude Include="include\GUI\Button.h" />
     <ClInclude Include="include\GUI\Event.h" />
     <ClInclude Include="include\GUI\EventListener.h" />
@@ -175,16 +180,13 @@
     <ClInclude Include="include\RenderGL.h" />
     <ClInclude Include="include\Screen.h" />
     <ClInclude Include="include\Shader.h" />
-    <ClInclude Include="include\utils\Bitmap.h" />
+    <ClInclude Include="include\utils\EnumParser.h" />
     <ClInclude Include="include\utils\GLSupport.h" />
     <ClInclude Include="include\utils\LevelLoader.h" />
     <ClInclude Include="include\utils\ObjReader.h" />
     <ClInclude Include="include\utils\OnClickFunctions.h" />
-    <ClInclude Include="include\utils\stb_image.h" />
-    <ClInclude Include="include\utils\Texture.h" />
     <ClInclude Include="include\utils\Timer.h" />
     <ClInclude Include="include\utils\tinyxml2.h" />
-    <ClInclude Include="include\utils\Transform.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\basic.frag" />

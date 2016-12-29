@@ -10,7 +10,7 @@ using std::function;
 
 class OnClickFunctions {
 public:
-	static void switchScreen(Engine* engine, unsigned int screenId) {
+	static void switchScreen(Engine* engine, string screenId) {
 		engine->switchScreen(screenId);
 	}
 
@@ -19,33 +19,6 @@ public:
 	static void exit(Engine* engine) {
 		engine->exit();
 	}
-
-	//static shared_ptr<OnClickFunctions> getInstance() {
-	//	if (!m_initialised) {
-	//		m_instance = shared_ptr<OnClickFunctions>(new OnClickFunctions());
-	//		//m_instance->intialiseFunctions();
-	//		m_instance->initMap();
-	//		m_initialised = true;
-	//	}
-	//	return m_instance;
-	//};
-	
-	//template<typename... types>
-	//std::function<void()> getFunction(string functionName, types... args) {
-	//	auto type = stringToFuncMap.find(functionName);
-	//	if (type == stringToFuncMap.end()) {
-	//		//error handeling
-	//		return NULL;
-	//	}
-	//	switch (type->second)
-	//	{
-	//	case FunctionType::SWITCH_SCREEN:
-	//		auto params = std::make_tuple(args...);
-	//		std::function<void(types...) func(switchScreen);
-	//		return call_helper(func, params);
-	//		return std::bind(switchScreen, params);
-	//	};
-	//};
 	
 	enum FunctionType
 	{
@@ -53,17 +26,17 @@ public:
 		EXIT,
 		DO_NOTHING
 	};
-	static FunctionType getFunctionType(string funcName) {
-		if (funcName.compare("switch_screen") == 0 || funcName.compare("SWITCH_SCREEN") == 0) {
-			return FunctionType::SWITCH_SCREEN;
-		}
-		else if (funcName.compare("exit") == 0 || funcName.compare("EXIT") == 0) {
-			return FunctionType::EXIT;
-		}
-		else {
-			return FunctionType::DO_NOTHING;
-		}
-	}
+	//static FunctionType getFunctionType(string funcName) {
+	//	if (funcName.compare("switch_screen") == 0 || funcName.compare("SWITCH_SCREEN") == 0) {
+	//		return FunctionType::SWITCH_SCREEN;
+	//	}
+	//	else if (funcName.compare("exit") == 0 || funcName.compare("EXIT") == 0) {
+	//		return FunctionType::EXIT;
+	//	}
+	//	else {
+	//		return FunctionType::DO_NOTHING;
+	//	}
+	//}
 
 private:
 	//OnClickFunctions() {};

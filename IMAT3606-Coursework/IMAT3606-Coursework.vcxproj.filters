@@ -25,6 +25,12 @@
     <Filter Include="Source Files\GUI">
       <UniqueIdentifier>{b2f68988-2041-4d9b-b857-397c33dfa5fd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Graphics">
+      <UniqueIdentifier>{73fa293e-f4c2-4650-9191-1c7b5679ed02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics">
+      <UniqueIdentifier>{362eca4e-2355-4e51-bbe4-89771919b9a8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Main.cpp">
@@ -38,12 +44,6 @@
     </ClCompile>
     <ClCompile Include="source\Model.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\utils\Bitmap.cpp">
-      <Filter>Source Files\utils</Filter>
-    </ClCompile>
-    <ClCompile Include="source\utils\Texture.cpp">
-      <Filter>Source Files\utils</Filter>
     </ClCompile>
     <ClCompile Include="source\Shader.cpp">
       <Filter>Source Files</Filter>
@@ -66,14 +66,23 @@
     <ClCompile Include="source\Input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="include\utils\tinyxml2.cpp">
-      <Filter>Source Files\utils</Filter>
-    </ClCompile>
     <ClCompile Include="source\utils\Timer.cpp">
       <Filter>Source Files\utils</Filter>
     </ClCompile>
     <ClCompile Include="source\GUI\TextBox.cpp">
       <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Graphics\Bitmap.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Graphics\Texture.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="source\utils\tinyxml2.cpp">
+      <Filter>Source Files\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="source\utils\EnumParser.cpp">
+      <Filter>Source Files\utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -83,17 +92,8 @@
     <ClInclude Include="include\utils\ObjReader.h">
       <Filter>Header Files\utils</Filter>
     </ClInclude>
-    <ClInclude Include="include\utils\stb_image.h">
-      <Filter>Header Files\utils</Filter>
-    </ClInclude>
     <ClInclude Include="include\Model.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\utils\Bitmap.h">
-      <Filter>Header Files\utils</Filter>
-    </ClInclude>
-    <ClInclude Include="include\utils\Texture.h">
-      <Filter>Header Files\utils</Filter>
     </ClInclude>
     <ClInclude Include="include\Shader.h">
       <Filter>Header Files</Filter>
@@ -128,9 +128,6 @@
     <ClInclude Include="include\GUI\Font.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="include\utils\Transform.h">
-      <Filter>Header Files\utils</Filter>
-    </ClInclude>
     <ClInclude Include="include\Screen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -153,6 +150,21 @@
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
     <ClInclude Include="include\utils\LevelLoader.h">
+      <Filter>Header Files\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Graphics\Bitmap.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Graphics\stb_image.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Graphics\Texture.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Graphics\Transform.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utils\EnumParser.h">
       <Filter>Header Files\utils</Filter>
     </ClInclude>
   </ItemGroup>

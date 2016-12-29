@@ -22,7 +22,7 @@
 
 //#include "stdafx.h"
 
-#include "utils/Texture.h"
+#include "Graphics/Texture.h"
 #include <stdexcept>
 
 

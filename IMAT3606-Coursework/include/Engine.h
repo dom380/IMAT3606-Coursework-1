@@ -9,6 +9,7 @@
 #include "Screen.h"
 #include "GUI\MenuScreen.h"
 #include "utils\Timer.h"
+#include <utils\EnumParser.h>
 #include <map>
 using std::map;
 
@@ -16,19 +17,18 @@ class Engine {
 public:
 
 	Engine();
-	Engine(float w, float h);
+	Engine(int width, int height);
 	~Engine();
 	void init();
 	void mainLoop();
 	void exit();
 
-	void setModules(Graphics* graphics);
 	/*
 		Registers the provided implementation of Screen with the engine. 
 		Returns the ID of the newly registered screen. This ID is used in
 		all subsequent calls. 
 	*/
-	unsigned int registerScreen(shared_ptr<Screen> screen);
+	string registerScreen(shared_ptr<Screen> screen);
 	/*
 		Returns a pointer to the current active screen.
 	*/
@@ -38,30 +38,38 @@ public:
 		The screen must have been registered with the engine before hand.
 		The previous screen will not be disposed of and will remain in memory.
 	*/
-	void switchScreen(unsigned int screenId);
+	void switchScreen(string screenId);
 	/*
 		Replaces the current active screen to the screen with the specified ID.
 		The screen must have been registered with the engine before hand.
 		The previous screen will be disposed of and all none shared assets freed.
 	*/
-	void replaceScreen(unsigned int screenId);
+	void replaceScreen(string screenId);
 
 	void loadConfig();
 
+	void loadFirstLevel();
+
+	enum GraphicsContext {
+		OPEN_GL
+	};
+
 private:
-	//Private Methods
-	
 	//Private members
-	Graphics* renderer;
+	shared_ptr<Graphics> renderer;
 	GLFWwindow* window;
 	Input &inputHandler = Input::getInstance();
-	map<unsigned int, shared_ptr<Screen>> gameScreens;
-	std::pair<int,shared_ptr<Screen>> activeScreen;
+	map<string, shared_ptr<Screen>> gameScreens;
+	std::pair<string,shared_ptr<Screen>> activeScreen;
 	bool closed;
-	unsigned int currentScreenId = 0;
-	float width;
-	float height;
+	int width;
+	int height;
 	Timer timer;
+	string initialScreenId;
+	EnumParser<GraphicsContext> enumParser = EnumParser<GraphicsContext>();
+	GraphicsContext graphicsContext;
+	//Private Methods
+	shared_ptr<Graphics> buildRenderer(GraphicsContext renderType);
 };
 
 #endif // !ENGINE_H

@@ -27,7 +27,7 @@ shared_ptr<Texture> AssetManager::getTexture(const char * filePath)
 	return ptr;	
 }
 
-shared_ptr<Font> AssetManager::getFont(char * fontPath, Graphics* graphics)
+shared_ptr<Font> AssetManager::getFont(char * fontPath, shared_ptr<Graphics>& graphics)
 {
 	string sFontPath = string(fontPath);
 	auto it = fonts.find(sFontPath);
