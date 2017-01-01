@@ -80,9 +80,9 @@ public:
 		If the event was a click within the button's bounding box provided 
 		OnClick method will be called.
 	*/
-	void handle(Event event) {
+	void handle(MouseEvent event) {
 		//if not a click event we don't care
-		if (event.eventType != EventType::CLICK) {
+		if (event.eventType != MouseEventType::LEFT_CLICK) {
 			return;
 		}
 		//if this button was clicked
@@ -93,6 +93,10 @@ public:
 		}
 	};
 	
+	void handle(KeyEvent event) {
+		
+	}
+
 	void addOnClickFn(std::function<void()> c) {
 		onClickCallback = c;
 	};

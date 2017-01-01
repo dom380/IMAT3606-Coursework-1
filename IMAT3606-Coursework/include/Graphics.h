@@ -3,6 +3,7 @@
 #define GRAPHICS_H
 #include <Shader.h>
 #include <memory>
+#include <Graphics\Camera.h>
 using std::shared_ptr;
 #include <GUI\Font.h>
 #include <Graphics\Transform.h>
@@ -52,7 +53,7 @@ public:
 	/*
 		Render model.
 	*/
-	virtual void renderModel(Model& model, Shader& shaderProgram) = 0;
+	virtual void renderModel(Model& model, Shader& shaderProgram, shared_ptr<Camera>& camera) = 0;
 
 	/*
 		Method called on engine shutdown. 

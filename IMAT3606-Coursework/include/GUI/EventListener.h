@@ -1,10 +1,12 @@
 #pragma once
 #ifndef EVENTLISTENER_H
 #define EVENTLISTENER_H
-#include "Event.h"
+#include "MouseEvent.h"
+#include "KeyEvent.h"
 
 class EventListener {
 public:
-	virtual void  handle(Event event) = 0;
+	virtual void  handle(MouseEvent event) = 0;
+	virtual void  handle(KeyEvent event) = 0;
 };
 #endif // !EVENTLISTENER_H

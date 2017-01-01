@@ -5,7 +5,7 @@
 #include <vector>
 using std::vector;
 #include "GUI\EventListener.h"
-#include "GUI\Event.h"
+#include "GUI\MouseEvent.h"
 #include <memory>
 using std::shared_ptr;
 
@@ -16,6 +16,7 @@ using std::shared_ptr;
 class Input {
 public:
 	static Input& getInstance();
+	static void mouseMovementCallback(GLFWwindow* window, double xpos, double ypos);
 	static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 	static void keyboardCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 	static void registerKeyListener(shared_ptr<EventListener> listener);

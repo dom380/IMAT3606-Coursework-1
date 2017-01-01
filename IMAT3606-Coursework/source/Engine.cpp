@@ -51,6 +51,7 @@ void Engine::init()
 	glfwMakeContextCurrent(window);
 	glfwSetKeyCallback(window, &inputHandler.keyboardCallback);
 	glfwSetMouseButtonCallback(window, &inputHandler.mouseButtonCallback);
+	glfwSetCursorPosCallback(window, &inputHandler.mouseMovementCallback);
 
 	renderer = buildRenderer(graphicsContext);
 	renderer->init();

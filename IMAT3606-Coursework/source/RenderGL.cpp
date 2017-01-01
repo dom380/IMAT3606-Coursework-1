@@ -210,18 +210,27 @@ void RenderGL::bufferModelData(vector<glm::vec4>& vertices, vector<glm::vec3>& n
 	glBindVertexArray(0);
 }
 
-void RenderGL::renderModel(Model& model, Shader& shaderProgram)
+void RenderGL::renderModel(Model& model, Shader& shaderProgram, shared_ptr<Camera>& camera)
 {
+#ifndef NDEBUG
+	string check = OpenGLSupport().GetError();
+#endif
 	shaderProgram.bindShader();
+#ifndef NDEBUG
+	check = OpenGLSupport().GetError();
+#endif
 	glBindVertexArray(model.getVertArray());
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, model.getTexture()->object());
 	glm::quat orientation = model.transform.orientation;
 	glm::mat4 mMat = modelMat * glm::translate(model.transform.position) * glm::rotate(orientation.w, glm::vec3(orientation.x, orientation.y, orientation.z)) * glm::scale(model.transform.scale);
 	shaderProgram.setUniform("tex", 0);
-	shaderProgram.setUniform("mView", viewMat);
+	shaderProgram.setUniform("mView", camera->getView());
 	shaderProgram.setUniform("mProjection", perspectiveMat);
 	shaderProgram.setUniform("mModel", mMat);
 	glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(model.getIndexSize()), GL_UNSIGNED_SHORT, BUFFER_OFFSET(0));
+#ifndef NDEBUG
+	check = OpenGLSupport().GetError();
+#endif
 	glBindVertexArray(0);
 }

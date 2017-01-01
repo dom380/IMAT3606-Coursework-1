@@ -33,10 +33,10 @@ void Model::init(const char * objFile, const char * textureFile)
 	initalised = true;
 }
 
-void Model::render()
+void Model::render(shared_ptr<Camera>& camera)
 {
 	if (!initalised) return;
-	graphics->renderModel(*this, shader);
+	graphics->renderModel(*this, shader, camera);
 }
 
 shared_ptr<Texture> Model::getTexture()

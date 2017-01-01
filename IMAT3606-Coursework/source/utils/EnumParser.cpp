@@ -1,17 +1,25 @@
 #include <utils\EnumParser.h>
 #include <Engine.h>
 #include <utils\OnClickFunctions.h>
-
+#include <Graphics\Camera.h>
 EnumParser<Engine::GraphicsContext>::EnumParser()
 {
 	map["OPEN_GL"] = Engine::GraphicsContext::OPEN_GL;
 	map["open_gl"] = Engine::GraphicsContext::OPEN_GL;
 }
 
-EnumParser<EventType>::EnumParser()
+EnumParser<MouseEventType>::EnumParser()
 {
-	map["CLICK"] = EventType::CLICK;
-	map["click"] = EventType::CLICK;
+	map["LEFT_CLICK"] = MouseEventType::LEFT_CLICK;
+	map["left_click"] = MouseEventType::LEFT_CLICK;
+	map["MOUSE_MOVE"] = MouseEventType::MOUSE_MOVE;
+	map["mouse_move"] = MouseEventType::MOUSE_MOVE;
+	map["RIGHT_CLICK"] = MouseEventType::RIGHT_CLICK;
+	map["right_click"] = MouseEventType::RIGHT_CLICK;
+	//map["KEY_PRESS"] = MouseEventType::KEY_PRESS;
+	//map["key_press"] = MouseEventType::KEY_PRESS;
+	//map["KEY_UP"] = MouseEventType::KEY_UP;
+	//map["key_up"] = MouseEventType::KEY_UP;
 }
 
 EnumParser<OnClickFunctions::FunctionType>::EnumParser()
@@ -22,4 +30,12 @@ EnumParser<OnClickFunctions::FunctionType>::EnumParser()
 	map["exit"] = OnClickFunctions::FunctionType::EXIT;
 	map["DO_NOTHING"] = OnClickFunctions::FunctionType::DO_NOTHING;
 	map["do_nothing"] = OnClickFunctions::FunctionType::DO_NOTHING;
+}
+
+EnumParser<Camera::CameraClass>::EnumParser()
+{
+	map["PERSPECTIVE"] = Camera::CameraClass::PERSPECTIVE;
+	map["perspective"] = Camera::CameraClass::PERSPECTIVE;
+	map["ORTHOGRAPHIC"] = Camera::CameraClass::ORTHOGRAPHIC;
+	map["orthographic"] = Camera::CameraClass::ORTHOGRAPHIC;
 }

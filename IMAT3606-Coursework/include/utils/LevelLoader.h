@@ -145,7 +145,7 @@ private:
 	{
 		glm::vec3 pos;
 		glm::vec3 scale;
-		glm::quat quat;
+		glm::quat quat; quat.y = 1.0f; quat.w = 0.0f;
 		tinyxml2::XMLElement* posElement = element->FirstChildElement("position");
 		if (posElement != NULL) {
 			pos = glm::vec3(posElement->FirstChildElement("x")!=NULL ? posElement->FirstChildElement("x")->FloatText():0.0f, posElement->FirstChildElement("y")!=NULL ? posElement->FirstChildElement("y")->FloatText():0.0f, posElement->FirstChildElement("z")!=NULL ? posElement->FirstChildElement("z")->FloatText() : 0.0f);
@@ -156,7 +156,7 @@ private:
 		}
 		tinyxml2::XMLElement* quatElement = element->FirstChildElement("orientation");
 		if (quatElement != NULL) {
-			quat = glm::quat(quatElement->FirstChildElement("x")!=NULL ? quatElement->FirstChildElement("x")->FloatText():0.0f, quatElement->FirstChildElement("y")!=NULL ? quatElement->FirstChildElement("y")->FloatText():0.0f, quatElement->FirstChildElement("z")!=NULL ? quatElement->FirstChildElement("z")->FloatText():0.0f, quatElement->FirstChildElement("w")!=NULL ? quatElement->FirstChildElement("w")->FloatText() : 0.0f);
+			quat = glm::quat(quatElement->FirstChildElement("x")!=NULL ? quatElement->FirstChildElement("x")->FloatText():0.0f, quatElement->FirstChildElement("y")!=NULL ? quatElement->FirstChildElement("y")->FloatText(1.0f):1.0f, quatElement->FirstChildElement("z")!=NULL ? quatElement->FirstChildElement("z")->FloatText():0.0f, quatElement->FirstChildElement("w")!=NULL ? quatElement->FirstChildElement("w")->FloatText() : 0.0f);
 		}
 		transform.orientation = quat;
 		transform.position = pos;

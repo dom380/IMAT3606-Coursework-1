@@ -145,6 +145,7 @@
     <ClCompile Include="source\Engine.cpp" />
     <ClCompile Include="source\GameScreen.cpp" />
     <ClCompile Include="source\Graphics\Bitmap.cpp" />
+    <ClCompile Include="source\Graphics\PerspectiveCamera.cpp" />
     <ClCompile Include="source\Graphics\Texture.cpp" />
     <ClCompile Include="source\GUI\Font.cpp" />
     <ClCompile Include="source\GUI\MenuScreen.cpp" />
@@ -165,13 +166,17 @@
     <ClInclude Include="include\GameScreen.h" />
     <ClInclude Include="include\Graphics.h" />
     <ClInclude Include="include\Graphics\Bitmap.h" />
+    <ClInclude Include="include\Graphics\Camera.h" />
+    <ClInclude Include="include\Graphics\PerspectiveCamera.h" />
     <ClInclude Include="include\Graphics\stb_image.h" />
     <ClInclude Include="include\Graphics\Texture.h" />
     <ClInclude Include="include\Graphics\Transform.h" />
     <ClInclude Include="include\GUI\Button.h" />
-    <ClInclude Include="include\GUI\Event.h" />
+    <ClInclude Include="include\GUI\KeyEvent.h" />
+    <ClInclude Include="include\GUI\KeyEventType.h" />
+    <ClInclude Include="include\GUI\MouseEvent.h" />
     <ClInclude Include="include\GUI\EventListener.h" />
-    <ClInclude Include="include\GUI\EventType.h" />
+    <ClInclude Include="include\GUI\MouseEventType.h" />
     <ClInclude Include="include\GUI\Font.h" />
     <ClInclude Include="include\GUI\MenuScreen.h" />
     <ClInclude Include="include\GUI\TextBox.h" />

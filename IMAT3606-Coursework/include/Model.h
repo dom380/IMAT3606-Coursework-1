@@ -4,6 +4,7 @@
 #include "Graphics\stb_image.h"
 #include "Graphics\Bitmap.h"
 #include "Graphics\Texture.h"
+#include <Graphics\Camera.h>
 #include "utils\ObjReader.h"
 #include "Graphics.h"
 #include "GL\glm\glm\glm.hpp"
@@ -18,7 +19,7 @@ public:
 	Model(shared_ptr<Graphics>& graphics);
 	~Model();
 	void init(const char* objFile, const char* textureFile);
-	void render();
+	void render(shared_ptr<Camera>& camera);
 	shared_ptr<Texture> getTexture();
 	unsigned int getVertArray();
 	size_t getIndexSize();

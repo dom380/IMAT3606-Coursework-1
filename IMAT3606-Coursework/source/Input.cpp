@@ -12,13 +12,23 @@ Input& Input::getInstance()
 	return instance;
 }
 
+void Input::mouseMovementCallback(GLFWwindow * window, double xpos, double ypos)
+{
+	MouseEvent e(MouseEventType::MOUSE_MOVE, xpos, ypos);
+	vector<shared_ptr<EventListener>> listeners = getInstance().mouseSubs;
+	for (shared_ptr<EventListener> listener : listeners) {
+		listener->handle(e);
+	}
+}
+
 void Input::mouseButtonCallback(GLFWwindow * window, int button, int action, int mods)
 {
 	double cursorPosX, cursorPosY;
 	glfwGetCursorPos(window, &cursorPosX, &cursorPosY);
 	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
-		Event e(EventType::CLICK, cursorPosX, cursorPosY);
-		for (shared_ptr<EventListener> listener : getInstance().mouseSubs) {
+		MouseEvent e(MouseEventType::LEFT_CLICK, cursorPosX, cursorPosY);
+		vector<shared_ptr<EventListener>> listeners = getInstance().mouseSubs;
+		for (shared_ptr<EventListener> listener : listeners) {
 			listener->handle(e);
 		}
 	}
@@ -27,7 +37,13 @@ void Input::mouseButtonCallback(GLFWwindow * window, int button, int action, int
 
 void Input::keyboardCallback(GLFWwindow * window, int key, int scancode, int action, int mods)
 {
-	//do something
+	KeyEventType type;
+	action == GLFW_PRESS ? type = KeyEventType::KEY_PRESSED : type = KeyEventType::KEY_RELEASED;
+	KeyEvent e(type, key, mods);
+	vector<shared_ptr<EventListener>> listeners = getInstance().keySubs;
+	for (shared_ptr<EventListener> listener : listeners) {
+		listener->handle(e);
+	}
 }
 
 void Input::registerKeyListener(shared_ptr<EventListener> listener)
@@ -44,12 +60,6 @@ Input::~Input()
 {
 	keySubs.clear();
 	mouseSubs.clear();
-	//for (shared_ptr<EventListener> sub : keySubs) {
-	//	sub.reset();
-	//}
-	//for (shared_ptr<EventListener> sub : mouseSubs) {
-	//	sub.reset();
-	//}
 	initialised = false;
 }
 

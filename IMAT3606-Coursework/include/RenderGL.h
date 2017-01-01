@@ -30,7 +30,7 @@ public:
 	void bufferModelData(vector<glm::vec4>& vertices, vector<glm::vec3>& normals, vector<glm::vec2>& textures,
 		vector<unsigned short>& indices, unsigned int& vaoHandle);
 
-	void renderModel(Model& model, Shader& shaderProgram);
+	void renderModel(Model& model, Shader& shaderProgram, shared_ptr<Camera>& camera);
 	
 
 private:

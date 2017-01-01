@@ -6,12 +6,68 @@
 			<position>
 				<x>0.0</x>
 				<y>0.0</y>
-				<z>0.0</z>
+				<z>-5</z>
 			</position>
 			<scale>
+				<x>0.5</x>
+				<y>0.5</y>
+				<z>0.5</z>
+			</scale>
+		</model>
+		<model>
+			<file>./resources/models/cube.obj</file>
+			<texture>./resources/textures/cubeTexture.bmp</texture>
+			<position>
 				<x>1.0</x>
+				<y>3.0</y>
+				<z>-8</z>
+			</position>
+			<scale>
+				<x>0.5</x>
+				<y>0.5</y>
+				<z>0.5</z>
+			</scale>
+		</model>
+		<model>
+			<file>./resources/models/cube.obj</file>
+			<texture>./resources/textures/cubeTexture.bmp</texture>
+			<position>
+				<x>2.0</x>
+				<y>0.0</y>
+				<z>-3</z>
+			</position>
+			<scale>
+				<x>0.5</x>
+				<y>0.5</y>
+				<z>0.5</z>
+			</scale>
+		</model>
+		<model>
+			<file>./resources/models/cube.obj</file>
+			<texture>./resources/textures/cubeTexture.bmp</texture>
+			<position>
+				<x>-2.0</x>
+				<y>-1.0</y>
+				<z>-5</z>
+			</position>
+			<scale>
+				<x>0.5</x>
+				<y>0.5</y>
+				<z>0.5</z>
+			</scale>
+		</model>
+		<model>
+			<file>./resources/models/ground.obj</file>
+			<texture>./resources/textures/grass.bmp</texture>
+			<position>
+				<x>-55.0</x>
+				<y>-0.95</y>
+				<z>-55.0</z>
+			</position>
+			<scale>
+				<x>55.0</x>
 				<y>1.0</y>
-				<z>1.0</z>
+				<z>55.0</z>
 			</scale>
 		</model>
 	</models>

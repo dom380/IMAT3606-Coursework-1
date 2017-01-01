@@ -1,22 +1,28 @@
 #include "GameScreen.h"
+#include <Input.h>
 
-GameScreen::GameScreen(shared_ptr<Graphics>& renderer)
+GameScreen::GameScreen(shared_ptr<Graphics>& renderer, shared_ptr<Camera> camera)
 {
 	this->renderer = renderer;
-	//todo read in from xml
-	//shared_ptr<Model> modelTest = std::make_shared<Model>(renderer);
-	//modelTest->init("./cube.obj", "./texture.bmp");
-	//models.push_back(modelTest);
+	this->camera = camera;
+	Input::getInstance().registerKeyListener(this->camera);
+	Input::getInstance().registerMouseListener(this->camera);
 }
 
 void GameScreen::update(double dt)
 {
+#ifndef NDEBUG
+	timer.start();
+#endif
 	angle += dt;
 	if (angle>360.f)
 	{
 		angle -= 360.f;
 	}
-	for (shared_ptr<Model> model : models) {
+
+	for (int i = 0; i < models.size() - 1; ++i)
+	{
+		shared_ptr<Model> model = models.at(i);
 		model->transform.orientation.x = 1.0f;
 		model->transform.orientation.y = 1.0f;
 		model->transform.orientation.z = 1.0f;
@@ -27,8 +33,12 @@ void GameScreen::update(double dt)
 void GameScreen::render()
 {
 	for (shared_ptr<Model> model : models) {
-		model->render();
+		model->render(camera);
 	}
+#ifndef NDEBUG
+	double elapsedTime = timer.getElapsedTime();
+	timer.stop();
+#endif
 }
 
 void GameScreen::resize(int width, int height)
