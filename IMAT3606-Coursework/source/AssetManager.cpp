@@ -22,7 +22,7 @@ shared_ptr<Texture> AssetManager::getTexture(const char * filePath)
 	}
 	Bitmap bmp = Bitmap::bitmapFromFile(filePath);
 	bmp.flipVertically();
-	shared_ptr<Texture> ptr(new Texture(bmp));
+	shared_ptr<Texture> ptr = std::make_shared<Texture>(bmp);
 	textures.emplace(std::pair<string, shared_ptr<Texture>>(sFilePath, ptr));
 	return ptr;	
 }
@@ -36,10 +36,26 @@ shared_ptr<Font> AssetManager::getFont(char * fontPath, shared_ptr<Graphics>& gr
 	}
 	FT_Library ft;
 	FT_Error error = FT_Init_FreeType(&ft);
-	shared_ptr<Font> fontPtr(new Font(ft, fontPath, graphics));
+	shared_ptr<Font> fontPtr = std::make_shared<Font>(ft, fontPath, graphics);
 	fontPtr->compile();
 	fonts.emplace(std::pair<string, shared_ptr<Font>>(string(fontPath), fontPtr));
 	return fontPtr;
+}
+
+shared_ptr<Shader> AssetManager::getShader(std::pair<string, string> shaderPath)
+{
+	auto it = shaders.find(shaderPath);
+	if (it != shaders.end())
+	{
+		return it->second;
+	}
+	shared_ptr<Shader> shader = std::make_shared<Shader>();
+	shader->compileShader(shaderPath.first.c_str(), GL_VERTEX_SHADER);
+	shader->compileShader(shaderPath.second.c_str(), GL_FRAGMENT_SHADER);
+	shader->link();
+	shader->bindShader();
+	shaders.emplace(std::pair<std::pair<string, string>, shared_ptr<Shader>>(shaderPath, shader));
+	return shader;
 }
 
 void AssetManager::exit()

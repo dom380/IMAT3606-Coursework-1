@@ -62,3 +62,8 @@ double Timer::getElapsedTime()
 {
 	return this->getElapsedTimeMicroSec() * 0.000001;
 }
+
+double Timer::getElapsedTimeMilliSec()
+{
+	return this->getElapsedTimeMicroSec() * 0.001;
+}

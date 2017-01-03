@@ -167,6 +167,8 @@
     <ClInclude Include="include\Graphics.h" />
     <ClInclude Include="include\Graphics\Bitmap.h" />
     <ClInclude Include="include\Graphics\Camera.h" />
+    <ClInclude Include="include\Graphics\Light.h" />
+    <ClInclude Include="include\Graphics\Material.h" />
     <ClInclude Include="include\Graphics\PerspectiveCamera.h" />
     <ClInclude Include="include\Graphics\stb_image.h" />
     <ClInclude Include="include\Graphics\Texture.h" />
@@ -196,6 +198,8 @@
   <ItemGroup>
     <None Include="shaders\basic.frag" />
     <None Include="shaders\basic.vert" />
+    <None Include="shaders\phong.frag" />
+    <None Include="shaders\phong.vert" />
     <None Include="shaders\text.frag" />
     <None Include="shaders\text.vert" />
   </ItemGroup>

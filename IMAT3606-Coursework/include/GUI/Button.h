@@ -29,7 +29,7 @@ private:
 	std::function<void()> onClickCallback;
 
 	void init(Font textfont, Transform pos) {
-		textbox = shared_ptr<TextBox>(new TextBox(text, textfont, pos, graphics));
+		textbox = std::make_shared<TextBox>(text, textfont, pos, graphics);
 		font = textfont;
 		transform = pos;
 		buildAABB();

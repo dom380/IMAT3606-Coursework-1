@@ -2,6 +2,7 @@
 #include <Engine.h>
 #include <utils\OnClickFunctions.h>
 #include <Graphics\Camera.h>
+
 EnumParser<Engine::GraphicsContext>::EnumParser()
 {
 	map["OPEN_GL"] = Engine::GraphicsContext::OPEN_GL;
@@ -26,6 +27,8 @@ EnumParser<OnClickFunctions::FunctionType>::EnumParser()
 {
 	map["SWITCH_SCREEN"] = OnClickFunctions::FunctionType::SWITCH_SCREEN;
 	map["switch_screen"] = OnClickFunctions::FunctionType::SWITCH_SCREEN;
+	map["REPLACE_SCREEN"] = OnClickFunctions::FunctionType::REPLACE_SCREEN;
+	map["replace_screen"] = OnClickFunctions::FunctionType::REPLACE_SCREEN;
 	map["EXIT"] = OnClickFunctions::FunctionType::EXIT;
 	map["exit"] = OnClickFunctions::FunctionType::EXIT;
 	map["DO_NOTHING"] = OnClickFunctions::FunctionType::DO_NOTHING;

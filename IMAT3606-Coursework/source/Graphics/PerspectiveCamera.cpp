@@ -73,26 +73,27 @@ void PerspectiveCamera::handle(KeyEvent event)
 		{
 			if (event.key == 87) //W
 			{
-				position.x -= 0.5f * frontDir.x;
-				position.z -= 0.5f * frontDir.z;
+				position -= 0.5f * frontDir;
+				//position.x -= 0.5f * frontDir.x;
+				//position.z -= 0.5f * frontDir.z;
 			}
 			else if (event.key == 83) //S
 			{
-				//position += 0.5f * frontDir;
-				position.x += 0.5f * frontDir.x;
-				position.z += 0.5f * frontDir.z;
+				position += 0.5f * frontDir;
+				//position.x += 0.5f * frontDir.x;
+				//position.z += 0.5f * frontDir.z;
 			}
 			else if (event.key == 65) //A
 			{
-				//position -= rightDir * 0.5f;
-				position.x -= rightDir.x * 0.5f;
-				position.z -= rightDir.z * 0.5f;
+				position -= rightDir * 0.5f;
+				//position.x -= rightDir.x * 0.5f;
+				//position.z -= rightDir.z * 0.5f;
 			}
 			else if (event.key == 68) //D
 			{
-				//position += rightDir * 0.5f;
-				position.x += rightDir.x * 0.5f;
-				position.z += rightDir.z * 0.5f;
+				position += rightDir * 0.5f;
+				//position.x += rightDir.x * 0.5f;
+				//position.z += rightDir.z * 0.5f;
 			}
 			update();
 			break;

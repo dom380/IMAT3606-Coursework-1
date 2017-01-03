@@ -182,18 +182,30 @@
     <ClInclude Include="include\GUI\KeyEventType.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
+    <ClInclude Include="include\Graphics\Material.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Graphics\Light.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="shaders\basic.frag">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="shaders\basic.vert">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="shaders\text.frag">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="shaders\text.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="shaders\phong.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="shaders\phong.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="shaders\basic.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="shaders\basic.vert">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

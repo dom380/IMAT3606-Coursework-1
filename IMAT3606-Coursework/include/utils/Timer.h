@@ -17,6 +17,7 @@ public:
 	void stop();
 	// get elapsed time in seconds
 	double getElapsedTime();   
+	double getElapsedTimeMilliSec();
 	double getElapsedTimeMicroSec();
 private:
 	double startTimeInMicroSec;                 

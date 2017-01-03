@@ -4,7 +4,6 @@
 #endif
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
-
 RenderGL::RenderGL(int width, int height)
 {
 	this->width = width;
@@ -68,7 +67,7 @@ int RenderGL::getHeight()
 	return height;
 }
 
-void RenderGL::buildTextShader(unsigned int &vertArrayObj, unsigned int &vertBuffObj, Shader & textShader)
+void RenderGL::buildTextShader(unsigned int &vertArrayObj, unsigned int &vertBuffObj, shared_ptr<Shader> & textShader)
 {
 	glGenVertexArrays(1, &vertArrayObj);
 	glGenBuffers(1, &vertBuffObj);
@@ -80,22 +79,22 @@ void RenderGL::buildTextShader(unsigned int &vertArrayObj, unsigned int &vertBuf
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
-	textShader.compileShader("./shaders/text.vert", GL_VERTEX_SHADER);
-	textShader.compileShader("./shaders/text.frag", GL_FRAGMENT_SHADER);
-	textShader.link();
-	textShader.bindShader();
+	textShader = AssetManager::getInstance()->getShader(std::pair<string, string>("./shaders/text.vert","./shaders/text.frag"));
+	//textShader->compileShader("./shaders/text.vert", GL_VERTEX_SHADER);
+	//textShader->compileShader("./shaders/text.frag", GL_FRAGMENT_SHADER);
+	//textShader->link();
+	//textShader->bindShader();
 #ifndef NDEBUG
 	string check = OpenGLSupport().GetError();
 #endif
 	glm::mat4 projection = glm::ortho(0.0f, (float)width, 0.0f, (float)height);
-	textShader.setUniform("projection", projection);
-	textShader.setUniform("textColour", glm::vec3(1.0, 1.0, 1.0));
-	textShader.setUniform("tex", 0);
+	textShader->setUniform("projection", projection);
+	textShader->setUniform("textColour", glm::vec3(1.0, 1.0, 1.0)); //TODO make this changeable
+	textShader->setUniform("tex", 0);
 }
 
-void RenderGL::renderText(string& text, Font& font, Transform& transform, unsigned int VAO, unsigned int VBO, Shader& textShader)
+void RenderGL::renderText(string& text, Font& font, Transform& transform, unsigned int VAO, unsigned int VBO, shared_ptr<Shader>& textShader)
 {
-
 	float charX = transform.position.x;
 	float charY = transform.position.y;
 	glEnable(GL_BLEND);
@@ -103,7 +102,7 @@ void RenderGL::renderText(string& text, Font& font, Transform& transform, unsign
 	string check = OpenGLSupport().GetError();
 #endif
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	textShader.bindShader();
+	textShader->bindShader();
 #ifndef NDEBUG
 	check = OpenGLSupport().GetError();
 #endif
@@ -210,12 +209,20 @@ void RenderGL::bufferModelData(vector<glm::vec4>& vertices, vector<glm::vec3>& n
 	glBindVertexArray(0);
 }
 
-void RenderGL::renderModel(Model& model, Shader& shaderProgram, shared_ptr<Camera>& camera)
+void RenderGL::renderModel(Model& model, shared_ptr<Shader>& shaderProgram, shared_ptr<Camera>& camera)
 {
+	vector<Light> defaultLights;
+	defaultLights.push_back(Light());
+	renderModel(model, shaderProgram, camera, defaultLights);
+}
+
+void RenderGL::renderModel(Model& model, shared_ptr<Shader>& shaderProgram, shared_ptr<Camera>& camera, vector<Light>& lights)
+{
+
 #ifndef NDEBUG
 	string check = OpenGLSupport().GetError();
 #endif
-	shaderProgram.bindShader();
+	shaderProgram->bindShader();
 #ifndef NDEBUG
 	check = OpenGLSupport().GetError();
 #endif
@@ -224,10 +231,20 @@ void RenderGL::renderModel(Model& model, Shader& shaderProgram, shared_ptr<Camer
 	glBindTexture(GL_TEXTURE_2D, model.getTexture()->object());
 	glm::quat orientation = model.transform.orientation;
 	glm::mat4 mMat = modelMat * glm::translate(model.transform.position) * glm::rotate(orientation.w, glm::vec3(orientation.x, orientation.y, orientation.z)) * glm::scale(model.transform.scale);
-	shaderProgram.setUniform("tex", 0);
-	shaderProgram.setUniform("mView", camera->getView());
-	shaderProgram.setUniform("mProjection", perspectiveMat);
-	shaderProgram.setUniform("mModel", mMat);
+	shaderProgram->setUniform("tex", 0);
+	shaderProgram->setUniform("mView", camera->getView());
+	shaderProgram->setUniform("mProjection", perspectiveMat);
+	shaderProgram->setUniform("mModel", mMat);
+	shaderProgram->setUniform("viewPos", camera->getPosition());
+	if (model.getMaterial().used)
+	{
+		shaderProgram->setUniform("material", model.getMaterial());
+	}
+	if (lights.size() > 0)
+	{
+		shaderProgram->setUniform("lights", lights);
+		//shaderProgram.setUniform("light", lights.at(0));
+	}
 	glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(model.getIndexSize()), GL_UNSIGNED_SHORT, BUFFER_OFFSET(0));
 #ifndef NDEBUG
 	check = OpenGLSupport().GetError();

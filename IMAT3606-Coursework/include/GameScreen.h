@@ -16,7 +16,7 @@ using std::vector;
 class GameScreen : public Screen
 {
 public:
-	GameScreen(shared_ptr<Graphics>& renderer, shared_ptr<Camera> camera = shared_ptr<Camera>(new PerspectiveCamera()));
+	GameScreen(shared_ptr<Graphics>& renderer, shared_ptr<Camera> camera = std::make_shared<PerspectiveCamera>());
 	~GameScreen() {};
 	void update(double dt);
 	void render();
@@ -27,7 +27,9 @@ private:
 	vector<shared_ptr<Model>> models;
 	shared_ptr<Graphics> renderer;
 	shared_ptr<Camera> camera;
+	vector<Light> lights;
 	double angle;
+	unsigned int lightingBlockId;
 #ifndef NDEBUG
 	Timer timer;
 	string renderTime;

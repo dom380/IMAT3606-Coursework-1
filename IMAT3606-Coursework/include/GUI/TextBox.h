@@ -21,7 +21,7 @@ private:
 	void init(Font textfont, Transform pos);
 	string text;
 	Font font;
-	Shader textShader;
+	shared_ptr<Shader> textShader;
 	Transform transform;
 	unsigned int VAO, VBO;
 	shared_ptr<Graphics> graphics;

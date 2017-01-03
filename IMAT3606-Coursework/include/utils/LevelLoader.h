@@ -49,7 +49,7 @@ public:
 private:
 	static bool loadMenu(Engine* engine, shared_ptr<Graphics>& renderer, tinyxml2::XMLElement* screenElement)
 	{
-		shared_ptr<MenuScreen> menuScreen(new MenuScreen(renderer, engine));
+		shared_ptr<MenuScreen> menuScreen = std::make_shared<MenuScreen>(renderer, engine);
 		menuScreen->setID(screenElement->Attribute("name"));
 		tinyxml2::XMLElement* stringElement = screenElement->FirstChildElement("strings")->FirstChildElement();
 		while (stringElement != NULL) {
@@ -81,7 +81,7 @@ private:
 		const char* text = buttonElement->FirstChildElement("value")!=NULL ? buttonElement->FirstChildElement("value")->GetText() : "MISSING_STRING";
 		Transform transform;
 		loadTransform(transform, buttonElement);
-		shared_ptr<Button> button(new Button(text, font, transform, renderer));
+		shared_ptr<Button> button = std::make_shared<Button>(text, font, transform, renderer);
 		menuScreen->addButton(button);
 		Input::getInstance().registerMouseListener(button);
 		string funcName = string(buttonElement->FirstChildElement("function")->Attribute("type"));
@@ -104,6 +104,19 @@ private:
 				button->addOnClickFn(std::bind(OnClickFunctions::switchScreen, engine, temp));
 				break;
 			}
+			case OnClickFunctions::FunctionType::REPLACE_SCREEN:
+			{
+				tinyxml2::XMLElement* paramElement = buttonElement->FirstChildElement("function")->FirstChildElement("params")->FirstChildElement();
+				while (paramElement != NULL) {
+					string paramName = paramElement->Attribute("name");
+					std::transform(paramName.begin(), paramName.end(), paramName.begin(), std::tolower);
+					if (paramName == "screenid") break;
+					paramElement = paramElement->NextSiblingElement();
+				}
+				string temp = paramElement->GetText();
+				button->addOnClickFn(std::bind(OnClickFunctions::replaceScreen, engine, temp));
+				break;
+			}
 			case OnClickFunctions::FunctionType::EXIT:
 			{
 				button->addOnClickFn(std::bind(OnClickFunctions::exit, engine));
@@ -120,7 +133,7 @@ private:
 
 	static bool loadGameLevel(Engine* engine, shared_ptr<Graphics>& renderer, tinyxml2::XMLElement* screenElement) 
 	{
-		shared_ptr<GameScreen> gameScreen(new GameScreen(renderer));
+		shared_ptr<GameScreen> gameScreen = std::make_shared<GameScreen>(renderer);
 		gameScreen->setID(screenElement->Attribute("name"));
 		tinyxml2::XMLElement* modelElement = screenElement->FirstChildElement("models")->FirstChildElement();
 		while (modelElement != NULL) {
@@ -133,7 +146,7 @@ private:
 
 	static void loadModel(shared_ptr<Graphics>& renderer, shared_ptr<GameScreen> gameScreen, tinyxml2::XMLElement* modelElement)
 	{
-		shared_ptr<Model> model(new Model(renderer));
+		shared_ptr<Model> model = std::make_shared<Model>(renderer);
 		const char* modelPath = modelElement->FirstChildElement("file")->GetText();
 		const char* texturePath = modelElement->FirstChildElement("texture")->GetText();
 		model->init(modelPath, texturePath);

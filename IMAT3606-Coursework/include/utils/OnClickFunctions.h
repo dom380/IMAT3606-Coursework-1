@@ -14,6 +14,10 @@ public:
 		engine->switchScreen(screenId);
 	}
 
+	static void replaceScreen(Engine* engine, string screenId) {
+		engine->replaceScreen(screenId);
+	}
+
 	static void doNothing() {};
 
 	static void exit(Engine* engine) {
@@ -23,6 +27,7 @@ public:
 	enum FunctionType
 	{
 		SWITCH_SCREEN,
+		REPLACE_SCREEN,
 		EXIT,
 		DO_NOTHING
 	};

@@ -24,16 +24,18 @@ public:
 	void setModels(vector<shared_ptr<Model>> &modelList);
 	int getWidth();
 	int getHeight();
-	void buildTextShader(unsigned int &vertArrayObj, unsigned int &vertBuffObj, Shader &textShader);
-	void renderText(string& text, Font& font, Transform& transform, unsigned int VAO, unsigned int VBO, Shader& textShader);
+	void buildTextShader(unsigned int &vertArrayObj, unsigned int &vertBuffObj, shared_ptr<Shader> &textShader);
+	void renderText(string& text, Font& font, Transform& transform, unsigned int VAO, unsigned int VBO, shared_ptr<Shader>& textShader);
 	void buildFontTexture(FT_Face& fontFace, unsigned int& textureID);
 	void bufferModelData(vector<glm::vec4>& vertices, vector<glm::vec3>& normals, vector<glm::vec2>& textures,
 		vector<unsigned short>& indices, unsigned int& vaoHandle);
 
-	void renderModel(Model& model, Shader& shaderProgram, shared_ptr<Camera>& camera);
-	
+	void renderModel(Model& model, shared_ptr<Shader>& shaderProgram, shared_ptr<Camera>& camera);
+	void renderModel(Model& model, shared_ptr<Shader>& shaderProgram, shared_ptr<Camera>& camera, vector<Light>& lights);
 
 private:
+	
+
 	int width;
 	int height;
 	//Shader shaderProg;

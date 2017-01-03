@@ -25,7 +25,7 @@ protected:
 
 private:
 	glm::quat getRotation(glm::vec3 axis, float angle);
-	float previousX, previousY;
+	int previousX, previousY;
 
 };
 

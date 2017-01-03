@@ -8,7 +8,7 @@ ObjReader::~ObjReader()
 {
 }
 
-void ObjReader::readObj(const char * filePath, vector<glm::vec4>& vertices, vector<glm::vec3>& normals, vector<glm::vec2>& textures, vector<unsigned short>&indices)
+void ObjReader::readObj(const char * filePath, vector<glm::vec4>& vertices, vector<glm::vec3>& normals, vector<glm::vec2>& textures, vector<unsigned short>&indices, Material& material)
 {
 	unpackedVertices.clear();
 	unpackedNormals.clear();
@@ -26,14 +26,23 @@ void ObjReader::readObj(const char * filePath, vector<glm::vec4>& vertices, vect
 	std::string newLine;
 	while (std::getline(inStream, newLine)) {
 		std::string lineStart = newLine.substr(0, 2);
-		if (lineStart.length() == 0) {
+		if (lineStart.length() == 0 || lineStart == "# ") {
 			continue;
 		}
 		std::istringstream stringStream(newLine.substr(2));
-		if (lineStart == "v ") {
-			float x, y, z;
-			stringStream >> x; stringStream >> y; stringStream >> z;
-			glm::vec4 vertex(x, y, z, 1.0f);
+		if (lineStart == "mt")
+		{
+			std::istringstream line(newLine.substr(7));
+			std::string materialFile;
+			line >> materialFile;
+			std::string fullPath = filePath;
+			size_t folderIndex = fullPath.find_last_of("/\\");
+			std::string path = fullPath.substr(0, folderIndex);
+			path += "/" + materialFile;
+			readMtl(path.c_str(), material);
+		}
+		else if (lineStart == "v ") {
+			glm::vec4 vertex(readVec3(stringStream), 1.0f);
 			unpackedVertices.push_back(vertex);
 		}
 		else if (lineStart == "vt") {
@@ -43,10 +52,7 @@ void ObjReader::readObj(const char * filePath, vector<glm::vec4>& vertices, vect
 			unpackedTextures.push_back(texture);
 		}
 		else if (lineStart == "vn") {
-			float x, y, z;
-			stringStream >> x; stringStream >> y; stringStream >> z;
-			glm::vec3 normal(x, y, z);
-			unpackedNormals.push_back(normal);
+			unpackedNormals.push_back(readVec3(stringStream));
 		}
 		else if (lineStart == "f ") {
 			float indexValue;
@@ -119,15 +125,61 @@ void ObjReader::readObj(const char * filePath, vector<glm::vec4>& vertices, vect
 	}
 }
 
-//
-//bool vec3LessThan(const glm::vec3 &v1, const glm::vec3 &v2) {
-//	return v1.x < v2.x && v1.y < v2.y && v1.z < v2.z;
-//}
-//
-//bool vec3Equals(const glm::vec3 &vecA, const glm::vec3 &vecB) {
-//	const double epsilion = 0.0001;  // choose something apprpriate.
-//
-//	return    fabs(vecA[0] - vecB[0]) < epsilion
-//		&& fabs(vecA[1] - vecB[1]) < epsilion
-//		&& fabs(vecA[2] - vecB[2]) < epsilion;
-//}
+void ObjReader::readMtl(const char * filePath, Material & material)
+{
+	std::fstream inStream;
+	inStream.open(filePath);
+	if (!inStream.is_open()) {
+		std::string errorMsg = "Error opening file ";
+		errorMsg += filePath;
+		std::cerr << errorMsg << ", ignoring." << std::endl;
+		material.used = false;
+		return;
+	}
+
+	std::string newLine;
+	while (std::getline(inStream, newLine)) 
+	{
+		std::string lineStart = newLine.substr(0, 2);
+		if (lineStart.length() == 0 || lineStart == "# ") {
+			continue;
+		}
+		std::istringstream stringStream(newLine.substr(2));
+		if (lineStart == "Ns")
+		{
+			stringStream >> material.Ns;
+		}
+		else if (lineStart == "Ka")
+		{
+			material.Ka = readVec3(stringStream);
+		}
+		else if (lineStart == "Kd")
+		{
+			material.Kd = readVec3(stringStream);
+		}
+		else if (lineStart == "Ks")
+		{
+			material.Ks = readVec3(stringStream);
+		}
+		else if (lineStart == "Ke")
+		{
+			material.Ke = readVec3(stringStream);
+		} 
+		else if (lineStart == "Ni")
+		{
+			stringStream >> material.Ni;
+		}
+		else if (lineStart == "d")
+		{
+			stringStream >> material.d;
+		}
+	}
+	material.used = true;
+}
+
+glm::vec3 ObjReader::readVec3(std::istringstream& stream)
+{
+	float x, y, z;
+	stream >> x; stream >> y; stream >> z;
+	return glm::vec3(x,y,z);
+}

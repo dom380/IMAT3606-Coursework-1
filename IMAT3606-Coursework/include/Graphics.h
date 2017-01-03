@@ -41,7 +41,7 @@ public:
 	/*	
 		Initialise a shader for text rendering.
 	*/
-	virtual void buildTextShader(unsigned int &vertArrayObj, unsigned int &vertBuffObj, Shader &textShader) = 0;
+	virtual void buildTextShader(unsigned int &vertArrayObj, unsigned int &vertBuffObj, shared_ptr<Shader> &textShader) = 0;
 	/*
 		Build the texture data for the requested freetype2 font face.
 	*/
@@ -49,11 +49,13 @@ public:
 	/*	
 		Render text.
 	*/
-	virtual void renderText(string& text, Font& font, Transform& transform, unsigned int VAO, unsigned int VBO, Shader& textShader) = 0;
+	virtual void renderText(string& text, Font& font, Transform& transform, unsigned int VAO, unsigned int VBO, shared_ptr<Shader>& textShader) = 0;
 	/*
 		Render model.
 	*/
-	virtual void renderModel(Model& model, Shader& shaderProgram, shared_ptr<Camera>& camera) = 0;
+	virtual void renderModel(Model& model, shared_ptr<Shader>& shaderProgram, shared_ptr<Camera>& camera) = 0;
+
+	virtual void renderModel(Model& model, shared_ptr<Shader>& shaderProgram, shared_ptr<Camera>& camera, vector<Light>& lights) = 0;
 
 	/*
 		Method called on engine shutdown. 

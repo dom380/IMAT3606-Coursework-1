@@ -9,11 +9,14 @@ using std::map;
 #include <string>
 using std::string;
 #include <GUI\Font.h>
+#include <Shader.h>
+
 class AssetManager {
 public:
 	static shared_ptr<AssetManager> getInstance();
 	shared_ptr<Texture> getTexture(const char* filePath);
 	shared_ptr<Font> getFont(char* fontPath, shared_ptr<Graphics>& graphics);
+	shared_ptr<Shader> getShader(std::pair<string, string> shaderPath);
 	void exit();
 private:
 	AssetManager() {};
@@ -23,6 +26,7 @@ private:
 	static shared_ptr<AssetManager> instance;
 	map<string, shared_ptr<Font>> fonts;
 	map<string, shared_ptr<Texture>> textures;
+	map<std::pair<string, string>, shared_ptr<Shader>> shaders;
 };
 
 #endif // !ASSETMANAGER_H

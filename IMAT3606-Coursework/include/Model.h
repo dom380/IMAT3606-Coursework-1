@@ -13,6 +13,7 @@
 #include <vector>
 using std::vector;
 #include "AssetManager.h"
+#include <Graphics\Material.h>
 
 class Model {
 public:
@@ -20,9 +21,11 @@ public:
 	~Model();
 	void init(const char* objFile, const char* textureFile);
 	void render(shared_ptr<Camera>& camera);
+	void render(shared_ptr<Camera>& camera, vector<Light> lights);
 	shared_ptr<Texture> getTexture();
 	unsigned int getVertArray();
 	size_t getIndexSize();
+	Material getMaterial();
 	Transform transform;
 private:
 	bool initalised = false;
@@ -37,7 +40,8 @@ private:
 
 	unsigned int vboHandles[4];
 	unsigned int vaoHandle;
-	Shader shader;
+	shared_ptr<Shader> shader;
 	shared_ptr<Texture> texture;
+	Material material;
 };
 #endif // !MODEL_H

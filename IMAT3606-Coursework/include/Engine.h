@@ -2,13 +2,13 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 #define NOMINMAX
+#include "utils\Timer.h"
 #include "AssetManager.h"
 #include "Graphics.h"
 #include "GL/glfw3.h"
 #include "Input.h"
 #include "Screen.h"
 #include "GUI\MenuScreen.h"
-#include "utils\Timer.h"
 #include <utils\EnumParser.h>
 #include <map>
 using std::map;

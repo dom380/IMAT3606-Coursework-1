@@ -25,7 +25,7 @@
 			<z>1.0</z>
 		</scale>
 		<value>Start</value>
-		<function type="SWITCH_SCREEN">
+		<function type="REPLACE_SCREEN">
 			<params>
 				<param name="screenId" type="int" >Level1</param>
 			</params>

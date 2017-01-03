@@ -70,5 +70,33 @@
 				<z>55.0</z>
 			</scale>
 		</model>
+		<model>
+			<file>./resources/models/overhead_cupboard.obj</file>
+			<texture>./resources/textures/Cupboard - diffuse.png</texture>
+			<position>
+				<x>1.0</x>
+				<y>1.0</y>
+				<z>1.0</z>
+			</position>
+			<scale>
+				<x>1.0</x>
+				<y>1.0</y>
+				<z>1.0</z>
+			</scale>
+		</model>
+		<model>
+			<file>./resources/models/fridge.obj</file>
+			<texture>./resources/textures/fridge.png</texture>
+			<position>
+				<x>1.0</x>
+				<y>1.0</y>
+				<z>1.0</z>
+			</position>
+			<scale>
+				<x>1.0</x>
+				<y>1.0</y>
+				<z>1.0</z>
+			</scale>
+		</model>
 	</models>
 </screen>

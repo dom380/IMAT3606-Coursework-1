@@ -13,7 +13,10 @@ public:
 	{
 		return view;
 	}
-
+	glm::vec3 getPosition()
+	{
+		return position;
+	}
 	enum CameraClass
 	{
 		PERSPECTIVE,
