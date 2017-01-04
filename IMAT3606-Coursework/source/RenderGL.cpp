@@ -42,19 +42,7 @@ void RenderGL::prepare()
 }
 
 void RenderGL::exit() {
-	for (shared_ptr<Model> model : models) {
-		model.reset();
-	}
-}
 
-void RenderGL::addModel(shared_ptr<Model> &model)
-{
-	models.push_back(model);
-}
-
-void RenderGL::setModels(vector<shared_ptr<Model>>& modelList)
-{
-	models = modelList;
 }
 
 int RenderGL::getWidth()
@@ -80,10 +68,6 @@ void RenderGL::buildTextShader(unsigned int &vertArrayObj, unsigned int &vertBuf
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 	textShader = AssetManager::getInstance()->getShader(std::pair<string, string>("./shaders/text.vert","./shaders/text.frag"));
-	//textShader->compileShader("./shaders/text.vert", GL_VERTEX_SHADER);
-	//textShader->compileShader("./shaders/text.frag", GL_FRAGMENT_SHADER);
-	//textShader->link();
-	//textShader->bindShader();
 #ifndef NDEBUG
 	string check = OpenGLSupport().GetError();
 #endif
@@ -209,6 +193,36 @@ void RenderGL::bufferModelData(vector<glm::vec4>& vertices, vector<glm::vec3>& n
 	glBindVertexArray(0);
 }
 
+void RenderGL::bufferLightingData(vector<Light>& lights, shared_ptr<Shader> &shader, unsigned int& uniformBuffer, unsigned int& bindingPoint)
+{
+	shader->bindShader();
+	vector<glm::vec4> data;
+	int numOfLights = 0;
+	for (Light currLight : lights)
+	{
+		//GLSL pads vec3 as vec4 so when buffering store them as vec4.
+		data.push_back(glm::vec4(currLight.pos, 1.0));
+		data.push_back(glm::vec4(currLight.ambient, 1.0));
+		data.push_back(glm::vec4(currLight.diffuse, 1.0));
+		data.push_back(glm::vec4(currLight.specular, 1.0));
+		numOfLights++;
+		if (numOfLights >= 10) break; //Only support 10 lights
+	}
+	if (bindingPoint >= 0 && bindingPoint <= currBindingPoint) //If buffer has already been created, just update the data
+	{
+		glBindBuffer(GL_UNIFORM_BUFFER, uniformBuffer);
+		glBufferData(GL_UNIFORM_BUFFER, sizeof(glm::vec4) * data.size(), glm::value_ptr(data[0]), GL_DYNAMIC_DRAW);
+		return;
+	}
+	shader->bindUniformBlock("LightingBlock", currBindingPoint);
+	glGenBuffers(1, &uniformBuffer);
+	glBindBuffer(GL_UNIFORM_BUFFER, uniformBuffer);
+	glBufferData(GL_UNIFORM_BUFFER, sizeof(glm::vec4) * data.size(), glm::value_ptr(data[0]), GL_DYNAMIC_DRAW);
+	glBindBufferBase(GL_UNIFORM_BUFFER, currBindingPoint, uniformBuffer);
+	bindingPoint = currBindingPoint;
+	currBindingPoint++;
+}
+
 void RenderGL::renderModel(Model& model, shared_ptr<Shader>& shaderProgram, shared_ptr<Camera>& camera)
 {
 	vector<Light> defaultLights;
@@ -243,8 +257,38 @@ void RenderGL::renderModel(Model& model, shared_ptr<Shader>& shaderProgram, shar
 	if (lights.size() > 0)
 	{
 		shaderProgram->setUniform("lights", lights);
-		//shaderProgram.setUniform("light", lights.at(0));
 	}
+	glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(model.getIndexSize()), GL_UNSIGNED_SHORT, BUFFER_OFFSET(0));
+#ifndef NDEBUG
+	check = OpenGLSupport().GetError();
+#endif
+	glBindVertexArray(0);
+}
+
+void RenderGL::renderModel(Model & model, shared_ptr<Shader>& shaderProgram, shared_ptr<Camera>& camera, unsigned int lightingBuffer, unsigned int lightingBlockId)
+{
+#ifndef NDEBUG
+	string check = OpenGLSupport().GetError();
+#endif
+	shaderProgram->bindShader();
+#ifndef NDEBUG
+	check = OpenGLSupport().GetError();
+#endif
+	glBindVertexArray(model.getVertArray());
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, model.getTexture()->object());
+	glm::quat orientation = model.transform.orientation;
+	glm::mat4 mMat = modelMat * glm::translate(model.transform.position) * glm::rotate(orientation.w, glm::vec3(orientation.x, orientation.y, orientation.z)) * glm::scale(model.transform.scale);
+	shaderProgram->setUniform("tex", 0);
+	shaderProgram->setUniform("mView", camera->getView());
+	shaderProgram->setUniform("mProjection", perspectiveMat);
+	shaderProgram->setUniform("mModel", mMat);
+	shaderProgram->setUniform("viewPos", camera->getPosition());
+	if (model.getMaterial().used)
+	{
+		shaderProgram->setUniform("material", model.getMaterial());
+	}
+	glBindBufferBase(GL_UNIFORM_BUFFER, lightingBlockId, lightingBuffer); //Bind lighting data
 	glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(model.getIndexSize()), GL_UNSIGNED_SHORT, BUFFER_OFFSET(0));
 #ifndef NDEBUG
 	check = OpenGLSupport().GetError();

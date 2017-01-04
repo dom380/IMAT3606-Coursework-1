@@ -20,8 +20,6 @@ public:
 	bool init();
 	void prepare();
 	void exit();
-	void addModel(shared_ptr<Model> &model);
-	void setModels(vector<shared_ptr<Model>> &modelList);
 	int getWidth();
 	int getHeight();
 	void buildTextShader(unsigned int &vertArrayObj, unsigned int &vertBuffObj, shared_ptr<Shader> &textShader);
@@ -29,21 +27,19 @@ public:
 	void buildFontTexture(FT_Face& fontFace, unsigned int& textureID);
 	void bufferModelData(vector<glm::vec4>& vertices, vector<glm::vec3>& normals, vector<glm::vec2>& textures,
 		vector<unsigned short>& indices, unsigned int& vaoHandle);
-
+	void bufferLightingData(vector<Light>& lights, shared_ptr<Shader> &shader, unsigned int& uniformBuffer,
+		unsigned int& bindingPoint);
 	void renderModel(Model& model, shared_ptr<Shader>& shaderProgram, shared_ptr<Camera>& camera);
 	void renderModel(Model& model, shared_ptr<Shader>& shaderProgram, shared_ptr<Camera>& camera, vector<Light>& lights);
+	void renderModel(Model& model, shared_ptr<Shader>& shaderProgram, shared_ptr<Camera>& camera, unsigned int lightingBuffer, unsigned int lightingBlockId);
 
 private:
-	
-
 	int width;
 	int height;
-	//Shader shaderProg;
-	vector<shared_ptr<Model>> models;
+	unsigned int currBindingPoint = 0;
 	glm::mat4 modelMat = glm::mat4();
 	glm::mat4 viewMat = glm::mat4();
 	glm::mat4 perspectiveMat = glm::mat4();
-
 };
 
 #endif // !RENDERGL_H

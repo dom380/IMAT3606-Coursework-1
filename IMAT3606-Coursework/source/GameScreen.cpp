@@ -7,8 +7,6 @@ GameScreen::GameScreen(shared_ptr<Graphics>& renderer, shared_ptr<Camera> camera
 	this->camera = camera;
 	Input::getInstance().registerKeyListener(this->camera);
 	Input::getInstance().registerMouseListener(this->camera);
-	Light light(glm::vec3(0.0,10.0,-1.0), glm::vec3(0.0,0.0,0.0), glm::vec3(0.5, 0.5, 0.5), glm::vec3(0.3, 0.3, 0.3), true);
-	lights.push_back(light);
 }
 
 void GameScreen::update(double dt)
@@ -35,7 +33,7 @@ void GameScreen::update(double dt)
 void GameScreen::render()
 {
 	for (shared_ptr<Model> model : models) {
-		model->render(camera, lights);
+		model->render(camera, lightingBufferId, lightingBlockId);
 	}
 #ifndef NDEBUG
 	double elapsedTime = timer.getElapsedTimeMilliSec();
@@ -49,9 +47,23 @@ void GameScreen::resize(int width, int height)
 
 void GameScreen::dispose()
 {
+	models.clear();
+	lights.clear();
 }
 
 void GameScreen::addModel(shared_ptr<Model> model)
 {
 	models.push_back(model);
+}
+
+void GameScreen::addLight(Light light)
+{
+	lights.push_back(light);
+}
+
+void GameScreen::updateLighting()
+{
+	std::shared_ptr<Shader>shader = 
+		AssetManager::getInstance()->getShader(std::pair<string, string>("./shaders/phong.vert", "./shaders/phong.frag"));
+	renderer->bufferLightingData(lights, shader, lightingBufferId, lightingBlockId);
 }

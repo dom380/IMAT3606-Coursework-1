@@ -22,6 +22,7 @@ public:
 	void init(const char* objFile, const char* textureFile);
 	void render(shared_ptr<Camera>& camera);
 	void render(shared_ptr<Camera>& camera, vector<Light> lights);
+	void render(shared_ptr<Camera>& camera, unsigned int lightingBuffer, unsigned int lightingBlockId);
 	shared_ptr<Texture> getTexture();
 	unsigned int getVertArray();
 	size_t getIndexSize();

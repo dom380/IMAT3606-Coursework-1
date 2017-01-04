@@ -1,62 +1,6 @@
 <screen type="level" name="Level1">
 	<models>
 		<model>
-			<file>./resources/models/cube.obj</file>
-			<texture>./resources/textures/cubeTexture.bmp</texture>
-			<position>
-				<x>0.0</x>
-				<y>0.0</y>
-				<z>-5</z>
-			</position>
-			<scale>
-				<x>0.5</x>
-				<y>0.5</y>
-				<z>0.5</z>
-			</scale>
-		</model>
-		<model>
-			<file>./resources/models/cube.obj</file>
-			<texture>./resources/textures/cubeTexture.bmp</texture>
-			<position>
-				<x>1.0</x>
-				<y>3.0</y>
-				<z>-8</z>
-			</position>
-			<scale>
-				<x>0.5</x>
-				<y>0.5</y>
-				<z>0.5</z>
-			</scale>
-		</model>
-		<model>
-			<file>./resources/models/cube.obj</file>
-			<texture>./resources/textures/cubeTexture.bmp</texture>
-			<position>
-				<x>2.0</x>
-				<y>0.0</y>
-				<z>-3</z>
-			</position>
-			<scale>
-				<x>0.5</x>
-				<y>0.5</y>
-				<z>0.5</z>
-			</scale>
-		</model>
-		<model>
-			<file>./resources/models/cube.obj</file>
-			<texture>./resources/textures/cubeTexture.bmp</texture>
-			<position>
-				<x>-2.0</x>
-				<y>-1.0</y>
-				<z>-5</z>
-			</position>
-			<scale>
-				<x>0.5</x>
-				<y>0.5</y>
-				<z>0.5</z>
-			</scale>
-		</model>
-		<model>
 			<file>./resources/models/ground.obj</file>
 			<texture>./resources/textures/grass.bmp</texture>
 			<position>
@@ -99,4 +43,41 @@
 			</scale>
 		</model>
 	</models>
+	<lights>
+		<light>
+			<position>
+				<x>1.0</x>
+				<y>15.0</y>
+				<z>1.0</z>
+			</position>
+			<diffuse>
+				<r>0.5</r>
+				<g>0.5</g>
+				<b>0.5</b>
+			</diffuse>
+			<specular>
+				<r>0.5</r>
+				<g>0.5</g>
+				<b>0.5</b>
+			</specular>
+		</light>
+		<light>
+			<position>
+				<x>3.0</x>
+				<y>5.0</y>
+				<z>-1.0</z>
+			</position>
+			<ambient>
+				<r>0.0</r>
+				<g>0.1</g>
+				<b>0.0</b>
+			</ambient>
+			<diffuse>
+				<g>0.5</g>
+			</diffuse>
+			<specular>
+				<g>0.5</g>
+			</specular>
+		</light>
+	</lights>
 </screen>

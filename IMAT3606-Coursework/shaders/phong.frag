@@ -20,8 +20,10 @@ struct Light
 };
 
 uniform sampler2D tex;
-uniform Light lights[3];
-//uniform Light light;
+layout (std140) uniform LightingBlock
+{
+	Light lights[10];
+};
 
 uniform Material material;
 
@@ -41,7 +43,7 @@ void main()
 	
 
 	vec3 result;
-	for(int i=0; i < 3; i++)
+	for(int i=0; i < 10; i++)
 	{
 		result += calcLight(lights[i], material, norm, fragmentPos, viewDir);
 	}

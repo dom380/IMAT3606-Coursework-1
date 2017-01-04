@@ -25,18 +25,11 @@ void Model::init(const char * objFile, const char * textureFile)
 	if (material.used)
 	{
 		shader = AssetManager::getInstance()->getShader(std::pair<string, string>("./shaders/phong.vert", "./shaders/phong.frag"));
-		//shader.compileShader("./shaders/phong.vert", GL_VERTEX_SHADER);
-		//shader.compileShader("./shaders/phong.frag", GL_FRAGMENT_SHADER);
 	}
 	else
 	{
 		shader = AssetManager::getInstance()->getShader(std::pair<string, string>("./shaders/basic.vert", "./shaders/basic.frag"));
-		//shader.compileShader("./shaders/basic.vert", GL_VERTEX_SHADER);
-		//shader.compileShader("./shaders/basic.frag", GL_FRAGMENT_SHADER);
 	}
-	//shader.link();
-	//shader.bindShader();
-	
 	initalised = true;
 }
 
@@ -50,6 +43,12 @@ void Model::render(shared_ptr<Camera>& camera, vector<Light> lights)
 {
 	if (!initalised) return;
 	graphics->renderModel(*this, shader, camera, lights);
+}
+
+void Model::render(shared_ptr<Camera>& camera, unsigned int lightingBuffer, unsigned int lightingBlockId)
+{
+	if (!initalised) return;
+	graphics->renderModel(*this, shader, camera, lightingBuffer, lightingBlockId);
 }
 
 shared_ptr<Texture> Model::getTexture()

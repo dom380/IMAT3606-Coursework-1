@@ -23,6 +23,8 @@ public:
 	void resize(int width, int height);
 	void dispose();
 	void addModel(shared_ptr<Model> model);
+	void addLight(Light light);
+	void updateLighting();
 private:
 	vector<shared_ptr<Model>> models;
 	shared_ptr<Graphics> renderer;
@@ -30,6 +32,7 @@ private:
 	vector<Light> lights;
 	double angle;
 	unsigned int lightingBlockId;
+	unsigned int lightingBufferId;
 #ifndef NDEBUG
 	Timer timer;
 	string renderTime;

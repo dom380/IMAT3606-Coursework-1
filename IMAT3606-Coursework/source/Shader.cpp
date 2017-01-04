@@ -357,3 +357,9 @@ void Shader::setUniform(const char * name, Material val)
 	setUniform(locationName.c_str(), val.Ns);
 }
 
+void Shader::bindUniformBlock(const char * blockName, unsigned int & bindingPoint)
+{
+	unsigned int blockIndex = glGetUniformBlockIndex(programHandle, blockName);
+	glUniformBlockBinding(programHandle, blockIndex, bindingPoint);
+}
+

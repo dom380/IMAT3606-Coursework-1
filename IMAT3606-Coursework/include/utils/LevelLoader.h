@@ -140,6 +140,15 @@ private:
 			loadModel(renderer, gameScreen, modelElement);
 			modelElement = modelElement->NextSiblingElement();
 		}
+		tinyxml2::XMLElement* lightElement = screenElement->FirstChildElement("lights")->FirstChildElement();
+		int lightCount = 0;
+		while (lightElement != NULL && lightCount <10) //TODO define global light max
+		{
+			loadLight(gameScreen, lightElement);
+			lightElement = lightElement->NextSiblingElement();
+			lightCount++;
+		}
+		gameScreen->updateLighting();
 		engine->registerScreen(gameScreen);
 		return true;
 	}
@@ -174,6 +183,32 @@ private:
 		transform.orientation = quat;
 		transform.position = pos;
 		transform.scale = scale;
+	}
+
+	static void loadLight(shared_ptr<GameScreen> gameScreen, tinyxml2::XMLElement* element)
+	{
+		Light light = Light();
+		tinyxml2::XMLElement* posElement = element->FirstChildElement("position");
+		if (posElement != NULL) 
+		{
+			light.pos = glm::vec3(posElement->FirstChildElement("x") != NULL ? posElement->FirstChildElement("x")->FloatText() : 0.0f, posElement->FirstChildElement("y") != NULL ? posElement->FirstChildElement("y")->FloatText() : 0.0f, posElement->FirstChildElement("z") != NULL ? posElement->FirstChildElement("z")->FloatText() : 0.0f);
+		}
+		tinyxml2::XMLElement* lightElement = element->FirstChildElement("ambient");
+		if (lightElement != NULL)
+		{
+			light.ambient = glm::vec3(lightElement->FirstChildElement("r") != NULL ? lightElement->FirstChildElement("r")->FloatText() : 0.0f, lightElement->FirstChildElement("g") != NULL ? lightElement->FirstChildElement("g")->FloatText() : 0.0f, lightElement->FirstChildElement("b") != NULL ? lightElement->FirstChildElement("b")->FloatText() : 0.0f);
+		}
+		lightElement = element->FirstChildElement("diffuse");
+		if (lightElement != NULL)
+		{
+			light.diffuse = glm::vec3(lightElement->FirstChildElement("r") != NULL ? lightElement->FirstChildElement("r")->FloatText() : 0.0f, lightElement->FirstChildElement("g") != NULL ? lightElement->FirstChildElement("g")->FloatText() : 0.0f, lightElement->FirstChildElement("b") != NULL ? lightElement->FirstChildElement("b")->FloatText() : 0.0f);
+		}
+		lightElement = element->FirstChildElement("specular");
+		if (lightElement != NULL)
+		{
+			light.specular = glm::vec3(lightElement->FirstChildElement("r") != NULL ? lightElement->FirstChildElement("r")->FloatText() : 0.0f, lightElement->FirstChildElement("g") != NULL ? lightElement->FirstChildElement("g")->FloatText() : 0.0f, lightElement->FirstChildElement("b") != NULL ? lightElement->FirstChildElement("b")->FloatText() : 0.0f);
+		}
+		gameScreen->addLight(light);
 	}
 
 	static EnumParser<OnClickFunctions::FunctionType> enumParser;

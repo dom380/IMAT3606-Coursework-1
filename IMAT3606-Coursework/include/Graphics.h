@@ -38,6 +38,11 @@ public:
 	*/
 	virtual void bufferModelData(vector<glm::vec4>& vertices, vector<glm::vec3>& normals, vector<glm::vec2>& textures, 
 		vector<unsigned short>& indices, unsigned int& vaoHandle) = 0;
+	/*
+		Build the requested lighting data buffer.
+	*/
+	virtual void bufferLightingData(vector<Light>& lights, shared_ptr<Shader> &shader, unsigned int& uniformBuffer, 
+		unsigned int& bindingPoint) = 0;
 	/*	
 		Initialise a shader for text rendering.
 	*/
@@ -56,6 +61,8 @@ public:
 	virtual void renderModel(Model& model, shared_ptr<Shader>& shaderProgram, shared_ptr<Camera>& camera) = 0;
 
 	virtual void renderModel(Model& model, shared_ptr<Shader>& shaderProgram, shared_ptr<Camera>& camera, vector<Light>& lights) = 0;
+
+	virtual void renderModel(Model& model, shared_ptr<Shader>& shaderProgram, shared_ptr<Camera>& camera, unsigned int lightingBuffer, unsigned int lightingBlockId) = 0;
 
 	/*
 		Method called on engine shutdown. 

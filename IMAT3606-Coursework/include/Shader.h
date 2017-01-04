@@ -36,6 +36,8 @@ public:
 	void   setUniform(const char *name, Light val);
 	void   setUniform(const char *name, vector<Light> vals);
 	void   setUniform(const char *name, Material val);
+	
+	void   bindUniformBlock(const char* blockName, unsigned int& bindingPoint);
 
 private:
 	GLint programHandle = 0;
