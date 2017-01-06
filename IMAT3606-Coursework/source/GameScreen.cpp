@@ -5,6 +5,7 @@ GameScreen::GameScreen(shared_ptr<Graphics>& renderer, shared_ptr<Camera> camera
 {
 	this->renderer = renderer;
 	this->camera = camera;
+	this->camera->move(0.0, 15.0f, 0.0f);
 	Input::getInstance().registerKeyListener(this->camera);
 	Input::getInstance().registerMouseListener(this->camera);
 }

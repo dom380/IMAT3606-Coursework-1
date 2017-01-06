@@ -11,8 +11,8 @@ class TextBox {
 public:
 	//Constructors
 	TextBox() {};
-	TextBox(string text, Font textfont, Transform pos, shared_ptr<Graphics>& graphics);
-	TextBox(const char* text, Font textfont, Transform pos, shared_ptr<Graphics>& graphics);
+	TextBox(string text, Font textfont, Transform pos, shared_ptr<Graphics>& graphics, glm::vec3& colour = glm::vec3(1.0, 1.0, 1.0));
+	TextBox(const char* text, Font textfont, Transform pos, shared_ptr<Graphics>& graphics, glm::vec3& colour = glm::vec3(1.0, 1.0, 1.0));
 	~TextBox() {};
 	TextBox& operator=(TextBox& other);
 
@@ -26,6 +26,7 @@ private:
 	unsigned int VAO, VBO;
 	shared_ptr<Graphics> graphics;
 	float charX, charY; //Current position of next character to render
+	glm::vec3 textColour;
 };
 
 #endif // !TEXTBOX_H

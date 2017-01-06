@@ -193,7 +193,7 @@ Bitmap::~Bitmap() {
 Bitmap Bitmap::bitmapFromFile(std::string filePath) {    
     int width, height, channels;
     unsigned char* pixels = stbi_load(filePath.c_str(), &width, &height, &channels, 0);
-    if(!pixels) throw std::runtime_error(stbi_failure_reason());
+    if(!pixels) throw std::runtime_error(stbi_failure_reason() + filePath);
     
     Bitmap bmp(width, height, (Format)channels, pixels);
     stbi_image_free(pixels);

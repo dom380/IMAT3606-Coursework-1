@@ -71,7 +71,9 @@ private:
 		const char* text = stringElement->FirstChildElement("value")!=NULL ? stringElement->FirstChildElement("value")->GetText() : "MISSING_STRING";
 		Transform transform;
 		loadTransform(transform, stringElement);
-		shared_ptr<TextBox> textBox = std::make_shared<TextBox>(text, font, transform, renderer);
+		glm::vec3 colour;
+		stringElement->FirstChildElement("colour") != NULL ? loadColour(colour, stringElement->FirstChildElement("colour"), glm::vec3(1.0, 1.0, 1.0)) : colour = glm::vec3(1.0, 1.0, 1.0);
+		shared_ptr<TextBox> textBox = std::make_shared<TextBox>(text, font, transform, renderer, colour);
 		menuScreen->addTextBox(textBox);
 	}
 
@@ -81,7 +83,9 @@ private:
 		const char* text = buttonElement->FirstChildElement("value")!=NULL ? buttonElement->FirstChildElement("value")->GetText() : "MISSING_STRING";
 		Transform transform;
 		loadTransform(transform, buttonElement);
-		shared_ptr<Button> button = std::make_shared<Button>(text, font, transform, renderer);
+		glm::vec3 colour;
+		buttonElement->FirstChildElement("colour") != NULL ? loadColour(colour, buttonElement->FirstChildElement("colour"), glm::vec3(1.0, 1.0, 1.0)) : colour = glm::vec3(1.0, 1.0, 1.0);
+		shared_ptr<Button> button = std::make_shared<Button>(text, font, transform, renderer, colour);
 		menuScreen->addButton(button);
 		Input::getInstance().registerMouseListener(button);
 		string funcName = string(buttonElement->FirstChildElement("function")->Attribute("type"));
@@ -170,15 +174,31 @@ private:
 		glm::quat quat; quat.y = 1.0f; quat.w = 0.0f;
 		tinyxml2::XMLElement* posElement = element->FirstChildElement("position");
 		if (posElement != NULL) {
-			pos = glm::vec3(posElement->FirstChildElement("x")!=NULL ? posElement->FirstChildElement("x")->FloatText():0.0f, posElement->FirstChildElement("y")!=NULL ? posElement->FirstChildElement("y")->FloatText():0.0f, posElement->FirstChildElement("z")!=NULL ? posElement->FirstChildElement("z")->FloatText() : 0.0f);
+			pos = glm::vec3
+				(
+					posElement->FirstChildElement("x")!=NULL ? posElement->FirstChildElement("x")->FloatText():0.0f, 
+					posElement->FirstChildElement("y")!=NULL ? posElement->FirstChildElement("y")->FloatText():0.0f, 
+					posElement->FirstChildElement("z")!=NULL ? posElement->FirstChildElement("z")->FloatText() : 0.0f
+				);
 		}
 		tinyxml2::XMLElement* scaleElement = element->FirstChildElement("scale");
 		if (scaleElement != NULL) {
-			scale = glm::vec3(scaleElement->FirstChildElement("x")!=NULL ? scaleElement->FirstChildElement("x")->FloatText(1.0f):1.0f, scaleElement->FirstChildElement("y") != NULL ? scaleElement->FirstChildElement("y")->FloatText(1.0f):1.0f, scaleElement->FirstChildElement("z") != NULL ? scaleElement->FirstChildElement("z")->FloatText(1.0f) : 1.0f);
+			scale = glm::vec3
+				(
+					scaleElement->FirstChildElement("x")!=NULL ? scaleElement->FirstChildElement("x")->FloatText(1.0f) : 1.0f, 
+					scaleElement->FirstChildElement("y") != NULL ? scaleElement->FirstChildElement("y")->FloatText(1.0f) : 1.0f, 
+					scaleElement->FirstChildElement("z") != NULL ? scaleElement->FirstChildElement("z")->FloatText(1.0f) : 1.0f
+				);
 		}
 		tinyxml2::XMLElement* quatElement = element->FirstChildElement("orientation");
 		if (quatElement != NULL) {
-			quat = glm::quat(quatElement->FirstChildElement("x")!=NULL ? quatElement->FirstChildElement("x")->FloatText():0.0f, quatElement->FirstChildElement("y")!=NULL ? quatElement->FirstChildElement("y")->FloatText(1.0f):1.0f, quatElement->FirstChildElement("z")!=NULL ? quatElement->FirstChildElement("z")->FloatText():0.0f, quatElement->FirstChildElement("w")!=NULL ? quatElement->FirstChildElement("w")->FloatText() : 0.0f);
+			quat = glm::quat
+				(
+					quatElement->FirstChildElement("x")!=NULL ? quatElement->FirstChildElement("x")->FloatText() : 0.0f, 
+					quatElement->FirstChildElement("y")!=NULL ? quatElement->FirstChildElement("y")->FloatText(1.0f) : 1.0f, //default to be orientated around y axis
+					quatElement->FirstChildElement("z")!=NULL ? quatElement->FirstChildElement("z")->FloatText() : 0.0f,
+					quatElement->FirstChildElement("w")!=NULL ? quatElement->FirstChildElement("w")->FloatText() : 0.0f
+				);
 		}
 		transform.orientation = quat;
 		transform.position = pos;
@@ -191,24 +211,39 @@ private:
 		tinyxml2::XMLElement* posElement = element->FirstChildElement("position");
 		if (posElement != NULL) 
 		{
-			light.pos = glm::vec3(posElement->FirstChildElement("x") != NULL ? posElement->FirstChildElement("x")->FloatText() : 0.0f, posElement->FirstChildElement("y") != NULL ? posElement->FirstChildElement("y")->FloatText() : 0.0f, posElement->FirstChildElement("z") != NULL ? posElement->FirstChildElement("z")->FloatText() : 0.0f);
+			light.pos = glm::vec3
+				(
+					posElement->FirstChildElement("x") != NULL ? posElement->FirstChildElement("x")->FloatText() : 0.0f, 
+					posElement->FirstChildElement("y") != NULL ? posElement->FirstChildElement("y")->FloatText() : 0.0f, 
+					posElement->FirstChildElement("z") != NULL ? posElement->FirstChildElement("z")->FloatText() : 0.0f
+				);
 		}
 		tinyxml2::XMLElement* lightElement = element->FirstChildElement("ambient");
 		if (lightElement != NULL)
 		{
-			light.ambient = glm::vec3(lightElement->FirstChildElement("r") != NULL ? lightElement->FirstChildElement("r")->FloatText() : 0.0f, lightElement->FirstChildElement("g") != NULL ? lightElement->FirstChildElement("g")->FloatText() : 0.0f, lightElement->FirstChildElement("b") != NULL ? lightElement->FirstChildElement("b")->FloatText() : 0.0f);
+			loadColour(light.ambient, lightElement);
 		}
 		lightElement = element->FirstChildElement("diffuse");
 		if (lightElement != NULL)
 		{
-			light.diffuse = glm::vec3(lightElement->FirstChildElement("r") != NULL ? lightElement->FirstChildElement("r")->FloatText() : 0.0f, lightElement->FirstChildElement("g") != NULL ? lightElement->FirstChildElement("g")->FloatText() : 0.0f, lightElement->FirstChildElement("b") != NULL ? lightElement->FirstChildElement("b")->FloatText() : 0.0f);
+			loadColour(light.diffuse, lightElement);
 		}
 		lightElement = element->FirstChildElement("specular");
 		if (lightElement != NULL)
 		{
-			light.specular = glm::vec3(lightElement->FirstChildElement("r") != NULL ? lightElement->FirstChildElement("r")->FloatText() : 0.0f, lightElement->FirstChildElement("g") != NULL ? lightElement->FirstChildElement("g")->FloatText() : 0.0f, lightElement->FirstChildElement("b") != NULL ? lightElement->FirstChildElement("b")->FloatText() : 0.0f);
+			loadColour(light.specular, lightElement);
 		}
 		gameScreen->addLight(light);
+	}
+
+	static void loadColour(glm::vec3& colour, tinyxml2::XMLElement* element, glm::vec3 defaultVal = glm::vec3(0.0,0.0,0.0))
+	{
+		colour = glm::vec3
+			(
+				element->FirstChildElement("r") != NULL ? element->FirstChildElement("r")->FloatText() : defaultVal.r, 
+				element->FirstChildElement("g") != NULL ? element->FirstChildElement("g")->FloatText() : defaultVal.g, 
+				element->FirstChildElement("b") != NULL ? element->FirstChildElement("b")->FloatText() : defaultVal.b
+			);
 	}
 
 	static EnumParser<OnClickFunctions::FunctionType> enumParser;

@@ -1,16 +1,18 @@
 #include "..\..\include\GUI\TextBox.h"
 
-TextBox::TextBox(string text, Font textfont, Transform pos, shared_ptr<Graphics>& graphics)
+TextBox::TextBox(string text, Font textfont, Transform pos, shared_ptr<Graphics>& graphics, glm::vec3& colour)
 {
 	this->text = text;
 	this->graphics = graphics;
+	this->textColour = colour;
 	init(textfont, pos);
 }
 
-TextBox::TextBox(const char * text, Font textfont, Transform pos, shared_ptr<Graphics>& graphics)
+TextBox::TextBox(const char * text, Font textfont, Transform pos, shared_ptr<Graphics>& graphics, glm::vec3& colour)
 {
 	this->text = string(text);
 	this->graphics = graphics;
+	this->textColour = colour;
 	init(textfont, pos);
 }
 
@@ -25,12 +27,13 @@ TextBox & TextBox::operator=(TextBox & other)
 	this->transform = other.transform;
 	this->font = other.font;
 	this->graphics = other.graphics;
+	this->textColour = other.textColour;
 	return *this;
 }
 
 void TextBox::render()
 {
-	graphics->renderText(text, font, transform, VAO, VBO, textShader);
+	graphics->renderText(text, font, transform, VAO, VBO, textShader, textColour);
 }
 
 void TextBox::init(Font textfont, Transform pos)

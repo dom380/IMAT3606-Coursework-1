@@ -54,7 +54,8 @@ public:
 	/*	
 		Render text.
 	*/
-	virtual void renderText(string& text, Font& font, Transform& transform, unsigned int VAO, unsigned int VBO, shared_ptr<Shader>& textShader) = 0;
+	virtual void renderText(string& text, Font& font, Transform& transform, unsigned int VAO, unsigned int VBO, shared_ptr<Shader>& textShader, glm::vec3 colour = glm::vec3(1.0,1.0,1.0)) = 0;
+
 	/*
 		Render model.
 	*/

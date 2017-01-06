@@ -2,21 +2,21 @@
 	<models>
 		<model>
 			<file>./resources/models/ground.obj</file>
-			<texture>./resources/textures/grass.bmp</texture>
+			<texture>./resources/textures/mahagony-light.jpg</texture>
 			<position>
-				<x>-55.0</x>
-				<y>-0.95</y>
-				<z>-55.0</z>
+				<x>0.0</x>
+				<y>-0.1</y>
+				<z>0.0</z>
 			</position>
 			<scale>
-				<x>55.0</x>
+				<x>75.0</x>
 				<y>1.0</y>
-				<z>55.0</z>
+				<z>75.0</z>
 			</scale>
 		</model>
 		<model>
 			<file>./resources/models/overhead_cupboard.obj</file>
-			<texture>./resources/textures/Cupboard - diffuse.png</texture>
+			<texture>./resources/textures/overhead_cupboard.png</texture>
 			<position>
 				<x>1.0</x>
 				<y>1.0</y>
@@ -34,6 +34,90 @@
 			<position>
 				<x>1.0</x>
 				<y>1.0</y>
+				<z>1.0</z>
+			</position>
+			<scale>
+				<x>1.0</x>
+				<y>1.0</y>
+				<z>1.0</z>
+			</scale>
+		</model>
+		<model>
+			<file>./resources/models/oven.obj</file>
+			<texture>./resources/textures/oven.png</texture>
+			<position>
+				<x>1.0</x>
+				<y>1.0</y>
+				<z>1.0</z>
+			</position>
+			<scale>
+				<x>1.0</x>
+				<y>1.0</y>
+				<z>1.0</z>
+			</scale>
+		</model>
+		<model>
+			<file>./resources/models/worktop.obj</file>
+			<texture>./resources/textures/worktop.png</texture>
+			<position>
+				<x>1.0</x>
+				<y>1.0</y>
+				<z>1.0</z>
+			</position>
+			<scale>
+				<x>1.0</x>
+				<y>1.0</y>
+				<z>1.0</z>
+			</scale>
+		</model>
+		<model>
+			<file>./resources/models/chair.obj</file>
+			<texture>./resources/textures/mahagony-light.jpg</texture>
+			<position>
+				<x>1.0</x>
+				<y>1.0</y>
+				<z>1.0</z>
+			</position>
+			<scale>
+				<x>1.0</x>
+				<y>1.0</y>
+				<z>1.0</z>
+			</scale>
+		</model>
+		<model>
+			<file>./resources/models/chair.obj</file>
+			<texture>./resources/textures/mahagony-light.jpg</texture>
+			<position>
+				<x>7.0</x>
+				<y>1.0</y>
+				<z>1.0</z>
+			</position>
+			<scale>
+				<x>1.0</x>
+				<y>1.0</y>
+				<z>1.0</z>
+			</scale>
+		</model>
+		<model>
+			<file>./resources/models/light.obj</file>
+			<texture>./resources/textures/plastics.png</texture>
+			<position>
+				<x>1.0</x>
+				<y>15.0</y>
+				<z>1.0</z>
+			</position>
+			<scale>
+				<x>1.0</x>
+				<y>1.0</y>
+				<z>1.0</z>
+			</scale>
+		</model>
+		<model>
+			<file>./resources/models/light.obj</file>
+			<texture>./resources/textures/plastics.png</texture>
+			<position>
+				<x>-4.0</x>
+				<y>15.0</y>
 				<z>1.0</z>
 			</position>
 			<scale>
@@ -63,20 +147,24 @@
 		</light>
 		<light>
 			<position>
-				<x>3.0</x>
-				<y>5.0</y>
-				<z>-1.0</z>
+				<x>-4.0</x>
+				<y>15.0</y>
+				<z>1.0</z>
 			</position>
 			<ambient>
-				<r>0.0</r>
-				<g>0.1</g>
-				<b>0.0</b>
+				<r>0.3</r>
+				<g>0.3</g>
+				<b>0.3</b>
 			</ambient>
 			<diffuse>
-				<g>0.5</g>
+				<r>0.3</r>
+				<g>0.3</g>
+				<b>0.3</b>
 			</diffuse>
 			<specular>
+				<r>0.5</r>
 				<g>0.5</g>
+				<b>0.5</b>
 			</specular>
 		</light>
 	</lights>

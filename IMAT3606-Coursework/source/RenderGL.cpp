@@ -77,7 +77,7 @@ void RenderGL::buildTextShader(unsigned int &vertArrayObj, unsigned int &vertBuf
 	textShader->setUniform("tex", 0);
 }
 
-void RenderGL::renderText(string& text, Font& font, Transform& transform, unsigned int VAO, unsigned int VBO, shared_ptr<Shader>& textShader)
+void RenderGL::renderText(string& text, Font& font, Transform& transform, unsigned int VAO, unsigned int VBO, shared_ptr<Shader>& textShader, glm::vec3 colour)
 {
 	float charX = transform.position.x;
 	float charY = transform.position.y;
@@ -87,6 +87,7 @@ void RenderGL::renderText(string& text, Font& font, Transform& transform, unsign
 #endif
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	textShader->bindShader();
+	textShader->setUniform("textColour", colour);
 #ifndef NDEBUG
 	check = OpenGLSupport().GetError();
 #endif
@@ -104,7 +105,6 @@ void RenderGL::renderText(string& text, Font& font, Transform& transform, unsign
 			{ xpos,     ypos + h,   0.0, 0.0 },
 			{ xpos,     ypos,       0.0, 1.0 },
 			{ xpos + w, ypos,       1.0, 1.0 },
-
 			{ xpos,     ypos + h,   0.0, 0.0 },
 			{ xpos + w, ypos,       1.0, 1.0 },
 			{ xpos + w, ypos + h,   1.0, 0.0 }

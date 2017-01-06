@@ -28,7 +28,7 @@ private:
 
 	std::function<void()> onClickCallback;
 
-	void init(Font textfont, Transform pos) {
+	void init(Font textfont, Transform pos, glm::vec3& colour = glm::vec3(1.0, 1.0, 1.0)) {
 		textbox = std::make_shared<TextBox>(text, textfont, pos, graphics);
 		font = textfont;
 		transform = pos;
@@ -56,15 +56,15 @@ protected:
 public:
 	//Constructors
 	Button() {};
-	Button(string text, Font textfont, Transform pos, shared_ptr<Graphics>& graphics) {
+	Button(string text, Font textfont, Transform pos, shared_ptr<Graphics>& graphics, glm::vec3& colour = glm::vec3(1.0,1.0,1.0)) {
 		this->text = text;
 		this->graphics = graphics;
-		init(textfont, pos);
+		init(textfont, pos, colour);
 	};
-	Button(const char* text, Font textfont, Transform pos, shared_ptr<Graphics>& graphics) {
+	Button(const char* text, Font textfont, Transform pos, shared_ptr<Graphics>& graphics, glm::vec3& colour = glm::vec3(1.0, 1.0, 1.0)) {
 		this->text = string(text);
 		this->graphics = graphics;
-		init(textfont, pos);
+		init(textfont, pos, colour);
 	};
 	~Button(){};
 	Button& operator=(Button& other) {
@@ -72,6 +72,7 @@ public:
 		this->transform = other.transform;
 		this->font = other.font;
 		this->graphics = other.graphics;
+		this->textbox = other.textbox;
 		return *this;
 	};
 

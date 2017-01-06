@@ -13,7 +13,7 @@
 *.slo
 *.lo
 *.o
-*.obj
+
 
 # Precompiled Headers
 *.gch
@@ -42,7 +42,6 @@
 #Docs
 */doc
 *.html
-*.png
 *.doc*
 *.pdf
 *.css
@@ -76,7 +75,6 @@ artifacts/
 *_i.h
 *.ilk
 *.meta
-*.obj
 *.pch
 *.pdb
 *.pgc

@@ -9,6 +9,16 @@ class Camera : public EventListener
 public:
 	virtual void lookAt(float x, float y, float z) = 0;
 	virtual void lookAt(glm::vec3 target) = 0;
+	virtual void move(glm::vec3 newPos)
+	{
+		position = newPos;
+		update();
+	}
+	virtual void move(float x, float y, float z)
+	{
+		position = glm::vec3(x,y,z);
+		update();
+	}
 	glm::mat4 getView()
 	{
 		return view;

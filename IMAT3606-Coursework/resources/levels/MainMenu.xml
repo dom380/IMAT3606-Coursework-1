@@ -10,7 +10,12 @@
 			<y>1.0</y>
 			<z>1.0</z>
 		</scale>
-		<value>Menu</value>
+		<colour>
+			<r>1.0</r>
+			<g>0.0</g>
+			<b>0.0</b>
+		</colour>
+		<value>IMAT3606 - Coursework 1: Robot Game</value>
 	</string>
 </strings>
 <buttons>
@@ -25,6 +30,7 @@
 			<z>1.0</z>
 		</scale>
 		<value>Start</value>
+		
 		<function type="REPLACE_SCREEN">
 			<params>
 				<param name="screenId" type="int" >Level1</param>
