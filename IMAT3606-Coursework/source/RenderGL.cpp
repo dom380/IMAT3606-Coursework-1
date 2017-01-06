@@ -75,6 +75,7 @@ void RenderGL::buildTextShader(unsigned int &vertArrayObj, unsigned int &vertBuf
 	textShader->setUniform("projection", projection);
 	textShader->setUniform("textColour", glm::vec3(1.0, 1.0, 1.0)); //TODO make this changeable
 	textShader->setUniform("tex", 0);
+	glFlush();
 }
 
 void RenderGL::renderText(string& text, Font& font, Transform& transform, unsigned int VAO, unsigned int VBO, shared_ptr<Shader>& textShader, glm::vec3 colour)
@@ -147,9 +148,10 @@ void RenderGL::buildFontTexture(FT_Face& fontFace, unsigned int& textureID)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glFlush();
 }
 
-void RenderGL::bufferModelData(vector<glm::vec4>& vertices, vector<glm::vec3>& normals, vector<glm::vec2>& textures, 
+vector<unsigned int> RenderGL::bufferModelData(vector<glm::vec4>& vertices, vector<glm::vec3>& normals, vector<glm::vec2>& textures,
 	vector<unsigned short>& indices, unsigned int& vaoHandle)
 {
 	unsigned int vboHandles[4];
@@ -174,23 +176,13 @@ void RenderGL::bufferModelData(vector<glm::vec4>& vertices, vector<glm::vec3>& n
 	glBindBuffer(GL_ARRAY_BUFFER, normalBuffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * normals.size(), glm::value_ptr(normals[0]), GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	//Create Vertex Array Object
-	glGenVertexArrays(1, &vaoHandle);
-	glBindVertexArray(vaoHandle);
-	glEnableVertexAttribArray(0);
-	glEnableVertexAttribArray(1);
-	glEnableVertexAttribArray(2);
-	//Bind VBOs to VAO
-	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-	glVertexAttribPointer(0, 4, GL_FLOAT, false, 0, (GLubyte *)NULL);
-	glBindBuffer(GL_ARRAY_BUFFER, texCoordBuffer);
-	glVertexAttribPointer(1, 2, GL_FLOAT, false, 0, (GLubyte *)NULL);
-	glBindBuffer(GL_ARRAY_BUFFER, normalBuffer);
-	glVertexAttribPointer(2, 3, GL_FLOAT, false, 0, (GLubyte *)NULL);
-	//Bind IBO to VAO
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiceBuffer);
-	//unbind VAO
-	glBindVertexArray(0);
+	vector<unsigned int> handles;
+	handles.push_back(vertexBuffer);
+	handles.push_back(texCoordBuffer);
+	handles.push_back(normalBuffer);
+	handles.push_back(indiceBuffer);
+	glFlush();
+	return handles;
 }
 
 void RenderGL::bufferLightingData(vector<Light>& lights, shared_ptr<Shader> &shader, unsigned int& uniformBuffer, unsigned int& bindingPoint)
@@ -219,8 +211,30 @@ void RenderGL::bufferLightingData(vector<Light>& lights, shared_ptr<Shader> &sha
 	glBindBuffer(GL_UNIFORM_BUFFER, uniformBuffer);
 	glBufferData(GL_UNIFORM_BUFFER, sizeof(glm::vec4) * data.size(), glm::value_ptr(data[0]), GL_DYNAMIC_DRAW);
 	glBindBufferBase(GL_UNIFORM_BUFFER, currBindingPoint, uniformBuffer);
+	glFlush();
 	bindingPoint = currBindingPoint;
 	currBindingPoint++;
+}
+
+unsigned int RenderGL::createVertexArrayObject(vector<unsigned int>& vboHandles)
+{
+	unsigned int vaoHandle;
+	//Create Vertex Array Object
+	glGenVertexArrays(1, &vaoHandle);
+	glBindVertexArray(vaoHandle);
+	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
+	glEnableVertexAttribArray(2);
+	//Bind VBOs to VAO
+	glBindBuffer(GL_ARRAY_BUFFER, vboHandles[0]);
+	glVertexAttribPointer(0, 4, GL_FLOAT, false, 0, (GLubyte *)NULL);
+	glBindBuffer(GL_ARRAY_BUFFER, vboHandles[1]);
+	glVertexAttribPointer(1, 2, GL_FLOAT, false, 0, (GLubyte *)NULL);
+	glBindBuffer(GL_ARRAY_BUFFER, vboHandles[2]);
+	glVertexAttribPointer(2, 3, GL_FLOAT, false, 0, (GLubyte *)NULL);
+	//Bind IBO to VAO
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboHandles[3]);
+	return vaoHandle;
 }
 
 void RenderGL::renderModel(Model& model, shared_ptr<Shader>& shaderProgram, shared_ptr<Camera>& camera)

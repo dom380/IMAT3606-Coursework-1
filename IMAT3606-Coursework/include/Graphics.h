@@ -36,13 +36,15 @@ public:
 	/*	
 		Build the requested model vertex buffer(s) 
 	*/
-	virtual void bufferModelData(vector<glm::vec4>& vertices, vector<glm::vec3>& normals, vector<glm::vec2>& textures, 
+	virtual vector<unsigned int> bufferModelData(vector<glm::vec4>& vertices, vector<glm::vec3>& normals, vector<glm::vec2>& textures,
 		vector<unsigned short>& indices, unsigned int& vaoHandle) = 0;
 	/*
 		Build the requested lighting data buffer.
 	*/
 	virtual void bufferLightingData(vector<Light>& lights, shared_ptr<Shader> &shader, unsigned int& uniformBuffer, 
 		unsigned int& bindingPoint) = 0;
+
+	virtual unsigned int createVertexArrayObject(vector<unsigned int>& vboHandles) = 0;
 	/*	
 		Initialise a shader for text rendering.
 	*/

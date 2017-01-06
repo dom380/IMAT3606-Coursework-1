@@ -15,7 +15,7 @@ public:
 	TextBox(const char* text, Font textfont, Transform pos, shared_ptr<Graphics>& graphics, glm::vec3& colour = glm::vec3(1.0, 1.0, 1.0));
 	~TextBox() {};
 	TextBox& operator=(TextBox& other);
-
+	void updateText(string newText);
 	void render();
 private:
 	void init(Font textfont, Transform pos);

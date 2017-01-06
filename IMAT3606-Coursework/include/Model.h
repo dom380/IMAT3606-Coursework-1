@@ -39,8 +39,8 @@ private:
 
 	size_t indexSize;
 
-	unsigned int vboHandles[4];
-	unsigned int vaoHandle;
+	vector<unsigned int> vboHandles;
+	unsigned int vaoHandle = 0;
 	shared_ptr<Shader> shader;
 	shared_ptr<Texture> texture;
 	Material material;

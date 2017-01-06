@@ -15,7 +15,7 @@ void Model::init(const char * objFile, const char * textureFile)
 	vector<glm::vec4> vertices; vector<glm::vec3> normals; vector<glm::vec2> textures; vector<unsigned short>indices;
 	ObjReader().readObj(objFile, vertices, normals, textures, indices, material);
 	
-	graphics->bufferModelData(vertices, normals, textures, indices, vaoHandle);
+	vboHandles = graphics->bufferModelData(vertices, normals, textures, indices, vaoHandle);
 
 	// Load the texture
 	texture = AssetManager::getInstance()->getTexture(textureFile);
@@ -58,6 +58,8 @@ shared_ptr<Texture> Model::getTexture()
 
 unsigned int Model::getVertArray()
 {
+	if (vaoHandle != 0) return vaoHandle;
+	vaoHandle = graphics->createVertexArrayObject(vboHandles);
 	return vaoHandle;
 }
 

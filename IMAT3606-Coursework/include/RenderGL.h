@@ -25,10 +25,11 @@ public:
 	void buildTextShader(unsigned int &vertArrayObj, unsigned int &vertBuffObj, shared_ptr<Shader> &textShader);
 	void renderText(string& text, Font& font, Transform& transform, unsigned int VAO, unsigned int VBO, shared_ptr<Shader>& textShader, glm::vec3 colour = glm::vec3(1.0, 1.0, 1.0));
 	void buildFontTexture(FT_Face& fontFace, unsigned int& textureID);
-	void bufferModelData(vector<glm::vec4>& vertices, vector<glm::vec3>& normals, vector<glm::vec2>& textures,
+	vector<unsigned int> bufferModelData(vector<glm::vec4>& vertices, vector<glm::vec3>& normals, vector<glm::vec2>& textures,
 		vector<unsigned short>& indices, unsigned int& vaoHandle);
 	void bufferLightingData(vector<Light>& lights, shared_ptr<Shader> &shader, unsigned int& uniformBuffer,
 		unsigned int& bindingPoint);
+	unsigned int createVertexArrayObject(vector<unsigned int>& vboHandles);
 	void renderModel(Model& model, shared_ptr<Shader>& shaderProgram, shared_ptr<Camera>& camera);
 	void renderModel(Model& model, shared_ptr<Shader>& shaderProgram, shared_ptr<Camera>& camera, vector<Light>& lights);
 	void renderModel(Model& model, shared_ptr<Shader>& shaderProgram, shared_ptr<Camera>& camera, unsigned int lightingBuffer, unsigned int lightingBlockId);

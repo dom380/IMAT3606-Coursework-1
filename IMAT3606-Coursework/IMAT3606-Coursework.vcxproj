@@ -183,6 +183,7 @@
     <ClInclude Include="include\GUI\MenuScreen.h" />
     <ClInclude Include="include\GUI\TextBox.h" />
     <ClInclude Include="include\Input.h" />
+    <ClInclude Include="include\LoadingScreen.h" />
     <ClInclude Include="include\Model.h" />
     <ClInclude Include="include\RenderGL.h" />
     <ClInclude Include="include\Screen.h" />

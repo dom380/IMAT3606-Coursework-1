@@ -4,6 +4,7 @@
 #include <utils\tinyxml2.h>
 #include <utils\OnClickFunctions.h>
 #include <utils\LevelLoader.h>
+#include <LoadingScreen.h>
 
 
 Engine::Engine()
@@ -52,6 +53,15 @@ void Engine::init()
 	glfwSetKeyCallback(window, &inputHandler.keyboardCallback);
 	glfwSetMouseButtonCallback(window, &inputHandler.mouseButtonCallback);
 	glfwSetCursorPosCallback(window, &inputHandler.mouseMovementCallback);
+
+	glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, false);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_RESIZABLE, false);
+	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
+	offscreen_context = glfwCreateWindow(640, 480, "", NULL, window);
 
 	renderer = buildRenderer(graphicsContext);
 	renderer->init();
@@ -117,15 +127,16 @@ void Engine::switchScreen(string screenId)
 	auto it = gameScreens.find(screenId);
 	if (it == gameScreens.end()) {
 		//try to load level
-		string path = "./resources/levels/" + screenId + ".xml";
-		if (LevelLoader::loadLevel(this, renderer, path.c_str()))
+		//string path = "./resources/levels/" + screenId + ".xml";
+		activeScreen = std::pair<string, shared_ptr<Screen>>("LoadingScreen", std::make_shared<LoadingScreen>(offscreen_context, this, renderer, screenId));
+		/*if (LevelLoader::loadLevel(this, renderer, path.c_str()))
 		{
 			switchScreen(screenId);
 		}
 		else
 		{
 			std::cerr << "Failed to load level: " << screenId << std::endl;
-		}
+		}*/
 	}
 	else {
 		activeScreen = *it;
@@ -137,16 +148,18 @@ void Engine::replaceScreen(string screenId)
 	auto it = gameScreens.find(screenId);
 	if (it == gameScreens.end()) {
 		//try to load level
-		string path = "./resources/levels/" + screenId + ".xml";
-		if (LevelLoader::loadLevel(this, renderer, path.c_str()))
-		{
-			replaceScreen(screenId);
-		}
-		else
-		{
-			std::cerr << "Failed to load level: " << screenId << std::endl;
-		}
+		//string path = "./resources/levels/" + screenId + ".xml";
+		activeScreen = std::pair<string, shared_ptr<Screen>>("LoadingScreen", std::make_shared<LoadingScreen>(offscreen_context, this, renderer, screenId));
+		//if (LevelLoader::loadLevel(this, renderer, path.c_str()))
+		//{
+		//	replaceScreen(screenId);
+		//}
+		//else
+		//{
+		//	std::cerr << "Failed to load level: " << screenId << std::endl;
+		//}
 	} else{
+//		glfwMakeContextCurrent(window);
 		activeScreen.second.reset();
 		string idToRemove = activeScreen.first;
 		activeScreen = *it;

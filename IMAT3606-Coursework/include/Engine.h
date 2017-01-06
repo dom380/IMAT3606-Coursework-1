@@ -58,6 +58,7 @@ private:
 	//Private members
 	shared_ptr<Graphics> renderer;
 	GLFWwindow* window;
+	GLFWwindow* offscreen_context;
 	Input &inputHandler = Input::getInstance();
 	map<string, shared_ptr<Screen>> gameScreens;
 	std::pair<string,shared_ptr<Screen>> activeScreen;

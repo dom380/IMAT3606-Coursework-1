@@ -31,6 +31,11 @@ TextBox & TextBox::operator=(TextBox & other)
 	return *this;
 }
 
+void TextBox::updateText(string newText)
+{
+	text = newText;
+}
+
 void TextBox::render()
 {
 	graphics->renderText(text, font, transform, VAO, VBO, textShader, textColour);
