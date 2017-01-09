@@ -1,14 +1,16 @@
 #include <Graphics\PerspectiveCamera.h>
 
-PerspectiveCamera::PerspectiveCamera(glm::vec3 pos, glm::vec3 up, glm::vec3 direction)
+PerspectiveCamera::PerspectiveCamera(int width, int height, float aspect, glm::vec3 pos, glm::vec3 up, glm::vec3 direction)
 {
 	position = pos;
 	upDir = up;
 	frontDir = direction;
-	previousX = -1.0f;
-	previousY = -1.0f;
+	previousX = -1;
+	previousY = -1;
 	orientation = glm::quat(1.0, 0.0, 0.0, 0.0);
 	type = CameraClass::PERSPECTIVE;
+	projection = glm::perspective(glm::radians(aspect), (float)width / (float)height, 0.1f, 1000.0f);
+	lookAt(direction);
 }
 
 void PerspectiveCamera::update()
@@ -32,8 +34,7 @@ void PerspectiveCamera::lookAt(float x, float y, float z)
 
 void PerspectiveCamera::lookAt(glm::vec3 target)
 {
-	frontDir = target;
-	update();
+	view = glm::lookAt(position, target, upDir);
 }
 
 
@@ -69,7 +70,7 @@ void PerspectiveCamera::handle(MouseEvent event)
 void PerspectiveCamera::handle(KeyEvent event)
 {
 	switch (event.type) {
-		case KeyEventType::KEY_RELEASED:
+		case KeyEventType::KEY_REPEATED:
 		{
 			if (event.key == 87) //W
 			{

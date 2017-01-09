@@ -31,6 +31,24 @@
     <Filter Include="Source Files\Graphics">
       <UniqueIdentifier>{362eca4e-2355-4e51-bbe4-89771919b9a8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Renderer">
+      <UniqueIdentifier>{990c64ac-593d-4404-a43d-3279406cedff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Renderer">
+      <UniqueIdentifier>{2ac32778-ef51-4004-b554-6b64f7c021fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Screens">
+      <UniqueIdentifier>{7d634971-4196-424e-87f1-2221d290b9c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Screens">
+      <UniqueIdentifier>{71532e6d-08e3-400d-b969-a8f3c17ce99d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Camera">
+      <UniqueIdentifier>{529511dc-9898-47ff-8c17-be7361735525}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Camera">
+      <UniqueIdentifier>{2d4b26b3-51ee-415d-936a-8ec33c72a30a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Main.cpp">
@@ -39,23 +57,8 @@
     <ClCompile Include="source\utils\ObjReader.cpp">
       <Filter>Source Files\utils</Filter>
     </ClCompile>
-    <ClCompile Include="source\RenderGL.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Model.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Shader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\GUI\Font.cpp">
       <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="source\GUI\MenuScreen.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="source\GameScreen.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\AssetManager.cpp">
       <Filter>Source Files</Filter>
@@ -84,22 +87,31 @@
     <ClCompile Include="source\utils\EnumParser.cpp">
       <Filter>Source Files\utils</Filter>
     </ClCompile>
-    <ClCompile Include="source\Graphics\PerspectiveCamera.cpp">
+    <ClCompile Include="source\RenderGL.cpp">
+      <Filter>Source Files\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GameScreen.cpp">
+      <Filter>Source Files\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GUI\MenuScreen.cpp">
+      <Filter>Source Files\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Shader.cpp">
       <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Model.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Graphics\PerspectiveCamera.cpp">
+      <Filter>Source Files\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Robot.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\RenderGL.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\utils\ObjReader.h">
       <Filter>Header Files\utils</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Model.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Shader.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\utils\GLSupport.h">
       <Filter>Header Files\utils</Filter>
@@ -113,9 +125,6 @@
     <ClInclude Include="include\Engine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Graphics.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\GUI\Button.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
@@ -124,15 +133,6 @@
     </ClInclude>
     <ClInclude Include="include\GUI\Font.h">
       <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Screen.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\GUI\MenuScreen.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="include\GameScreen.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\utils\tinyxml2.h">
       <Filter>Header Files\utils</Filter>
@@ -164,12 +164,6 @@
     <ClInclude Include="include\utils\EnumParser.h">
       <Filter>Header Files\utils</Filter>
     </ClInclude>
-    <ClInclude Include="include\Graphics\Camera.h">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Graphics\PerspectiveCamera.h">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="include\GUI\MouseEvent.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
@@ -188,8 +182,41 @@
     <ClInclude Include="include\Graphics\Light.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="include\Graphics.h">
+      <Filter>Header Files\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\RenderGL.h">
+      <Filter>Header Files\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GameScreen.h">
+      <Filter>Header Files\Screens</Filter>
+    </ClInclude>
     <ClInclude Include="include\LoadingScreen.h">
+      <Filter>Header Files\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Screen.h">
+      <Filter>Header Files\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GUI\MenuScreen.h">
+      <Filter>Header Files\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Shader.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Model.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Graphics\Camera.h">
+      <Filter>Header Files\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Graphics\PerspectiveCamera.h">
+      <Filter>Header Files\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Robot.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Graphics\ModelData.h">
+      <Filter>Header Files\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -209,6 +236,18 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="shaders\basic.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="shaders\phong_no_texture.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="shaders\phong_no_texture.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="shaders\colour.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="shaders\colour.vert">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

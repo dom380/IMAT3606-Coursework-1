@@ -54,6 +54,10 @@ public:
 		OPEN_GL
 	};
 
+	int getWindowWidth();
+
+	int getWindowHeight();
+
 private:
 	//Private members
 	shared_ptr<Graphics> renderer;

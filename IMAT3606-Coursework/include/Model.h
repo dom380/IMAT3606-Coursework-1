@@ -19,7 +19,7 @@ class Model {
 public:
 	Model(shared_ptr<Graphics>& graphics);
 	~Model();
-	void init(const char* objFile, const char* textureFile);
+	void init(const char* objFile, const char* textureFile, string id = "");
 	void render(shared_ptr<Camera>& camera);
 	void render(shared_ptr<Camera>& camera, vector<Light> lights);
 	void render(shared_ptr<Camera>& camera, unsigned int lightingBuffer, unsigned int lightingBlockId);
@@ -28,6 +28,9 @@ public:
 	size_t getIndexSize();
 	Material getMaterial();
 	Transform transform;
+	string getId();
+	void toggleDrawing();
+	bool isDrawing();
 private:
 	bool initalised = false;
 	shared_ptr<Graphics> graphics;
@@ -44,5 +47,7 @@ private:
 	shared_ptr<Shader> shader;
 	shared_ptr<Texture> texture;
 	Material material;
+	string id;
+	bool drawing = true;
 };
 #endif // !MODEL_H

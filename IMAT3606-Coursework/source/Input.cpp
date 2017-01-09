@@ -38,7 +38,21 @@ void Input::mouseButtonCallback(GLFWwindow * window, int button, int action, int
 void Input::keyboardCallback(GLFWwindow * window, int key, int scancode, int action, int mods)
 {
 	KeyEventType type;
-	action == GLFW_PRESS ? type = KeyEventType::KEY_PRESSED : type = KeyEventType::KEY_RELEASED;
+	switch (action)
+	{
+	case GLFW_PRESS:
+		type = KeyEventType::KEY_PRESSED;
+		break;
+	case GLFW_REPEAT:
+		type = KeyEventType::KEY_REPEATED;
+		break;
+	case GLFW_RELEASE:
+		type = KeyEventType::KEY_RELEASED;
+		break;
+	default:
+		type = KeyEventType::KEY_PRESSED;
+		break;
+	}
 	KeyEvent e(type, key, mods);
 	vector<shared_ptr<EventListener>> listeners = getInstance().keySubs;
 	for (shared_ptr<EventListener> listener : listeners) {
@@ -54,6 +68,24 @@ void Input::registerKeyListener(shared_ptr<EventListener> listener)
 void Input::registerMouseListener(shared_ptr<EventListener> listener)
 {
 	getInstance().mouseSubs.push_back(listener);
+}
+
+void Input::removeKeyListener(shared_ptr<EventListener> listener)
+{
+	auto it = std::find(getInstance().keySubs.begin(), getInstance().keySubs.end(), listener);
+	if (it != getInstance().keySubs.end())
+	{
+		getInstance().keySubs.erase(it);
+	}
+}
+
+void Input::removeMouseListener(shared_ptr<EventListener> listener)
+{
+	auto it = std::find(getInstance().mouseSubs.begin(), getInstance().mouseSubs.end(), listener);
+	if (it != getInstance().mouseSubs.end())
+	{
+		getInstance().mouseSubs.erase(it);
+	}
 }
 
 Input::~Input()

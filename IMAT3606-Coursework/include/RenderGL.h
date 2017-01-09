@@ -30,6 +30,7 @@ public:
 	void bufferLightingData(vector<Light>& lights, shared_ptr<Shader> &shader, unsigned int& uniformBuffer,
 		unsigned int& bindingPoint);
 	unsigned int createVertexArrayObject(vector<unsigned int>& vboHandles);
+	unsigned int createTextVertexArrayObject(unsigned int& vboHandle);
 	void renderModel(Model& model, shared_ptr<Shader>& shaderProgram, shared_ptr<Camera>& camera);
 	void renderModel(Model& model, shared_ptr<Shader>& shaderProgram, shared_ptr<Camera>& camera, vector<Light>& lights);
 	void renderModel(Model& model, shared_ptr<Shader>& shaderProgram, shared_ptr<Camera>& camera, unsigned int lightingBuffer, unsigned int lightingBlockId);
@@ -40,7 +41,6 @@ private:
 	unsigned int currBindingPoint = 0;
 	glm::mat4 modelMat = glm::mat4();
 	glm::mat4 viewMat = glm::mat4();
-	glm::mat4 perspectiveMat = glm::mat4();
 };
 
 #endif // !RENDERGL_H

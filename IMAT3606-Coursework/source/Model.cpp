@@ -9,18 +9,17 @@ Model::~Model() {
 	texture.reset();
 }
 
-void Model::init(const char * objFile, const char * textureFile)
+void Model::init(const char * objFile, const char * textureFile, string id)
 {
 	if (initalised) return;
-	vector<glm::vec4> vertices; vector<glm::vec3> normals; vector<glm::vec2> textures; vector<unsigned short>indices;
-	ObjReader().readObj(objFile, vertices, normals, textures, indices, material);
-	
-	vboHandles = graphics->bufferModelData(vertices, normals, textures, indices, vaoHandle);
+	shared_ptr<ModelData> modelData = AssetManager::getInstance()->getModelData(objFile, graphics);
+	vboHandles = modelData->vboHandles;
 
 	// Load the texture
-	texture = AssetManager::getInstance()->getTexture(textureFile);
-
-	indexSize = indices.size();
+	if(textureFile != NULL)
+		texture = AssetManager::getInstance()->getTexture(textureFile);
+	indexSize = modelData->indexSize;
+	material = modelData->material;
 
 	if (material.used)
 	{
@@ -30,6 +29,7 @@ void Model::init(const char * objFile, const char * textureFile)
 	{
 		shader = AssetManager::getInstance()->getShader(std::pair<string, string>("./shaders/basic.vert", "./shaders/basic.frag"));
 	}
+	this->id = id;
 	initalised = true;
 }
 
@@ -71,6 +71,21 @@ size_t Model::getIndexSize()
 Material Model::getMaterial()
 {
 	return material;
+}
+
+string Model::getId()
+{
+	return id;
+}
+
+void Model::toggleDrawing()
+{
+	drawing = !drawing;
+}
+
+bool Model::isDrawing()
+{
+	return drawing;
 }
 
 

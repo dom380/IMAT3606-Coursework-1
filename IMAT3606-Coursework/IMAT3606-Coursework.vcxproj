@@ -154,6 +154,7 @@
     <ClCompile Include="source\Main.cpp" />
     <ClCompile Include="source\Model.cpp" />
     <ClCompile Include="source\RenderGL.cpp" />
+    <ClCompile Include="source\Robot.cpp" />
     <ClCompile Include="source\Shader.cpp" />
     <ClCompile Include="source\utils\EnumParser.cpp" />
     <ClCompile Include="source\utils\ObjReader.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="include\Graphics\Camera.h" />
     <ClInclude Include="include\Graphics\Light.h" />
     <ClInclude Include="include\Graphics\Material.h" />
+    <ClInclude Include="include\Graphics\ModelData.h" />
     <ClInclude Include="include\Graphics\PerspectiveCamera.h" />
     <ClInclude Include="include\Graphics\stb_image.h" />
     <ClInclude Include="include\Graphics\Texture.h" />
@@ -186,6 +188,7 @@
     <ClInclude Include="include\LoadingScreen.h" />
     <ClInclude Include="include\Model.h" />
     <ClInclude Include="include\RenderGL.h" />
+    <ClInclude Include="include\Robot.h" />
     <ClInclude Include="include\Screen.h" />
     <ClInclude Include="include\Shader.h" />
     <ClInclude Include="include\utils\EnumParser.h" />
@@ -199,8 +202,12 @@
   <ItemGroup>
     <None Include="shaders\basic.frag" />
     <None Include="shaders\basic.vert" />
+    <None Include="shaders\colour.frag" />
+    <None Include="shaders\colour.vert" />
     <None Include="shaders\phong.frag" />
     <None Include="shaders\phong.vert" />
+    <None Include="shaders\phong_no_texture.frag" />
+    <None Include="shaders\phong_no_texture.vert" />
     <None Include="shaders\text.frag" />
     <None Include="shaders\text.vert" />
   </ItemGroup>

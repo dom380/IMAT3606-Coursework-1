@@ -1,18 +1,20 @@
 #include "..\..\include\GUI\TextBox.h"
 
-TextBox::TextBox(string text, Font textfont, Transform pos, shared_ptr<Graphics>& graphics, glm::vec3& colour)
+TextBox::TextBox(string text, Font textfont, Transform pos, shared_ptr<Graphics>& graphics, glm::vec3& colour, string id)
 {
 	this->text = text;
 	this->graphics = graphics;
 	this->textColour = colour;
+	this->id = id;
 	init(textfont, pos);
 }
 
-TextBox::TextBox(const char * text, Font textfont, Transform pos, shared_ptr<Graphics>& graphics, glm::vec3& colour)
+TextBox::TextBox(const char * text, Font textfont, Transform pos, shared_ptr<Graphics>& graphics, glm::vec3& colour, string id)
 {
 	this->text = string(text);
 	this->graphics = graphics;
 	this->textColour = colour;
+	this->id = id;
 	init(textfont, pos);
 }
 
@@ -38,7 +40,16 @@ void TextBox::updateText(string newText)
 
 void TextBox::render()
 {
+	if (!haveVAO) {
+		VAO = graphics->createTextVertexArrayObject(VBO);
+		haveVAO = true;
+	} 
 	graphics->renderText(text, font, transform, VAO, VBO, textShader, textColour);
+}
+
+string TextBox::getId()
+{
+	return id;
 }
 
 void TextBox::init(Font textfont, Transform pos)

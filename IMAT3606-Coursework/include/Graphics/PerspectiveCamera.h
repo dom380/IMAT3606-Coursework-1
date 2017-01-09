@@ -11,7 +11,7 @@
 class PerspectiveCamera : public Camera
 {
 public:
-	PerspectiveCamera(glm::vec3 pos = glm::vec3(0.0, 0.0, 1.0), glm::vec3 up = glm::vec3(0.0, 1.0, 0.0), glm::vec3 direction = glm::vec3(0.0, 0.0, -1.0));
+	PerspectiveCamera(int width, int height, float aspect, glm::vec3 pos = glm::vec3(0.0, 0.0, 1.0), glm::vec3 up = glm::vec3(0.0, 1.0, 0.0), glm::vec3 direction = glm::vec3(0.0, 0.0, -1.0));
 	void update();
 	void lookAt(float x, float y, float z);
 	void lookAt(glm::vec3 target);

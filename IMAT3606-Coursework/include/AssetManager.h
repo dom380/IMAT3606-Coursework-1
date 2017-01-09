@@ -10,6 +10,8 @@ using std::map;
 using std::string;
 #include <GUI\Font.h>
 #include <Shader.h>
+#include <Graphics\ModelData.h>
+#include <utils\ObjReader.h>
 
 class AssetManager {
 public:
@@ -17,6 +19,7 @@ public:
 	shared_ptr<Texture> getTexture(const char* filePath);
 	shared_ptr<Font> getFont(char* fontPath, shared_ptr<Graphics>& graphics);
 	shared_ptr<Shader> getShader(std::pair<string, string> shaderPath);
+	shared_ptr<ModelData> getModelData(const char* filePath, shared_ptr<Graphics> graphics);
 	void exit();
 private:
 	AssetManager() {};
@@ -27,6 +30,7 @@ private:
 	map<string, shared_ptr<Font>> fonts;
 	map<string, shared_ptr<Texture>> textures;
 	map<std::pair<string, string>, shared_ptr<Shader>> shaders;
+	map<string, shared_ptr<ModelData>> modelData;
 };
 
 #endif // !ASSETMANAGER_H

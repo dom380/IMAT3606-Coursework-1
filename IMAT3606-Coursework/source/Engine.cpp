@@ -100,7 +100,8 @@ void Engine::exit()
 {
 	if (closed) return;
 	timer.stop();
-	renderer->exit();
+	if(renderer != nullptr)
+		renderer->exit();
 	AssetManager::getInstance()->exit();
 
 	// Close window and terminate GLFW
@@ -159,7 +160,6 @@ void Engine::replaceScreen(string screenId)
 		//	std::cerr << "Failed to load level: " << screenId << std::endl;
 		//}
 	} else{
-//		glfwMakeContextCurrent(window);
 		activeScreen.second.reset();
 		string idToRemove = activeScreen.first;
 		activeScreen = *it;
@@ -172,8 +172,11 @@ void Engine::loadConfig()
 	tinyxml2::XMLDocument config;
 	tinyxml2::XMLError ec = config.LoadFile("config.xml");
 	if (ec != tinyxml2::XMLError::XML_SUCCESS) {
-		std::cerr << "Failed to read configuration. Exiting..." << std::endl;
-		exit();
+		ec = config.LoadFile("../../../config.xml");
+		if (ec != tinyxml2::XMLError::XML_SUCCESS) {
+			std::cerr << "Failed to read configuration. Exiting..." << std::endl;
+			exit();
+		}
 	}
 	tinyxml2::XMLElement* element = config.RootElement();
 	width = element->FirstChildElement("width")!=NULL ? element->FirstChildElement("width")->IntText(1024) : 1024;
@@ -191,6 +194,16 @@ void Engine::loadFirstLevel()
 		std::exit(1);
 	}
 	this->switchScreen(initialScreenId);
+}
+
+int Engine::getWindowWidth()
+{
+	return width;
+}
+
+int Engine::getWindowHeight()
+{
+	return height;
 }
 
 shared_ptr<Graphics> Engine::buildRenderer(GraphicsContext renderType)

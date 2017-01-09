@@ -30,7 +30,6 @@ bool RenderGL::init()
 	modelMat = glm::translate(modelMat, glm::vec3(0.0f, 0.0f,0.0f));
 	//todo move these to camera class?
 	viewMat = glm::lookAt(glm::vec3(0.0f, 0.0f, 6.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	perspectiveMat = glm::perspective(glm::radians(45.f), (GLfloat)width / (GLfloat)height, 0.1f, 1000.0f);
 	return true;
 }
 
@@ -73,7 +72,7 @@ void RenderGL::buildTextShader(unsigned int &vertArrayObj, unsigned int &vertBuf
 #endif
 	glm::mat4 projection = glm::ortho(0.0f, (float)width, 0.0f, (float)height);
 	textShader->setUniform("projection", projection);
-	textShader->setUniform("textColour", glm::vec3(1.0, 1.0, 1.0)); //TODO make this changeable
+	textShader->setUniform("textColour", glm::vec3(1.0, 1.0, 1.0));
 	textShader->setUniform("tex", 0);
 	glFlush();
 }
@@ -168,9 +167,12 @@ vector<unsigned int> RenderGL::bufferModelData(vector<glm::vec4>& vertices, vect
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	//Create VBO for textureCoords
 	GLuint texCoordBuffer = vboHandles[2];
-	glBindBuffer(GL_ARRAY_BUFFER, texCoordBuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec2) * textures.size(), glm::value_ptr(textures[0]), GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	if (textures.size() > 0) 
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, texCoordBuffer);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec2) * textures.size(), glm::value_ptr(textures[0]), GL_STATIC_DRAW);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
 	//Creat VBO for normals
 	GLuint normalBuffer = vboHandles[3];
 	glBindBuffer(GL_ARRAY_BUFFER, normalBuffer);
@@ -237,6 +239,19 @@ unsigned int RenderGL::createVertexArrayObject(vector<unsigned int>& vboHandles)
 	return vaoHandle;
 }
 
+unsigned int RenderGL::createTextVertexArrayObject(unsigned int & vboHandle)
+{
+	unsigned int vertArrayObj;
+	glGenVertexArrays(1, &vertArrayObj);
+	glBindVertexArray(vertArrayObj);
+	//create buffer for vertex and texture data
+	glBindBuffer(GL_ARRAY_BUFFER, vboHandle);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 6 * 4, NULL, GL_DYNAMIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), 0);
+	return vertArrayObj;
+}
+
 void RenderGL::renderModel(Model& model, shared_ptr<Shader>& shaderProgram, shared_ptr<Camera>& camera)
 {
 	vector<Light> defaultLights;
@@ -261,7 +276,7 @@ void RenderGL::renderModel(Model& model, shared_ptr<Shader>& shaderProgram, shar
 	glm::mat4 mMat = modelMat * glm::translate(model.transform.position) * glm::rotate(orientation.w, glm::vec3(orientation.x, orientation.y, orientation.z)) * glm::scale(model.transform.scale);
 	shaderProgram->setUniform("tex", 0);
 	shaderProgram->setUniform("mView", camera->getView());
-	shaderProgram->setUniform("mProjection", perspectiveMat);
+	shaderProgram->setUniform("mProjection", camera->getProjection());
 	shaderProgram->setUniform("mModel", mMat);
 	shaderProgram->setUniform("viewPos", camera->getPosition());
 	if (model.getMaterial().used)
@@ -289,13 +304,19 @@ void RenderGL::renderModel(Model & model, shared_ptr<Shader>& shaderProgram, sha
 	check = OpenGLSupport().GetError();
 #endif
 	glBindVertexArray(model.getVertArray());
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, model.getTexture()->object());
+	if (model.getTexture() != nullptr) {
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, model.getTexture()->object());
+		shaderProgram->setUniform("tex", 0);
+	}
+	else {
+		shaderProgram = AssetManager::getInstance()->getShader(std::pair<std::string, std::string>("./shaders/phong_no_texture.vert", "./shaders/phong_no_texture.frag"));
+		shaderProgram->bindShader();
+	}
 	glm::quat orientation = model.transform.orientation;
-	glm::mat4 mMat = modelMat * glm::translate(model.transform.position) * glm::rotate(orientation.w, glm::vec3(orientation.x, orientation.y, orientation.z)) * glm::scale(model.transform.scale);
-	shaderProgram->setUniform("tex", 0);
+	glm::mat4 mMat = modelMat * glm::translate(model.transform.position) * glm::rotate(glm::radians(orientation.w), glm::vec3(orientation.x, orientation.y, orientation.z)) * glm::scale(model.transform.scale);
 	shaderProgram->setUniform("mView", camera->getView());
-	shaderProgram->setUniform("mProjection", perspectiveMat);
+	shaderProgram->setUniform("mProjection", camera->getProjection());
 	shaderProgram->setUniform("mModel", mMat);
 	shaderProgram->setUniform("viewPos", camera->getPosition());
 	if (model.getMaterial().used)

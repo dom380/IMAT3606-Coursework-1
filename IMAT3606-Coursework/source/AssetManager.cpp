@@ -58,6 +58,22 @@ shared_ptr<Shader> AssetManager::getShader(std::pair<string, string> shaderPath)
 	return shader;
 }
 
+shared_ptr<ModelData> AssetManager::getModelData(const char * filePath, shared_ptr<Graphics> graphics)
+{
+	auto it = modelData.find(filePath);
+	if (it != modelData.end())
+	{
+		return it->second;
+	}
+	shared_ptr<ModelData> data = std::make_shared<ModelData>();
+	vector<glm::vec4> vertices; vector<glm::vec3> normals; vector<glm::vec2> textures; vector<unsigned short>indices;
+	ObjReader().readObj(filePath, vertices, normals, textures, indices, data->material);
+	data->vboHandles = graphics->bufferModelData(vertices, normals, textures, indices, data->vaoHandle);
+	data->indexSize = indices.size();
+	modelData.emplace(std::pair<string, shared_ptr<ModelData>>(filePath, data));
+	return data;
+}
+
 void AssetManager::exit()
 {
 	//probably don't need this but be extra sure to free memory

@@ -78,6 +78,7 @@ public:
 	}
 	void resize(int width, int height) {};
 	void dispose() {};
+	void addTextBox(shared_ptr<TextBox> textbox) {};
 
 };
 

@@ -1,6 +1,6 @@
 <game>
-	<width>1920</width>
-	<height>1080</height>
+	<width>1080</width>
+	<height>720</height>
 	<initScreen>MainMenu</initScreen>
 	<renderer>OPEN_GL</renderer>
 </game>

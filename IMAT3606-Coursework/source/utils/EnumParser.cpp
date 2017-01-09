@@ -17,10 +17,16 @@ EnumParser<MouseEventType>::EnumParser()
 	map["mouse_move"] = MouseEventType::MOUSE_MOVE;
 	map["RIGHT_CLICK"] = MouseEventType::RIGHT_CLICK;
 	map["right_click"] = MouseEventType::RIGHT_CLICK;
-	//map["KEY_PRESS"] = MouseEventType::KEY_PRESS;
-	//map["key_press"] = MouseEventType::KEY_PRESS;
-	//map["KEY_UP"] = MouseEventType::KEY_UP;
-	//map["key_up"] = MouseEventType::KEY_UP;
+}
+
+EnumParser<KeyEventType>::EnumParser()
+{
+	map["KEY_PRESSED"] = KeyEventType::KEY_PRESSED;
+	map["key_pressed"] = KeyEventType::KEY_PRESSED;
+	map["KEY_RELEASED"] = KeyEventType::KEY_RELEASED;
+	map["key_released"] = KeyEventType::KEY_RELEASED;
+	map["KEY_REPEATED"] = KeyEventType::KEY_REPEATED;
+	map["key_repeated"] = KeyEventType::KEY_REPEATED;
 }
 
 EnumParser<OnClickFunctions::FunctionType>::EnumParser()

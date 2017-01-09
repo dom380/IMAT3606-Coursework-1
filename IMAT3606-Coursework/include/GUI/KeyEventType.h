@@ -5,6 +5,7 @@
 enum class KeyEventType
 {
 	KEY_PRESSED,
+	KEY_REPEATED,
 	KEY_RELEASED
 };
 

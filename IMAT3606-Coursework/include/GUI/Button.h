@@ -28,6 +28,8 @@ private:
 
 	std::function<void()> onClickCallback;
 
+	std::string id;
+
 	void init(Font textfont, Transform pos, glm::vec3& colour = glm::vec3(1.0, 1.0, 1.0)) {
 		textbox = std::make_shared<TextBox>(text, textfont, pos, graphics);
 		font = textfont;
@@ -56,14 +58,16 @@ protected:
 public:
 	//Constructors
 	Button() {};
-	Button(string text, Font textfont, Transform pos, shared_ptr<Graphics>& graphics, glm::vec3& colour = glm::vec3(1.0,1.0,1.0)) {
+	Button(string text, Font textfont, Transform pos, shared_ptr<Graphics>& graphics, glm::vec3& colour = glm::vec3(1.0,1.0,1.0), string id ="") {
 		this->text = text;
 		this->graphics = graphics;
+		this->id = id;
 		init(textfont, pos, colour);
 	};
-	Button(const char* text, Font textfont, Transform pos, shared_ptr<Graphics>& graphics, glm::vec3& colour = glm::vec3(1.0, 1.0, 1.0)) {
+	Button(const char* text, Font textfont, Transform pos, shared_ptr<Graphics>& graphics, glm::vec3& colour = glm::vec3(1.0, 1.0, 1.0), string id = "") {
 		this->text = string(text);
 		this->graphics = graphics;
+		this->id = id;
 		init(textfont, pos, colour);
 	};
 	~Button(){};
@@ -95,7 +99,7 @@ public:
 	};
 	
 	void handle(KeyEvent event) {
-		
+		//NOP
 	}
 
 	void addOnClickFn(std::function<void()> c) {
@@ -104,6 +108,10 @@ public:
 
 	void render() {
 		textbox->render();
+	}
+
+	std::string getId() {
+		return id;
 	}
 };
 

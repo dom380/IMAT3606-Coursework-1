@@ -1,6 +1,89 @@
 <screen type="level" name="Level1">
 	<models>
 		<model>
+			<file>./resources/models/wall.obj</file>
+			<position>
+				<x>-2.0</x>
+				<y>43.0</y>
+				<z>-100.0</z>
+			</position>
+			<scale>
+				<x>30.0</x>
+				<y>30.0</y>
+				<z>0.5</z>
+			</scale>
+			<orientation>
+				<x>1.0</x>
+				<y>0.0</y>
+				<z>0.0</z>
+				<w>90</w>
+			</orientation>
+		</model>
+		<model>
+			<file>./resources/models/wall.obj</file>
+			<position>
+				<x>0.0</x>
+				<y>0.0</y>
+				<z>-70.0</z>
+			</position>
+			<scale>
+				<x>10.0</x>
+				<y>10.0</y>
+				<z>0.5</z>
+			</scale>
+		</model>
+		<model>
+			<file>./resources/models/wall.obj</file>
+			<position>
+				<x>-60.0</x>
+				<y>0.0</y>
+				<z>0.0</z>
+			</position>
+			<scale>
+				<x>10.0</x>
+				<y>10.0</y>
+				<z>0.5</z>
+			</scale>
+			<orientation>
+				<x>0.0</x>
+				<y>1.0</y>
+				<z>0.0</z>
+				<w>90</w>
+			</orientation>
+		</model>
+		<model>
+			<file>./resources/models/wall.obj</file>
+			<position>
+				<x>60.0</x>
+				<y>0.0</y>
+				<z>0.0</z>
+			</position>
+			<scale>
+				<x>10.0</x>
+				<y>10.0</y>
+				<z>0.5</z>
+			</scale>
+			<orientation>
+				<x>0.0</x>
+				<y>1.0</y>
+				<z>0.0</z>
+				<w>-90</w>
+			</orientation>
+		</model>
+		<model>
+			<file>./resources/models/wall.obj</file>
+			<position>
+				<x>0.0</x>
+				<y>0.0</y>
+				<z>70.0</z>
+			</position>
+			<scale>
+				<x>10.0</x>
+				<y>10.0</y>
+				<z>0.5</z>
+			</scale>
+		</model>
+		<model>
 			<file>./resources/models/ground.obj</file>
 			<texture>./resources/textures/mahagony-light.jpg</texture>
 			<position>
@@ -19,8 +102,8 @@
 			<texture>./resources/textures/overhead_cupboard.png</texture>
 			<position>
 				<x>1.0</x>
-				<y>1.0</y>
-				<z>1.0</z>
+				<y>0.0</y>
+				<z>-50.0</z>
 			</position>
 			<scale>
 				<x>1.0</x>
@@ -33,8 +116,8 @@
 			<texture>./resources/textures/fridge.png</texture>
 			<position>
 				<x>1.0</x>
-				<y>1.0</y>
-				<z>1.0</z>
+				<y>0.0</y>
+				<z>-50.0</z>
 			</position>
 			<scale>
 				<x>1.0</x>
@@ -47,8 +130,8 @@
 			<texture>./resources/textures/oven.png</texture>
 			<position>
 				<x>1.0</x>
-				<y>1.0</y>
-				<z>1.0</z>
+				<y>0.0</y>
+				<z>-50.0</z>
 			</position>
 			<scale>
 				<x>1.0</x>
@@ -61,8 +144,8 @@
 			<texture>./resources/textures/worktop.png</texture>
 			<position>
 				<x>1.0</x>
-				<y>1.0</y>
-				<z>1.0</z>
+				<y>0.0</y>
+				<z>-50.0</z>
 			</position>
 			<scale>
 				<x>1.0</x>
@@ -75,8 +158,8 @@
 			<texture>./resources/textures/mahagony-light.jpg</texture>
 			<position>
 				<x>1.0</x>
-				<y>1.0</y>
-				<z>1.0</z>
+				<y>0.0</y>
+				<z>-50.0</z>
 			</position>
 			<scale>
 				<x>1.0</x>
@@ -89,8 +172,8 @@
 			<texture>./resources/textures/mahagony-light.jpg</texture>
 			<position>
 				<x>7.0</x>
-				<y>1.0</y>
-				<z>1.0</z>
+				<y>0.0</y>
+				<z>-50.0</z>
 			</position>
 			<scale>
 				<x>1.0</x>
@@ -104,7 +187,7 @@
 			<position>
 				<x>1.0</x>
 				<y>15.0</y>
-				<z>1.0</z>
+				<z>-10.0</z>
 			</position>
 			<scale>
 				<x>1.0</x>
@@ -116,14 +199,28 @@
 			<file>./resources/models/light.obj</file>
 			<texture>./resources/textures/plastics.png</texture>
 			<position>
-				<x>-4.0</x>
+				<x>1.0</x>
 				<y>15.0</y>
-				<z>1.0</z>
+				<z>50.0</z>
 			</position>
 			<scale>
 				<x>1.0</x>
 				<y>1.0</y>
 				<z>1.0</z>
+			</scale>
+		</model> 
+		<model id="gold">
+			<file>./resources/models/gold.obj</file>
+			<texture>./resources/textures/gold.tga</texture>
+			<position>
+				<x>1.0</x>
+				<y>1.0</y>
+				<z>1.0</z>
+			</position>
+			<scale>
+				<x>15.0</x>
+				<y>15.0</y>
+				<z>15.0</z>
 			</scale>
 		</model>
 	</models>
@@ -132,8 +229,13 @@
 			<position>
 				<x>1.0</x>
 				<y>15.0</y>
-				<z>1.0</z>
+				<z>-10.0</z>
 			</position>
+			<ambient>
+				<r>0.1</r>
+				<g>0.1</g>
+				<b>0.1</b>
+			</ambient>
 			<diffuse>
 				<r>0.5</r>
 				<g>0.5</g>
@@ -147,19 +249,19 @@
 		</light>
 		<light>
 			<position>
-				<x>-4.0</x>
+				<x>1.0</x>
 				<y>15.0</y>
-				<z>1.0</z>
+				<z>50.0</z>
 			</position>
 			<ambient>
-				<r>0.3</r>
-				<g>0.3</g>
-				<b>0.3</b>
+				<r>0.1</r>
+				<g>0.1</g>
+				<b>0.1</b>
 			</ambient>
 			<diffuse>
-				<r>0.3</r>
-				<g>0.3</g>
-				<b>0.3</b>
+				<r>0.5</r>
+				<g>0.5</g>
+				<b>0.5</b>
 			</diffuse>
 			<specular>
 				<r>0.5</r>
@@ -168,4 +270,18 @@
 			</specular>
 		</light>
 	</lights>
+	<strings>
+		<string id="score_string">
+			<position>
+				<x>30</x>
+				<y>650</y>
+			</position>
+			<scale>
+				<x>1.0</x>
+				<y>1.0</y>
+				<z>1.0</z>
+			</scale>
+			<value>Gold Collected: 0</value>
+		</string>
+	</strings>
 </screen>

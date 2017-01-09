@@ -53,6 +53,8 @@ public:
 		Build the texture data for the requested freetype2 font face.
 	*/
 	virtual void buildFontTexture(FT_Face& fontFace, unsigned int& textureID) = 0;
+
+	virtual unsigned int createTextVertexArrayObject(unsigned int& vboHandle) = 0;
 	/*	
 		Render text.
 	*/

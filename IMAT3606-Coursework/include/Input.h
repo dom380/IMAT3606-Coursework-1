@@ -21,6 +21,8 @@ public:
 	static void keyboardCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 	static void registerKeyListener(shared_ptr<EventListener> listener);
 	static void registerMouseListener(shared_ptr<EventListener> listener);
+	static void removeKeyListener(shared_ptr<EventListener> listener);
+	static void removeMouseListener(shared_ptr<EventListener> listener);
 
 	~Input();
 private:

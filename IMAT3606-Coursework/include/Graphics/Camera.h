@@ -27,6 +27,10 @@ public:
 	{
 		return position;
 	}
+	glm::mat4 getProjection()
+	{
+		return projection;
+	}
 	enum CameraClass
 	{
 		PERSPECTIVE,
@@ -35,7 +39,6 @@ public:
 
 protected:
 	virtual void update() = 0;
-
 	glm::mat4 view;
 	glm::vec3 frontDir;
 	glm::vec3 upDir;
