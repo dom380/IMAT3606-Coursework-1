@@ -159,7 +159,7 @@
 			<position>
 				<x>1.0</x>
 				<y>0.0</y>
-				<z>-50.0</z>
+				<z>1.0</z>
 			</position>
 			<scale>
 				<x>1.0</x>
@@ -173,13 +173,33 @@
 			<position>
 				<x>7.0</x>
 				<y>0.0</y>
-				<z>-50.0</z>
+				<z>1.0</z>
 			</position>
 			<scale>
 				<x>1.0</x>
 				<y>1.0</y>
 				<z>1.0</z>
 			</scale>
+		</model>
+		<model>
+			<file>./resources/models/chair.obj</file>
+			<texture>./resources/textures/mahagony-light.jpg</texture>
+			<position>
+				<x>-28.0</x>
+				<y>0.0</y>
+				<z>16.0</z>
+			</position>
+			<scale>
+				<x>1.0</x>
+				<y>1.0</y>
+				<z>1.0</z>
+			</scale>
+			<orientation>
+				<x>0.0</x>
+				<y>1.0</y>
+				<z>0.0</z>
+				<w>170</w>
+			</orientation>
 		</model>
 		<model>
 			<file>./resources/models/light.obj</file>
@@ -213,7 +233,7 @@
 			<file>./resources/models/gold.obj</file>
 			<texture>./resources/textures/gold.tga</texture>
 			<position>
-				<x>1.0</x>
+				<x>-28.0</x>
 				<y>1.0</y>
 				<z>1.0</z>
 			</position>
@@ -221,6 +241,62 @@
 				<x>15.0</x>
 				<y>15.0</y>
 				<z>15.0</z>
+			</scale>
+		</model>
+		<model>
+			<file>./resources/models/table.obj</file>
+			<texture>./resources/textures/mahagony-light.jpg</texture>
+			<position>
+				<x>1.0</x>
+				<y>1.0</y>
+				<z>1.0</z>
+			</position>
+			<scale>
+				<x>1.0</x>
+				<y>1.0</y>
+				<z>1.0</z>
+			</scale>
+		</model>
+		<model>
+			<file>./resources/models/cloth.obj</file>
+			<texture>./resources/textures/cloth.png</texture>
+			<position>
+				<x>1.0</x>
+				<y>1.0</y>
+				<z>1.0</z>
+			</position>
+			<scale>
+				<x>1.0</x>
+				<y>1.0</y>
+				<z>1.0</z>
+			</scale>
+		</model>
+		<model>
+			<file>./resources/models/plant.obj</file>
+			<texture>./resources/textures/shrub.tga</texture>
+			<position>
+				<x>1.0</x>
+				<y>1.0</y>
+				<z>50.0</z>
+			</position>
+			<scale>
+				<x>10.0</x>
+				<y>10.0</y>
+				<z>10.0</z>
+			</scale>
+		</model>
+		<model>
+			<file>./resources/models/plantpot.obj</file>
+			<texture>./resources/textures/pot.tga</texture>
+			<position>
+				<x>1.0</x>
+				<y>1.0</y>
+				<z>50.0</z>
+			</position>
+			<scale>
+				<x>10.0</x>
+				<y>10.0</y>
+				<z>10.0</z>
 			</scale>
 		</model>
 	</models>

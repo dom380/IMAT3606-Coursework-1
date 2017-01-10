@@ -269,30 +269,33 @@ void Robot::handle(MouseEvent event)
 
 void Robot::handle(KeyEvent event)
 {
-	if (event.type == KeyEventType::KEY_REPEATED) 
+	if (event.type == KeyEventType::KEY_REPEATED || event.type == KeyEventType::KEY_PRESSED)
 	{
 		switch (event.key)
 		{
 		case 87: //W
 			robot_Pos.x += robot_front_Dir.x*movementSpeed;
 			robot_Pos.z += robot_front_Dir.z*movementSpeed;
+			setAnimate(true);
 			break;
 		case 83: //S
 			robot_Pos.x -= robot_front_Dir.x*movementSpeed;
 			robot_Pos.z -= robot_front_Dir.z*movementSpeed;
+			setAnimate(true);
 			break;
 		case 65: //A
 			rotationAngle += rotationSpeed;
 			robot_front_Dir = glm::rotateY(robot_front_Dir, glm::radians(rotationSpeed));
+			setAnimate(true);
 			break;
 		case 68: //D
 			rotationAngle -= rotationSpeed;
 			robot_front_Dir = glm::rotateY(robot_front_Dir, glm::radians(-rotationSpeed));
+			setAnimate(true);
 			break;
 		default:
 			break;
 		}
-		setAnimate(true);
 	}
 	else if (event.type == KeyEventType::KEY_RELEASED) {
 		setAnimate(false);
@@ -301,5 +304,7 @@ void Robot::handle(KeyEvent event)
 
 bool Robot::checkCollision(shared_ptr<Model> model)
 {
-	return false;
+	glm::vec2 dist(robot_Pos.x - model->transform.position.x, robot_Pos.z - model->transform.position.z);
+	float distance = glm::length(dist);
+	return  distance < 2.5;
 }

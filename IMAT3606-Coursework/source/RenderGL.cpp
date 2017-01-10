@@ -36,7 +36,6 @@ bool RenderGL::init()
 void RenderGL::prepare()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 	//buttonTest->render();
 }
 
@@ -261,7 +260,6 @@ void RenderGL::renderModel(Model& model, shared_ptr<Shader>& shaderProgram, shar
 
 void RenderGL::renderModel(Model& model, shared_ptr<Shader>& shaderProgram, shared_ptr<Camera>& camera, vector<Light>& lights)
 {
-
 #ifndef NDEBUG
 	string check = OpenGLSupport().GetError();
 #endif

@@ -17,7 +17,9 @@ GameScreen::GameScreen(shared_ptr<Graphics>& renderer, shared_ptr<Camera> camera
 	frameTime = std::make_shared<TextBox>("Frame Time: 0", *AssetManager::getInstance()->getFont("./resources/fonts/arial.ttf", renderer), textPos, renderer);
 	textBoxes.push_back(frameTime);
 #endif
-	Input::getInstance().registerKeyListener(robot);
+	//Input::getInstance().registerKeyListener(robot);
+	Input::getInstance().registerKeyListener(cameras.at(0));
+	Input::getInstance().registerMouseListener(cameras.at(0));
 	activeCamera = 0;
 }
 
@@ -27,12 +29,16 @@ void GameScreen::update(double dt)
 	timer.start();
 #endif
 	robot->Prepare(dt);
+	angle += rotationSpeed * dt;
+	if (angle > 360) angle -= angle;
 	for (shared_ptr<Model> model : models) {
 		if (model->getId() == string("gold") && model->isDrawing()) //If the game object is a collectible and hasn't already be found
 		{
+			model->transform.orientation.w = angle;
 			if (robot->checkCollision(model)) //check if the robot is near the collectible
 			{
 				model->toggleDrawing();
+				currentScore++;
 				updateScoreText();
 			}
 		}
@@ -43,7 +49,8 @@ void GameScreen::render()
 {
 	shared_ptr<Camera> camera = cameras.at(activeCamera);
 	for (shared_ptr<Model> model : models) {
-		model->render(camera, lightingBufferId, lightingBlockId);
+		if(model->isDrawing())
+			model->render(camera, lightingBufferId, lightingBlockId);
 	}
 	robot->DrawRobot(camera->getView(), camera->getProjection());
 	for (shared_ptr<TextBox> textBox : textBoxes)

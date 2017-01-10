@@ -40,7 +40,8 @@ private:
 	int activeCamera = 0;
 	vector<shared_ptr<Camera>> cameras;
 	vector<Light> lights;
-	double angle;
+	double angle = 0;
+	double rotationSpeed = 50.0;
 	unsigned int lightingBlockId;
 	unsigned int lightingBufferId;
 	shared_ptr<Robot> robot;

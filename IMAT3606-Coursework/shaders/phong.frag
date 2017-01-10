@@ -38,6 +38,9 @@ vec3 calcLight(in Light light, in Material material, in vec3 norm, in vec3 fragm
 
 void main() 
 {
+	vec4 texel = texture(tex,texCoord);
+	if(texel.a < 0.3) //Discard any low alpha value fragments as a quick fix for transparency with depth testing 
+		discard;
 	vec3 norm = normalize(Normal);
 	vec3 viewDir = normalize(viewPos - fragmentPos);
 	
@@ -47,7 +50,7 @@ void main()
 	{
 		result += calcLight(lights[i], material, norm, fragmentPos, viewDir);
 	}
-	FragColour =  texture(tex,texCoord) * vec4(result, 1.0);
+	FragColour =  texel * vec4(result, 1.0);
 }
 
 vec3 calcLight(in Light light, in Material material, in vec3 norm, in vec3 fragmentPos, in vec3 viewDir)
