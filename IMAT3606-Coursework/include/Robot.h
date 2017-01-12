@@ -8,6 +8,7 @@ using std::shared_ptr;
 using std::vector;
 #include <GUI\EventListener.h>
 #include <Model.h>
+#include <Graphics\Camera.h>
 
 // constants for arm and leg movement states
 const char BACKWARD_STATE = 0;
@@ -47,6 +48,8 @@ private:
 	//As vertex data is loaded on a separate thread, we may have to recrate the VAO before rendering
 	unsigned int getOrCreateVAO();
 
+	shared_ptr<Camera> camera;
+
 	// draws a unit cube
 	void DrawCube(glm::mat4 modelMatrix, vector<float> colour);
 
@@ -56,6 +59,8 @@ private:
 	void DrawTorso(float xPos, float yPos, float zPos, glm::mat4 modelMatrix);
 	void DrawLeg(float xPos, float yPos, float zPos, glm::mat4 modelMatrix);
 	void DrawFoot(float xPos, float yPos, float zPos, glm::mat4 modelMatrix);
+
+	void updateCamera();
 
 public:
 
@@ -75,6 +80,9 @@ public:
 	void  handle(KeyEvent event);
 
 	bool checkCollision(shared_ptr<Model> model);
+
+	void setCamera(shared_ptr<Camera> newCamera);
+	shared_ptr<Camera> getCamera();
 };
 
 #endif

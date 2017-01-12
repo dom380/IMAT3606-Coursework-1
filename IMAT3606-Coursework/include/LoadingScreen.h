@@ -22,6 +22,7 @@ class LoadingScreen : public Screen
 {
 private:
 	std::atomic<bool> loading = true;
+	std::atomic<bool> succeded = false;
 	std::thread backgroundThread;
 	TextBox loadingText;
 	Engine* gameEngine;
@@ -34,14 +35,14 @@ public:
 		Transform transform;
 		transform.orientation.y = 1.0f; transform.orientation.w = 0.0f;
 		transform.position.x = 30; transform.position.y = 500;
-		loadingText = TextBox("Loading", *AssetManager::getInstance()->getFont("./resources/fonts/arial.ttf", renderer), transform, renderer);
+		loadingText = TextBox("Loading", *AssetManager::getInstance()->getFont("arial.ttf", renderer), transform, renderer);
 		levelId = levelToLoad;
 		gameEngine = engine;
 		backgroundThread = std::thread([this, context, engine, renderer, levelToLoad] {
 			glfwSetErrorCallback(error_callback);
 			glfwMakeContextCurrent(context);
-			string path = "./resources/levels/" + levelToLoad + ".xml";
-			LevelLoader::loadLevel(engine, renderer, path.c_str());
+			string path = AssetManager::getInstance()->getRootFolder(AssetManager::ResourceType::LEVEL) + levelToLoad + ".xml";
+			this->succeded = LevelLoader::loadLevel(engine, renderer, path.c_str());
 			this->loading = false;
 		});
 	}
@@ -50,7 +51,12 @@ public:
 		if (!loading)
 		{
 			backgroundThread.join();
-			gameEngine->replaceScreen(levelId);
+			if (succeded) {
+				gameEngine->replaceScreen(levelId);
+			} 
+			else {
+				gameEngine->replaceScreen(gameEngine->getInitialScreenId());
+			}
 		}
 		time += dt;
 		if (time > 1.0 && time < 2.0)

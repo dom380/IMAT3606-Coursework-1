@@ -27,7 +27,11 @@ public:
 		try
 		{
 			tinyxml2::XMLDocument doc;
-			doc.LoadFile(filePath);
+			tinyxml2::XMLError check = doc.LoadFile(filePath);
+			if (check != tinyxml2::XML_SUCCESS) {
+				std::cerr << "Failed to load file" << filePath << std::endl;
+				return false;
+			}
 			tinyxml2::XMLElement* screenElement = doc.FirstChildElement("screen");
 			const char* type = screenElement->Attribute("type");
 			if (string(type) == string("menu")) {
@@ -87,7 +91,7 @@ private:
 	*/
 	static void loadStringElement(shared_ptr<Graphics>& renderer, shared_ptr<Screen> screen, tinyxml2::XMLElement* stringElement)
 	{
-		Font font = *AssetManager::getInstance()->getFont("./resources/fonts/arial.ttf", renderer);
+		Font font = *AssetManager::getInstance()->getFont("arial.ttf", renderer);
 		const char* text = stringElement->FirstChildElement("value")!=NULL ? stringElement->FirstChildElement("value")->GetText() : "MISSING_STRING";
 		Transform transform;
 		loadTransform(transform, stringElement);
@@ -104,7 +108,7 @@ private:
 	*/
 	static void loadButtonElement(Engine* engine, shared_ptr<Graphics>& renderer, shared_ptr<MenuScreen> menuScreen, tinyxml2::XMLElement* buttonElement)
 	{
-		Font font = *AssetManager::getInstance()->getFont("./resources/fonts/arial.ttf", renderer);
+		Font font = *AssetManager::getInstance()->getFont("arial.ttf", renderer);
 		const char* text = buttonElement->FirstChildElement("value")!=NULL ? buttonElement->FirstChildElement("value")->GetText() : "MISSING_STRING";
 		Transform transform;
 		loadTransform(transform, buttonElement);

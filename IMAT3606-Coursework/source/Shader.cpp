@@ -33,7 +33,7 @@ bool Shader::compileShader(const char * filePath, GLenum shaderType)
 	ifstream inFile(filePath);
 	if (!inFile) {
 		fprintf(stderr, "Error opening file: %s\n", filePath);
-		exit(1);
+		throw std::runtime_error("Failed to find shader");
 	}
 	std::stringstream code;
 	code << inFile.rdbuf();

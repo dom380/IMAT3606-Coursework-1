@@ -13,7 +13,7 @@ class Font {
 public:
 	Font() {};
 	Font(Font* font);
-	Font(FT_Library ftLib, char* fontPath, shared_ptr<Graphics>& graphics);
+	Font(FT_Library ftLib, const char* fontPath, shared_ptr<Graphics>& graphics);
 	void compile();
 	class Character {
 	public:

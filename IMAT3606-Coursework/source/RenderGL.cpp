@@ -64,7 +64,7 @@ void RenderGL::buildTextShader(unsigned int &vertArrayObj, unsigned int &vertBuf
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
-	textShader = AssetManager::getInstance()->getShader(std::pair<string, string>("./shaders/text.vert","./shaders/text.frag"));
+	textShader = AssetManager::getInstance()->getShader(std::pair<string, string>("text.vert","text.frag"));
 #ifndef NDEBUG
 	string check = OpenGLSupport().GetError();
 #endif
@@ -307,7 +307,7 @@ void RenderGL::renderModel(Model & model, shared_ptr<Shader>& shaderProgram, sha
 		shaderProgram->setUniform("tex", 0);
 	}
 	else {
-		shaderProgram = AssetManager::getInstance()->getShader(std::pair<std::string, std::string>("./shaders/phong_no_texture.vert", "./shaders/phong_no_texture.frag"));
+		shaderProgram = AssetManager::getInstance()->getShader(std::pair<std::string, std::string>("phong_no_texture.vert", "phong_no_texture.frag"));
 		shaderProgram->bindShader();
 	}
 	glm::quat orientation = model.transform.orientation;

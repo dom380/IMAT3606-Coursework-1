@@ -128,16 +128,7 @@ void Engine::switchScreen(string screenId)
 	auto it = gameScreens.find(screenId);
 	if (it == gameScreens.end()) {
 		//try to load level
-		//string path = "./resources/levels/" + screenId + ".xml";
 		activeScreen = std::pair<string, shared_ptr<Screen>>("LoadingScreen", std::make_shared<LoadingScreen>(offscreen_context, this, renderer, screenId));
-		/*if (LevelLoader::loadLevel(this, renderer, path.c_str()))
-		{
-			switchScreen(screenId);
-		}
-		else
-		{
-			std::cerr << "Failed to load level: " << screenId << std::endl;
-		}*/
 	}
 	else {
 		activeScreen = *it;
@@ -149,16 +140,7 @@ void Engine::replaceScreen(string screenId)
 	auto it = gameScreens.find(screenId);
 	if (it == gameScreens.end()) {
 		//try to load level
-		//string path = "./resources/levels/" + screenId + ".xml";
 		activeScreen = std::pair<string, shared_ptr<Screen>>("LoadingScreen", std::make_shared<LoadingScreen>(offscreen_context, this, renderer, screenId));
-		//if (LevelLoader::loadLevel(this, renderer, path.c_str()))
-		//{
-		//	replaceScreen(screenId);
-		//}
-		//else
-		//{
-		//	std::cerr << "Failed to load level: " << screenId << std::endl;
-		//}
 	} else{
 		activeScreen.second.reset();
 		string idToRemove = activeScreen.first;
@@ -172,11 +154,9 @@ void Engine::loadConfig()
 	tinyxml2::XMLDocument config;
 	tinyxml2::XMLError ec = config.LoadFile("config.xml");
 	if (ec != tinyxml2::XMLError::XML_SUCCESS) {
-		ec = config.LoadFile("../../../config.xml");
-		if (ec != tinyxml2::XMLError::XML_SUCCESS) {
-			std::cerr << "Failed to read configuration. Exiting..." << std::endl;
-			exit();
-		}
+		std::cerr << "Failed to read configuration. Exiting..." << std::endl;
+		system("pause");
+		exit();
 	}
 	tinyxml2::XMLElement* element = config.RootElement();
 	width = element->FirstChildElement("width")!=NULL ? element->FirstChildElement("width")->IntText(1024) : 1024;
@@ -184,11 +164,21 @@ void Engine::loadConfig()
 	initialScreenId = element->FirstChildElement("initScreen") != NULL ? element->FirstChildElement("initScreen")->GetText() : "MainMenu";
 	string renderer = element->FirstChildElement("renderer")!= NULL ? element->FirstChildElement("renderer")->GetText() : "OPEN_GL";
 	graphicsContext = enumParser.parse(renderer);// GraphicsContext::OPEN_GL; 
+	string resourceLocation = element->FirstChildElement("fontLocation") != NULL ? element->FirstChildElement("fontLocation")->GetText() : "./resources/fonts/";
+	AssetManager::getInstance()->setAssetFolder(resourceLocation, AssetManager::ResourceType::FONT);
+	resourceLocation = element->FirstChildElement("levelLocation") != NULL ? element->FirstChildElement("levelLocation")->GetText() : "./resources/levels/";
+	AssetManager::getInstance()->setAssetFolder(resourceLocation, AssetManager::ResourceType::LEVEL);
+	resourceLocation = element->FirstChildElement("modelLocation") != NULL ? element->FirstChildElement("modelLocation")->GetText() : "./resources/models/";
+	AssetManager::getInstance()->setAssetFolder(resourceLocation, AssetManager::ResourceType::MODEL);
+	resourceLocation = element->FirstChildElement("textureLocation") != NULL ? element->FirstChildElement("textureLocation")->GetText() : "./resources/textures/";
+	AssetManager::getInstance()->setAssetFolder(resourceLocation, AssetManager::ResourceType::TEXTURE);
+	resourceLocation = element->FirstChildElement("shaderLocation") != NULL ? element->FirstChildElement("shaderLocation")->GetText() : "./shaders/";
+	AssetManager::getInstance()->setAssetFolder(resourceLocation, AssetManager::ResourceType::SHADER);
 }
 
 void Engine::loadFirstLevel()
 {
-	string levelPath = "./resources/levels/" + initialScreenId + ".xml";
+	string levelPath = AssetManager::getInstance()->getRootFolder(AssetManager::ResourceType::LEVEL) + initialScreenId + ".xml";
 	if (!LevelLoader::loadLevel(this, renderer, levelPath.c_str())) {
 		std::cerr << "Failed to load initial level..." << std::endl << "Exiting" << std::endl;
 		std::exit(1);
@@ -204,6 +194,11 @@ int Engine::getWindowWidth()
 int Engine::getWindowHeight()
 {
 	return height;
+}
+
+string Engine::getInitialScreenId()
+{
+	return initialScreenId;
 }
 
 shared_ptr<Graphics> Engine::buildRenderer(GraphicsContext renderType)

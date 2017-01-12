@@ -23,11 +23,11 @@ void Model::init(const char * objFile, const char * textureFile, string id)
 
 	if (material.used)
 	{
-		shader = AssetManager::getInstance()->getShader(std::pair<string, string>("./shaders/phong.vert", "./shaders/phong.frag"));
+		shader = AssetManager::getInstance()->getShader(std::pair<string, string>("phong.vert", "phong.frag"));
 	}
 	else
 	{
-		shader = AssetManager::getInstance()->getShader(std::pair<string, string>("./shaders/basic.vert", "./shaders/basic.frag"));
+		shader = AssetManager::getInstance()->getShader(std::pair<string, string>("basic.vert", "basic.frag"));
 	}
 	this->id = id;
 	initalised = true;

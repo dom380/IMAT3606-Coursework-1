@@ -191,6 +191,12 @@ void Robot::DrawFoot(float xPos, float yPos, float zPos, glm::mat4 modelMatrix)
 	DrawCube(glm::scale(model, glm::vec3(1.0f, 0.5f, 3.0f)), white);
 }
 
+void Robot::updateCamera()
+{
+	if(camera != nullptr)
+		camera->move(robot_Pos.x - robot_front_Dir.x * 7, robot_Pos.y + 5, robot_Pos.z - robot_front_Dir.z * 7);
+}
+
 void Robot::DrawRobot(glm::mat4 viewMatrix, glm::mat4 projectionMatrix)
 {
 	shader->bindShader();
@@ -276,21 +282,25 @@ void Robot::handle(KeyEvent event)
 		case 87: //W
 			robot_Pos.x += robot_front_Dir.x*movementSpeed;
 			robot_Pos.z += robot_front_Dir.z*movementSpeed;
+			updateCamera();
 			setAnimate(true);
 			break;
 		case 83: //S
 			robot_Pos.x -= robot_front_Dir.x*movementSpeed;
 			robot_Pos.z -= robot_front_Dir.z*movementSpeed;
+			updateCamera();
 			setAnimate(true);
 			break;
 		case 65: //A
 			rotationAngle += rotationSpeed;
 			robot_front_Dir = glm::rotateY(robot_front_Dir, glm::radians(rotationSpeed));
+			updateCamera();
 			setAnimate(true);
 			break;
 		case 68: //D
 			rotationAngle -= rotationSpeed;
 			robot_front_Dir = glm::rotateY(robot_front_Dir, glm::radians(-rotationSpeed));
+			updateCamera();
 			setAnimate(true);
 			break;
 		default:
@@ -307,4 +317,16 @@ bool Robot::checkCollision(shared_ptr<Model> model)
 	glm::vec2 dist(robot_Pos.x - model->transform.position.x, robot_Pos.z - model->transform.position.z);
 	float distance = glm::length(dist);
 	return  distance < 5;
+}
+
+void Robot::setCamera(shared_ptr<Camera> newCamera)
+{
+	camera = newCamera;
+	camera->move(robot_Pos.x - robot_front_Dir.x * 7, robot_Pos.y + 5, robot_Pos.z - robot_front_Dir.z * 7);
+	camera->lookAt(robot_front_Dir);
+}
+
+shared_ptr<Camera> Robot::getCamera()
+{
+	return camera;
 }

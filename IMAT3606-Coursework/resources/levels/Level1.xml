@@ -1,7 +1,7 @@
 <screen type="level" name="Level1">
 	<models>
 		<model>
-			<file>./resources/models/wall.obj</file>
+			<file>wall.obj</file>
 			<position>
 				<x>-2.0</x>
 				<y>43.0</y>
@@ -20,7 +20,7 @@
 			</orientation>
 		</model>
 		<model>
-			<file>./resources/models/wall.obj</file>
+			<file>wall.obj</file>
 			<position>
 				<x>0.0</x>
 				<y>0.0</y>
@@ -33,7 +33,7 @@
 			</scale>
 		</model>
 		<model>
-			<file>./resources/models/wall.obj</file>
+			<file>wall.obj</file>
 			<position>
 				<x>-60.0</x>
 				<y>0.0</y>
@@ -52,7 +52,7 @@
 			</orientation>
 		</model>
 		<model>
-			<file>./resources/models/wall.obj</file>
+			<file>wall.obj</file>
 			<position>
 				<x>60.0</x>
 				<y>0.0</y>
@@ -71,7 +71,7 @@
 			</orientation>
 		</model>
 		<model>
-			<file>./resources/models/wall.obj</file>
+			<file>wall.obj</file>
 			<position>
 				<x>0.0</x>
 				<y>0.0</y>
@@ -84,7 +84,7 @@
 			</scale>
 		</model>
 		<model>
-			<file>./resources/models/wall.obj</file>
+			<file>wall.obj</file>
 			<position>
 				<x>25.5</x>
 				<y>0.0</y>
@@ -103,7 +103,7 @@
 			</orientation>
 		</model>
 		<model>
-			<file>./resources/models/wall.obj</file>
+			<file>wall.obj</file>
 			<position>
 				<x>-23.6</x>
 				<y>0.0</y>
@@ -122,8 +122,8 @@
 			</orientation>
 		</model>
 		<model>
-			<file>./resources/models/ground.obj</file>
-			<texture>./resources/textures/mahagony-light.jpg</texture>
+			<file>ground.obj</file>
+			<texture>mahagony-light.jpg</texture>
 			<position>
 				<x>0.0</x>
 				<y>-0.1</y>
@@ -136,8 +136,8 @@
 			</scale>
 		</model>
 		<model>
-			<file>./resources/models/overhead_cupboard.obj</file>
-			<texture>./resources/textures/overhead_cupboard.png</texture>
+			<file>overhead_cupboard.obj</file>
+			<texture>overhead_cupboard.png</texture>
 			<position>
 				<x>1.0</x>
 				<y>0.0</y>
@@ -150,8 +150,8 @@
 			</scale>
 		</model>
 		<model>
-			<file>./resources/models/fridge.obj</file>
-			<texture>./resources/textures/fridge.png</texture>
+			<file>fridge.obj</file>
+			<texture>fridge.png</texture>
 			<position>
 				<x>1.0</x>
 				<y>0.0</y>
@@ -164,8 +164,8 @@
 			</scale>
 		</model>
 		<model>
-			<file>./resources/models/oven.obj</file>
-			<texture>./resources/textures/oven.png</texture>
+			<file>oven.obj</file>
+			<texture>oven.png</texture>
 			<position>
 				<x>1.0</x>
 				<y>0.0</y>
@@ -178,8 +178,8 @@
 			</scale>
 		</model>
 		<model>
-			<file>./resources/models/worktop.obj</file>
-			<texture>./resources/textures/worktop.png</texture>
+			<file>worktop.obj</file>
+			<texture>worktop.png</texture>
 			<position>
 				<x>1.0</x>
 				<y>0.0</y>
@@ -192,8 +192,8 @@
 			</scale>
 		</model>
 		<model>
-			<file>./resources/models/chair.obj</file>
-			<texture>./resources/textures/mahagony-light.jpg</texture>
+			<file>chair.obj</file>
+			<texture>mahagony-light.jpg</texture>
 			<position>
 				<x>1.0</x>
 				<y>0.0</y>
@@ -206,8 +206,8 @@
 			</scale>
 		</model>
 		<model>
-			<file>./resources/models/chair.obj</file>
-			<texture>./resources/textures/mahagony-light.jpg</texture>
+			<file>chair.obj</file>
+			<texture>mahagony-light.jpg</texture>
 			<position>
 				<x>7.0</x>
 				<y>0.0</y>
@@ -220,8 +220,8 @@
 			</scale>
 		</model>
 		<model>
-			<file>./resources/models/chair.obj</file>
-			<texture>./resources/textures/mahagony-light.jpg</texture>
+			<file>chair.obj</file>
+			<texture>mahagony-light.jpg</texture>
 			<position>
 				<x>-28.0</x>
 				<y>0.0</y>
@@ -240,8 +240,8 @@
 			</orientation>
 		</model>
 		<model>
-			<file>./resources/models/light.obj</file>
-			<texture>./resources/textures/plastics.png</texture>
+			<file>light.obj</file>
+			<texture>plastics.png</texture>
 			<position>
 				<x>1.0</x>
 				<y>15.0</y>
@@ -254,8 +254,8 @@
 			</scale>
 		</model>
 		<model>
-			<file>./resources/models/light.obj</file>
-			<texture>./resources/textures/plastics.png</texture>
+			<file>light.obj</file>
+			<texture>plastics.png</texture>
 			<position>
 				<x>1.0</x>
 				<y>15.0</y>
@@ -268,8 +268,8 @@
 			</scale>
 		</model> 
 		<model>
-			<file>./resources/models/bookshelf.obj</file>
-			<texture>./resources/textures/bookshelf.png</texture>
+			<file>bookshelf.obj</file>
+			<texture>bookshelf.png</texture>
 			<position>
 				<x>0.0</x>
 				<y>9.5</y>
@@ -288,8 +288,8 @@
 			</orientation>
 		</model>
 		<model id="gold">
-			<file>./resources/models/gold.obj</file>
-			<texture>./resources/textures/gold.tga</texture>
+			<file>gold.obj</file>
+			<texture>gold.tga</texture>
 			<position>
 				<x>-28.0</x>
 				<y>1.0</y>
@@ -302,8 +302,8 @@
 			</scale>
 		</model>
 		<model id="gold">
-			<file>./resources/models/gold.obj</file>
-			<texture>./resources/textures/gold.tga</texture>
+			<file>gold.obj</file>
+			<texture>gold.tga</texture>
 			<position>
 				<x>0.0</x>
 				<y>7.0</y>
@@ -316,8 +316,8 @@
 			</scale>
 		</model>
 		<model id="gold">
-			<file>./resources/models/gold.obj</file>
-			<texture>./resources/textures/gold.tga</texture>
+			<file>gold.obj</file>
+			<texture>gold.tga</texture>
 			<position>
 				<x>55.0</x>
 				<y>1.0</y>
@@ -330,8 +330,8 @@
 			</scale>
 		</model>
 		<model id="gold">
-			<file>./resources/models/gold.obj</file>
-			<texture>./resources/textures/gold.tga</texture>
+			<file>gold.obj</file>
+			<texture>gold.tga</texture>
 			<position>
 				<x>23.0</x>
 				<y>8.0</y>
@@ -344,8 +344,8 @@
 			</scale>
 		</model>
 		<model id="gold">
-			<file>./resources/models/gold.obj</file>
-			<texture>./resources/textures/gold.tga</texture>
+			<file>gold.obj</file>
+			<texture>gold.tga</texture>
 			<position>
 				<x>52.5</x>
 				<y>10</y>
@@ -358,8 +358,8 @@
 			</scale>
 		</model>
 		<model id="gold">
-			<file>./resources/models/gold.obj</file>
-			<texture>./resources/textures/gold.tga</texture>
+			<file>gold.obj</file>
+			<texture>gold.tga</texture>
 			<position>
 				<x>-40.0</x>
 				<y>1.0</y>
@@ -372,8 +372,8 @@
 			</scale>
 		</model>
 		<model>
-			<file>./resources/models/folder.obj</file>
-			<texture>./resources/textures/file_cabinet.png</texture>
+			<file>folder.obj</file>
+			<texture>file_cabinet.png</texture>
 			<position>
 				<x>-5.0</x>
 				<y>8.1</y>
@@ -392,8 +392,8 @@
 			</orientation>
 		</model>
 		<model>
-			<file>./resources/models/table.obj</file>
-			<texture>./resources/textures/mahagony-light.jpg</texture>
+			<file>table.obj</file>
+			<texture>mahagony-light.jpg</texture>
 			<position>
 				<x>1.0</x>
 				<y>0.0</y>
@@ -406,8 +406,8 @@
 			</scale>
 		</model>
 		<model>
-			<file>./resources/models/cloth.obj</file>
-			<texture>./resources/textures/cloth.png</texture>
+			<file>cloth.obj</file>
+			<texture>cloth.png</texture>
 			<position>
 				<x>1.0</x>
 				<y>0.0</y>
@@ -420,8 +420,8 @@
 			</scale>
 		</model>
 		<model>
-			<file>./resources/models/table_small.obj</file>
-			<texture>./resources/textures/table_small.png</texture>
+			<file>table_small.obj</file>
+			<texture>table_small.png</texture>
 			<position>
 				<x>55.0</x>
 				<y>0.0</y>
@@ -440,8 +440,8 @@
 			</orientation>
 		</model>
 		<model>
-			<file>./resources/models/plant.obj</file>
-			<texture>./resources/textures/shrub.tga</texture>
+			<file>plant.obj</file>
+			<texture>shrub.tga</texture>
 			<position>
 				<x>28.0</x>
 				<y>0.0</y>
@@ -454,8 +454,8 @@
 			</scale>
 		</model>
 		<model>
-			<file>./resources/models/plantpot.obj</file>
-			<texture>./resources/textures/pot.tga</texture>
+			<file>plantpot.obj</file>
+			<texture>pot.tga</texture>
 			<position>
 				<x>28.0</x>
 				<y>0.0</y>
@@ -468,8 +468,8 @@
 			</scale>
 		</model>
 		<model>
-			<file>./resources/models/file_cabinet.obj</file>
-			<texture>./resources/textures/file_cabinet.png</texture>
+			<file>file_cabinet.obj</file>
+			<texture>file_cabinet.png</texture>
 			<position>
 				<x>53.5</x>
 				<y>0.0</y>
@@ -488,8 +488,8 @@
 			</orientation>
 		</model>
 		<model>
-			<file>./resources/models/file_cabinet_open.obj</file>
-			<texture>./resources/textures/file_cabinet.png</texture>
+			<file>file_cabinet_open.obj</file>
+			<texture>file_cabinet.png</texture>
 			<position>
 				<x>53.5</x>
 				<y>0.0</y>
@@ -508,8 +508,8 @@
 			</orientation>
 		</model>
 		<model>
-			<file>./resources/models/trash.obj</file>
-			<texture>./resources/textures/trash.tga</texture>
+			<file>trash.obj</file>
+			<texture>trash.tga</texture>
 			<position>
 				<x>-28.0</x>
 				<y>0.0</y>
@@ -522,8 +522,8 @@
 			</scale>
 		</model>
 		<model>
-			<file>./resources/models/plant_spike.obj</file>
-			<texture>./resources/textures/spikes.tga</texture>
+			<file>plant_spike.obj</file>
+			<texture>spikes.tga</texture>
 			<position>
 				<x>-35.0</x>
 				<y>-50.0</y>

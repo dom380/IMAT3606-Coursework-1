@@ -58,6 +58,8 @@ public:
 
 	int getWindowHeight();
 
+	string getInitialScreenId();
+
 private:
 	//Private members
 	shared_ptr<Graphics> renderer;

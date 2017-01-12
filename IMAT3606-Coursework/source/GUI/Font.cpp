@@ -8,7 +8,7 @@ Font::Font(Font * font)
 	graphics = font->graphics;
 }
 
-Font::Font(FT_Library ftLib, char * fontPath, shared_ptr<Graphics>& graphics)
+Font::Font(FT_Library ftLib, const char * fontPath, shared_ptr<Graphics>& graphics)
 {
 	ft = ftLib;
 	FT_Error error = FT_New_Face(ftLib, fontPath, 0, &fontFace);
