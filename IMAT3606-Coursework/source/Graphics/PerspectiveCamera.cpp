@@ -34,7 +34,8 @@ void PerspectiveCamera::lookAt(float x, float y, float z)
 
 void PerspectiveCamera::lookAt(glm::vec3 target)
 {
-	view = glm::lookAt(position, target, upDir);
+	view = glm::lookAt(position, position+target, upDir);
+	orientation = glm::quat_cast(view);
 }
 
 
@@ -69,28 +70,24 @@ void PerspectiveCamera::handle(MouseEvent event)
 
 void PerspectiveCamera::handle(KeyEvent event)
 {
-	switch (event.type) {
-		case KeyEventType::KEY_REPEATED:
+	if (event.type == KeyEventType::KEY_REPEATED || event.type == KeyEventType::KEY_PRESSED) {
+		if (event.key == 87) //W
 		{
-			if (event.key == 87) //W
-			{
-				position -= 0.5f * frontDir;
-			}
-			else if (event.key == 83) //S
-			{
-				position += 0.5f * frontDir;
-			}
-			else if (event.key == 65) //A
-			{
-				position -= rightDir * 0.5f;
-			}
-			else if (event.key == 68) //D
-			{
-				position += rightDir * 0.5f;
-			}
-			update();
-			break;
+			position -= 0.5f * frontDir;
 		}
+		else if (event.key == 83) //S
+		{
+			position += 0.5f * frontDir;
+		}
+		else if (event.key == 65) //A
+		{
+			position -= rightDir * 0.5f;
+		}
+		else if (event.key == 68) //D
+		{
+			position += rightDir * 0.5f;
+		}
+		update();
 	}
 }
 

@@ -84,6 +84,44 @@
 			</scale>
 		</model>
 		<model>
+			<file>./resources/models/wall.obj</file>
+			<position>
+				<x>25.5</x>
+				<y>0.0</y>
+				<z>-70.0</z>
+			</position>
+			<scale>
+				<x>2.3</x>
+				<y>0.46</y>
+				<z>0.5</z>
+			</scale>
+			<orientation>
+				<x>0.0</x>
+				<y>1.0</y>
+				<z>0.0</z>
+				<w>-90</w>
+			</orientation>
+		</model>
+		<model>
+			<file>./resources/models/wall.obj</file>
+			<position>
+				<x>-23.6</x>
+				<y>0.0</y>
+				<z>-70.0</z>
+			</position>
+			<scale>
+				<x>0.8</x>
+				<y>0.46</y>
+				<z>0.5</z>
+			</scale>
+			<orientation>
+				<x>0.0</x>
+				<y>1.0</y>
+				<z>0.0</z>
+				<w>-90</w>
+			</orientation>
+		</model>
+		<model>
 			<file>./resources/models/ground.obj</file>
 			<texture>./resources/textures/mahagony-light.jpg</texture>
 			<position>
@@ -229,6 +267,26 @@
 				<z>1.0</z>
 			</scale>
 		</model> 
+		<model>
+			<file>./resources/models/bookshelf.obj</file>
+			<texture>./resources/textures/bookshelf.png</texture>
+			<position>
+				<x>0.0</x>
+				<y>9.5</y>
+				<z>67.5</z>
+			</position>
+			<scale>
+				<x>8.0</x>
+				<y>8.0</y>
+				<z>8.0</z>
+			</scale>
+			<orientation>
+				<x>0.0</x>
+				<y>1.0</y>
+				<z>0.0</z>
+				<w>180</w>
+			</orientation>
+		</model>
 		<model id="gold">
 			<file>./resources/models/gold.obj</file>
 			<texture>./resources/textures/gold.tga</texture>
@@ -243,12 +301,102 @@
 				<z>15.0</z>
 			</scale>
 		</model>
+		<model id="gold">
+			<file>./resources/models/gold.obj</file>
+			<texture>./resources/textures/gold.tga</texture>
+			<position>
+				<x>0.0</x>
+				<y>7.0</y>
+				<z>67.0</z>
+			</position>
+			<scale>
+				<x>15.0</x>
+				<y>15.0</y>
+				<z>15.0</z>
+			</scale>
+		</model>
+		<model id="gold">
+			<file>./resources/models/gold.obj</file>
+			<texture>./resources/textures/gold.tga</texture>
+			<position>
+				<x>55.0</x>
+				<y>1.0</y>
+				<z>18.0</z>
+			</position>
+			<scale>
+				<x>15.0</x>
+				<y>15.0</y>
+				<z>15.0</z>
+			</scale>
+		</model>
+		<model id="gold">
+			<file>./resources/models/gold.obj</file>
+			<texture>./resources/textures/gold.tga</texture>
+			<position>
+				<x>23.0</x>
+				<y>8.0</y>
+				<z>-50.0</z>
+			</position>
+			<scale>
+				<x>15.0</x>
+				<y>15.0</y>
+				<z>15.0</z>
+			</scale>
+		</model>
+		<model id="gold">
+			<file>./resources/models/gold.obj</file>
+			<texture>./resources/textures/gold.tga</texture>
+			<position>
+				<x>52.5</x>
+				<y>10</y>
+				<z>-20.0</z>
+			</position>
+			<scale>
+				<x>15.0</x>
+				<y>15.0</y>
+				<z>15.0</z>
+			</scale>
+		</model>
+		<model id="gold">
+			<file>./resources/models/gold.obj</file>
+			<texture>./resources/textures/gold.tga</texture>
+			<position>
+				<x>-40.0</x>
+				<y>1.0</y>
+				<z>-45.0</z>
+			</position>
+			<scale>
+				<x>15.0</x>
+				<y>15.0</y>
+				<z>15.0</z>
+			</scale>
+		</model>
+		<model>
+			<file>./resources/models/folder.obj</file>
+			<texture>./resources/textures/file_cabinet.png</texture>
+			<position>
+				<x>-5.0</x>
+				<y>8.1</y>
+				<z>11.0</z>
+			</position>
+			<scale>
+				<x>10.0</x>
+				<y>10.0</y>
+				<z>10.0</z>
+			</scale>
+			<orientation>
+				<x>0.0</x>
+				<y>1.0</y>
+				<z>0.0</z>
+				<w>20</w>
+			</orientation>
+		</model>
 		<model>
 			<file>./resources/models/table.obj</file>
 			<texture>./resources/textures/mahagony-light.jpg</texture>
 			<position>
 				<x>1.0</x>
-				<y>1.0</y>
+				<y>0.0</y>
 				<z>1.0</z>
 			</position>
 			<scale>
@@ -262,7 +410,7 @@
 			<texture>./resources/textures/cloth.png</texture>
 			<position>
 				<x>1.0</x>
-				<y>1.0</y>
+				<y>0.0</y>
 				<z>1.0</z>
 			</position>
 			<scale>
@@ -272,12 +420,32 @@
 			</scale>
 		</model>
 		<model>
+			<file>./resources/models/table_small.obj</file>
+			<texture>./resources/textures/table_small.png</texture>
+			<position>
+				<x>55.0</x>
+				<y>0.0</y>
+				<z>18.0</z>
+			</position>
+			<scale>
+				<x>7.0</x>
+				<y>7.0</y>
+				<z>7.0</z>
+			</scale>
+			<orientation>
+				<x>0.0</x>
+				<y>1.0</y>
+				<z>0.0</z>
+				<w>90</w>
+			</orientation>
+		</model>
+		<model>
 			<file>./resources/models/plant.obj</file>
 			<texture>./resources/textures/shrub.tga</texture>
 			<position>
-				<x>1.0</x>
-				<y>1.0</y>
-				<z>50.0</z>
+				<x>28.0</x>
+				<y>0.0</y>
+				<z>66.0</z>
 			</position>
 			<scale>
 				<x>10.0</x>
@@ -289,14 +457,82 @@
 			<file>./resources/models/plantpot.obj</file>
 			<texture>./resources/textures/pot.tga</texture>
 			<position>
-				<x>1.0</x>
-				<y>1.0</y>
-				<z>50.0</z>
+				<x>28.0</x>
+				<y>0.0</y>
+				<z>66.0</z>
 			</position>
 			<scale>
 				<x>10.0</x>
 				<y>10.0</y>
 				<z>10.0</z>
+			</scale>
+		</model>
+		<model>
+			<file>./resources/models/file_cabinet.obj</file>
+			<texture>./resources/textures/file_cabinet.png</texture>
+			<position>
+				<x>53.5</x>
+				<y>0.0</y>
+				<z>-26.0</z>
+			</position>
+			<scale>
+				<x>10.0</x>
+				<y>10.0</y>
+				<z>10.0</z>
+			</scale>
+			<orientation>
+				<x>0.0</x>
+				<y>1.0</y>
+				<z>0.0</z>
+				<w>-90</w>
+			</orientation>
+		</model>
+		<model>
+			<file>./resources/models/file_cabinet_open.obj</file>
+			<texture>./resources/textures/file_cabinet.png</texture>
+			<position>
+				<x>53.5</x>
+				<y>0.0</y>
+				<z>-20.0</z>
+			</position>
+			<scale>
+				<x>10.0</x>
+				<y>10.0</y>
+				<z>10.0</z>
+			</scale>
+			<orientation>
+				<x>0.0</x>
+				<y>1.0</y>
+				<z>0.0</z>
+				<w>-90</w>
+			</orientation>
+		</model>
+		<model>
+			<file>./resources/models/trash.obj</file>
+			<texture>./resources/textures/trash.tga</texture>
+			<position>
+				<x>-28.0</x>
+				<y>0.0</y>
+				<z>-66.0</z>
+			</position>
+			<scale>
+				<x>1.0</x>
+				<y>1.0</y>
+				<z>1.0</z>
+			</scale>
+		</model>
+		<model>
+			<file>./resources/models/plant_spike.obj</file>
+			<texture>./resources/textures/spikes.tga</texture>
+			<position>
+				<x>-35.0</x>
+				<y>-50.0</y>
+				<z>-30.0</z>
+			</position>
+			<scale>
+				<x>50.0</x>
+				<y>50.0</y>
+				<z>50.0</z>
 			</scale>
 		</model>
 	</models>

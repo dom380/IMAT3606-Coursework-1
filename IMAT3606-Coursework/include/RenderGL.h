@@ -40,7 +40,6 @@ private:
 	int height;
 	unsigned int currBindingPoint = 0;
 	glm::mat4 modelMat = glm::mat4();
-	glm::mat4 viewMat = glm::mat4();
 };
 
 #endif // !RENDERGL_H

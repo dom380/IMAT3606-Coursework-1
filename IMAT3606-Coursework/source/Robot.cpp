@@ -306,5 +306,5 @@ bool Robot::checkCollision(shared_ptr<Model> model)
 {
 	glm::vec2 dist(robot_Pos.x - model->transform.position.x, robot_Pos.z - model->transform.position.z);
 	float distance = glm::length(dist);
-	return  distance < 2.5;
+	return  distance < 5;
 }

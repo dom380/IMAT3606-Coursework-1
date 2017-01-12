@@ -6,10 +6,11 @@ GameScreen::GameScreen(shared_ptr<Graphics>& renderer, shared_ptr<Camera> camera
 {
 	this->renderer = renderer;
 	camera->move(58.0, 41.0f, 68.0f);
-	camera->lookAt(0.52f, 0.5f, 0.69f);
+	camera->lookAt(glm::vec3(-1.0,-0.6,-1.0));
 	cameras.push_back(camera);
-	cameras.push_back(std::make_shared<PerspectiveCamera>(renderer->getWidth(), renderer->getHeight(), 45.0f, glm::vec3(-58,41,-68),glm::vec3(0,1,0), glm::vec3(-0.52f, 0.5f, 0.69f)));
-	cameras.push_back(std::make_shared<PerspectiveCamera>(renderer->getWidth(), renderer->getHeight(), 45.0f, glm::vec3(-58, 41, 68), glm::vec3(0, 1, 0), glm::vec3(-0.52f, 0.5f, 0.69f)));
+	cameras.push_back(std::make_shared<PerspectiveCamera>(renderer->getWidth(), renderer->getHeight(), 45.0f, glm::vec3(-58,41,-68),glm::vec3(0,1,0), glm::vec3(0.63,-0.36,0.67)));
+	cameras.push_back(std::make_shared<PerspectiveCamera>(renderer->getWidth(), renderer->getHeight(), 45.0f, glm::vec3(-58, 41, 68), glm::vec3(0, 1, 0), glm::vec3(0.59,-0.39,-0.7)));
+	cameras.push_back(std::make_shared<PerspectiveCamera>(renderer->getWidth(), renderer->getHeight(), 45.0f, glm::vec3(58, 42, -68), glm::vec3(0, 1, 0), glm::vec3(-0.8,-0.42,0.42)));
 
 #ifndef NDEBUG
 	glm::quat quat; quat.y = 1.0f; quat.w = 0.0f;
@@ -17,9 +18,9 @@ GameScreen::GameScreen(shared_ptr<Graphics>& renderer, shared_ptr<Camera> camera
 	frameTime = std::make_shared<TextBox>("Frame Time: 0", *AssetManager::getInstance()->getFont("./resources/fonts/arial.ttf", renderer), textPos, renderer);
 	textBoxes.push_back(frameTime);
 #endif
-	//Input::getInstance().registerKeyListener(robot);
-	Input::getInstance().registerKeyListener(cameras.at(0));
-	Input::getInstance().registerMouseListener(cameras.at(0));
+	Input::getInstance().registerKeyListener(robot);
+	//Input::getInstance().registerKeyListener(cameras.at(0));
+	//Input::getInstance().registerMouseListener(cameras.at(0));
 	activeCamera = 0;
 }
 
