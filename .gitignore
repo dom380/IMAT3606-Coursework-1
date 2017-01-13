@@ -114,3 +114,5 @@ ipch/
 
 IMAT3606-Coursework/include/GL/glm/CMakeLists.txt
 kitchen.blend
+*.iobj
+*.ipdb

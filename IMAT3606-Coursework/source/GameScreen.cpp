@@ -74,6 +74,11 @@ void GameScreen::resize(int width, int height)
 
 void GameScreen::dispose()
 {
+	for (shared_ptr<Camera> camera : cameras) {
+		Input::getInstance().removeMouseListener(camera);
+		Input::getInstance().removeKeyListener(camera);
+	}
+	Input::getInstance().removeKeyListener(robot);
 	models.clear();
 	lights.clear();
 	robot.reset();

@@ -42,8 +42,8 @@ private:
 	vector<Light> lights;
 	double angle = 0;
 	double rotationSpeed = 50.0;
-	unsigned int lightingBlockId;
-	unsigned int lightingBufferId;
+	unsigned int lightingBlockId = -1;
+	unsigned int lightingBufferId = -1;
 	shared_ptr<Robot> robot;
 	int currentScore = 0;
 #ifndef NDEBUG
