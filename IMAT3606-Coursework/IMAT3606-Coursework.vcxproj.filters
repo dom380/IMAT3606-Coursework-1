@@ -287,6 +287,9 @@
     <ClInclude Include="include\utils\DaeReader.h">
       <Filter>Header Files\utils\FileParsers</Filter>
     </ClInclude>
+    <ClInclude Include="include\Camera\OrthographicCamera.h">
+      <Filter>Header Files\Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\text.frag">
