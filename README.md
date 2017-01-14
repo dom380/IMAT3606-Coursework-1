@@ -1,8 +1,17 @@
-##Third Party Code
-Tinyxml2 - https://github.com/leethomason/tinyxml2 (ZLib license)  
-GLFW - http://www.glfw.org/index.html (ZLib license)  
-GLEW - https://github.com/nigels-com/glew (MIT License)  
-OpenGL - https://www.opengl.org/ - (Khronos License)  
+##Controls
+'WASD' To move the robot.
+'C' Changes the camera.
+
+##Third Party Software
+
+STB_Image - https://github.com/nothings/stb (Public Domain)
+Bitmap - Tom Dalling http://www.tomdalling.com/ ([Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0))
+Texture - Tom Dalling http://www.tomdalling.com/ ([Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0)) - Modified to use GLEW.
+Tinyxml2 - https://github.com/leethomason/tinyxml2 ([ZLib license](https://github.com/leethomason/tinyxml2/blob/master/tinyxml2.h))  
+OpenGL Mathematics (GLM) - http://glm.g-truc.net/0.9.8/index.html ([MIT License](https://github.com/leethomason/tinyxml2/blob/master/tinyxml2.h))
+GLFW - http://www.glfw.org/index.html ([ZLib license](http://www.glfw.org/license.html))  
+GLEW - https://github.com/nigels-com/glew ([MIT License](https://github.com/nigels-com/glew/blob/master/LICENSE.txt))
+OpenGL - https://www.opengl.org/   
 
 ##Model Credits
 

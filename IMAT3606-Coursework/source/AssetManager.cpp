@@ -69,7 +69,7 @@ shared_ptr<ModelData> AssetManager::getModelData(const char * fileName, shared_p
 	shared_ptr<ModelData> data = std::make_shared<ModelData>();
 	string fullPath = buildFilePath(ResourceType::MODEL, fileName);
 	vector<glm::vec4> vertices; vector<glm::vec3> normals; vector<glm::vec2> textures; vector<unsigned short>indices;
-	ObjReader().readObj(fullPath.c_str(), vertices, normals, textures, indices, data->material);
+	readModelFile(fullPath, vertices, normals, textures, indices, data);
 	data->vboHandles = graphics->bufferModelData(vertices, normals, textures, indices, data->vaoHandle);
 	data->indexSize = indices.size();
 	modelData.emplace(std::pair<string, shared_ptr<ModelData>>(fileName, data));
@@ -148,4 +148,37 @@ string AssetManager::buildFilePath(ResourceType resourceType, const char * path)
 		return string(shaderFolder + path);
 		break;
 	}
+}
+
+void AssetManager::readModelFile(string fullPath, vector<glm::vec4>& vertices, vector<glm::vec3>& normals, vector<glm::vec2>& textures, vector<unsigned short>& indices, shared_ptr<ModelData>& data)
+{
+	string fileExtension = getFileExt(fullPath);
+	if (fileExtension == string("obj")) {
+		modelFileReader = std::make_shared<ObjReader>();
+		modelFileReader->readFile(fullPath.c_str(), vertices, normals, textures, indices, data->material);
+	}
+	else if (fileExtension == string("dae"))
+	{
+		modelFileReader = std::make_shared<DaeReader>();
+		modelFileReader->readFile(fullPath.c_str(), vertices, normals, textures, indices, data->material);
+	}
+	else if (fileExtension == string("fbx"))
+	{
+		modelFileReader = std::make_shared<FbxReader>();
+		modelFileReader->readFile(fullPath.c_str(), vertices, normals, textures, indices, data->material);
+	}
+	else
+	{
+		std::cerr << "Unsupported file format" << fullPath << std::endl;
+	}
+}
+
+string AssetManager::getFileExt(const string& s) {
+
+	size_t i = s.rfind('.', s.length());
+	if (i != string::npos) {
+		return(s.substr(i + 1, s.length() - i));
+	}
+
+	return("");
 }

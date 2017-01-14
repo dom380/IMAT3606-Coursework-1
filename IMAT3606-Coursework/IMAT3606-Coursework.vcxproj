@@ -209,9 +209,12 @@
     <ClInclude Include="include\Screens\LoadingScreen.h" />
     <ClInclude Include="include\Screens\MenuScreen.h" />
     <ClInclude Include="include\Screens\Screen.h" />
+    <ClInclude Include="include\utils\DaeReader.h" />
     <ClInclude Include="include\utils\EnumParser.h" />
+    <ClInclude Include="include\utils\FbxReader.h" />
     <ClInclude Include="include\utils\GLSupport.h" />
     <ClInclude Include="include\utils\LevelLoader.h" />
+    <ClInclude Include="include\utils\ModelFileReader.h" />
     <ClInclude Include="include\utils\ObjReader.h" />
     <ClInclude Include="include\utils\OnClickFunctions.h" />
     <ClInclude Include="include\utils\Timer.h" />

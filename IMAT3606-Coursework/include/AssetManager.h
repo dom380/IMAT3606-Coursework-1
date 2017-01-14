@@ -11,7 +11,10 @@ using std::string;
 #include <GUI\Font.h>
 #include <Graphics\Shader.h>
 #include <Graphics\ModelData.h>
+#include <utils\ModelFileReader.h>
 #include <utils\ObjReader.h>
+#include <utils\DaeReader.h>
+#include <utils\FbxReader.h>
 /*
 	Singleton class responsible for loading and storing all Assets.
 */
@@ -67,11 +70,30 @@ public:
 		Clean up resources.
 	*/
 	void exit();
+
+
 private:
 	AssetManager() {};
 	AssetManager(AssetManager const&) {}; // prevent copies
 	void operator=(AssetManager const&) {}; // prevent assignments
+	/*
+		Utility method to parse a file name and return the extension.
+		Does not include the '.'
+		If no extension found returns an empty string.
+		const string& fileName, The file name to check for extensions.
+	*/
+	string getFileExt(const string& fileName);
+	/*
+		Utility method to build the full file path from the supplied path and resource folder.
+		ResourceType resourceType, Enum specifying the resource type.
+		const char* path, Path to file.
+	*/
 	string buildFilePath(ResourceType resourceType, const char* path);
+	/*
+		Utility method to read a model file.
+		Checks the file extension and uses the relevant ModelFileReader implementation.
+	*/
+	void readModelFile(string fullPath, vector<glm::vec4>& vertices, vector<glm::vec3>& normals, vector<glm::vec2>& textures, vector<unsigned short>& indices, shared_ptr<ModelData>& data);
 	static bool initialised;
 	static shared_ptr<AssetManager> instance;
 	map<string, shared_ptr<Font>> fonts;
@@ -83,6 +105,7 @@ private:
 	string modelFolder;
 	string textureFolder;
 	string shaderFolder;
+	shared_ptr<ModelFileReader> modelFileReader;
 };
 
 #endif // !ASSETMANAGER_H

@@ -8,7 +8,7 @@ ObjReader::~ObjReader()
 {
 }
 
-void ObjReader::readObj(const char * filePath, vector<glm::vec4>& vertices, vector<glm::vec3>& normals, vector<glm::vec2>& textures, vector<unsigned short>&indices, Material& material)
+void ObjReader::readFile(const char * filePath, vector<glm::vec4>& vertices, vector<glm::vec3>& normals, vector<glm::vec2>& textures, vector<unsigned short>&indices, Material& material)
 {
 	unpackedVertices.clear();
 	unpackedNormals.clear();

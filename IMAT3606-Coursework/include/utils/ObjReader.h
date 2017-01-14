@@ -1,21 +1,17 @@
 #pragma once
 #ifndef OBJREADER_H
 #define OBJREADER_H
-#include <GL\glm\glm\glm.hpp>
-#include <GL\glm\glm\gtx\hash.hpp>
-#include <vector>
-using std::vector;
+#include "ModelFileReader.h"
 #include <fstream>
 #include <iostream>
 #include <string>
 #include <sstream>
 #include <unordered_map>
 #include <Graphics\Material.h>
-
 /*
 	Utility class to parse  Wavefront .obj and .mtl files
 */
-class ObjReader {
+class ObjReader : public ModelFileReader {
 public:
 	//Default constructor.
 	ObjReader();
@@ -29,7 +25,7 @@ public:
 		vector<unsigned short>&indices, std::vector to be loaded with indices.
 		Material& material, Material to be loaded with the model's material properties (If a .mtl is specified).
 	*/
-	void readObj(const char * filePath, vector<glm::vec4>& vertices, vector<glm::vec3>& normals, vector<glm::vec2>& textures, vector<unsigned short>&indices, Material& material);
+	void readFile(const char * filePath, vector<glm::vec4>& vertices, vector<glm::vec3>& normals, vector<glm::vec2>& textures, vector<unsigned short>&indices, Material& material);
 private:
 	//private memebers
 	vector<glm::vec3> faceIndices; //x = position index. y = texture index. z = normal index
