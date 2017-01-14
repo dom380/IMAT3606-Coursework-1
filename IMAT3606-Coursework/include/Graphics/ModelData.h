@@ -4,7 +4,9 @@
 #include "Material.h"
 #include <vector>
 using std::vector;
-
+/*
+	Utility class that collects together model data.
+*/
 class ModelData
 {
 public:

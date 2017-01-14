@@ -1,10 +1,12 @@
 #include "Engine.h"
-#include <RenderGL.h>
+#include <Graphics\WindowGLFW.h>
+#include <Renderers\RenderGL.h>
 #include <algorithm>
 #include <utils\tinyxml2.h>
 #include <utils\OnClickFunctions.h>
 #include <utils\LevelLoader.h>
-#include <LoadingScreen.h>
+#include <Screens\LoadingScreen.h>
+#include <InputGLFW.h>
 
 
 Engine::Engine()
@@ -30,39 +32,14 @@ void Engine::init()
 {
 	//Read configuration file
 	loadConfig();
-
-	// Initialize GLFW
-	if (!glfwInit()) exit();
-
-	//	 Select OpenGL 4.0 with a forward compatible core profile.
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, true);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwWindowHint(GLFW_RESIZABLE, false);
-	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
-	glfwWindowHint(GLFW_DOUBLEBUFFER, true);
-
-	// Open the window
-	window = glfwCreateWindow(width, height, "IMAT3606-CourseWork", NULL, NULL);
-	if (!window) {
-		glfwTerminate();
+	inputHandler = buildInput(inputImplementation);
+	window = buildWindow(graphicsContext);
+	bool success = window->inititalise();
+	if (!success)
+	{
+		std::cerr << "Failed to create window. Exiting..." << std::endl;
 		exit();
 	}
-	glfwMakeContextCurrent(window);
-	glfwSetKeyCallback(window, &inputHandler.keyboardCallback);
-	glfwSetMouseButtonCallback(window, &inputHandler.mouseButtonCallback);
-	glfwSetCursorPosCallback(window, &inputHandler.mouseMovementCallback);
-
-	glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, false);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwWindowHint(GLFW_RESIZABLE, false);
-	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
-	offscreen_context = glfwCreateWindow(640, 480, "", NULL, window);
-
 	renderer = buildRenderer(graphicsContext);
 	renderer->init();
 	loadFirstLevel();
@@ -75,7 +52,7 @@ void Engine::mainLoop()
 	timer.start();
 	auto currentTime = timer.getElapsedTime();
 	//variable timestep
-	while (!glfwWindowShouldClose(window) && !glfwGetKey(window, GLFW_KEY_ESCAPE)) {
+	while (!window->shouldExit()) {
 		double newTime = timer.getElapsedTime();
 		double frameTime = newTime - currentTime; 
 		currentTime = newTime; //set current time
@@ -83,16 +60,16 @@ void Engine::mainLoop()
 		while (frameTime > 0.0) //While there is still time to update the simulation
 		{
 			double deltaTime = std::min(frameTime, dt);
-			renderer->prepare();
-			activeScreen.second->update(dt);
+			activeScreen.second->update(deltaTime);
 
 			frameTime -= deltaTime;
 			t += deltaTime;
+			//todo pass t and delta time to physics sim here
 		}
+		renderer->prepare();
 		activeScreen.second->render();
-
-		glfwSwapBuffers(window);
-		glfwPollEvents();
+		window->display();
+		window->pollEvents();
 	}
 }
 
@@ -103,18 +80,15 @@ void Engine::exit()
 	if(renderer != nullptr)
 		renderer->exit();
 	AssetManager::getInstance()->exit();
-
-	// Close window and terminate GLFW
-	glfwTerminate();
+	if(window != nullptr)
+		window->close();
 	closed = true;
 	std::exit(0);
 }
 
 string Engine::registerScreen(shared_ptr<Screen> screen)
 {
-	//currentScreenId++;
 	gameScreens.emplace(std::pair<string, shared_ptr<Screen>>(screen->getID(), screen));
-	//screen->setID(currentScreenId);
 	return screen->getID();
 }
 
@@ -128,7 +102,7 @@ void Engine::switchScreen(string screenId)
 	auto it = gameScreens.find(screenId);
 	if (it == gameScreens.end()) {
 		//try to load level
-		activeScreen = std::pair<string, shared_ptr<Screen>>("LoadingScreen", std::make_shared<LoadingScreen>(offscreen_context, this, renderer, screenId));
+		activeScreen = std::pair<string, shared_ptr<Screen>>("LoadingScreen", std::make_shared<LoadingScreen>(window, this, renderer, inputHandler, screenId));
 	}
 	else {
 		activeScreen = *it;
@@ -140,7 +114,7 @@ void Engine::replaceScreen(string screenId)
 	auto it = gameScreens.find(screenId);
 	if (it == gameScreens.end()) {
 		//try to load level
-		activeScreen = std::pair<string, shared_ptr<Screen>>("LoadingScreen", std::make_shared<LoadingScreen>(offscreen_context, this, renderer, screenId));
+		activeScreen = std::pair<string, shared_ptr<Screen>>("LoadingScreen", std::make_shared<LoadingScreen>(window, this, renderer, inputHandler, screenId));
 	} else{
 		activeScreen.second.reset();
 		string idToRemove = activeScreen.first;
@@ -163,23 +137,32 @@ void Engine::loadConfig()
 	height = element->FirstChildElement("height")!=NULL ? element->FirstChildElement("height")->IntText(720) : 720;
 	initialScreenId = element->FirstChildElement("initScreen") != NULL ? element->FirstChildElement("initScreen")->GetText() : "MainMenu";
 	string renderer = element->FirstChildElement("renderer")!= NULL ? element->FirstChildElement("renderer")->GetText() : "OPEN_GL";
-	graphicsContext = enumParser.parse(renderer);// GraphicsContext::OPEN_GL; 
+	graphicsContext = enumParser.parse(renderer);
+
 	string resourceLocation = element->FirstChildElement("fontLocation") != NULL ? element->FirstChildElement("fontLocation")->GetText() : "./resources/fonts/";
 	AssetManager::getInstance()->setAssetFolder(resourceLocation, AssetManager::ResourceType::FONT);
+
 	resourceLocation = element->FirstChildElement("levelLocation") != NULL ? element->FirstChildElement("levelLocation")->GetText() : "./resources/levels/";
 	AssetManager::getInstance()->setAssetFolder(resourceLocation, AssetManager::ResourceType::LEVEL);
+
 	resourceLocation = element->FirstChildElement("modelLocation") != NULL ? element->FirstChildElement("modelLocation")->GetText() : "./resources/models/";
 	AssetManager::getInstance()->setAssetFolder(resourceLocation, AssetManager::ResourceType::MODEL);
+
 	resourceLocation = element->FirstChildElement("textureLocation") != NULL ? element->FirstChildElement("textureLocation")->GetText() : "./resources/textures/";
 	AssetManager::getInstance()->setAssetFolder(resourceLocation, AssetManager::ResourceType::TEXTURE);
+
 	resourceLocation = element->FirstChildElement("shaderLocation") != NULL ? element->FirstChildElement("shaderLocation")->GetText() : "./shaders/";
 	AssetManager::getInstance()->setAssetFolder(resourceLocation, AssetManager::ResourceType::SHADER);
+
+	auto inputEnumParser = EnumParser<Input::InputImpl>();
+	string input = element->FirstChildElement("input") != NULL ? element->FirstChildElement("input")->GetText() : "GLFW";
+	inputImplementation = inputEnumParser.parse(input);
 }
 
 void Engine::loadFirstLevel()
 {
 	string levelPath = AssetManager::getInstance()->getRootFolder(AssetManager::ResourceType::LEVEL) + initialScreenId + ".xml";
-	if (!LevelLoader::loadLevel(this, renderer, levelPath.c_str())) {
+	if (!LevelLoader::loadLevel(this, renderer, inputHandler, levelPath.c_str())) {
 		std::cerr << "Failed to load initial level..." << std::endl << "Exiting" << std::endl;
 		std::exit(1);
 	}
@@ -212,4 +195,30 @@ shared_ptr<Graphics> Engine::buildRenderer(GraphicsContext renderType)
 	default: //Default to OpenGL
 		return std::make_shared<RenderGL>(width, height);
 	};
+}
+
+shared_ptr<Window> Engine::buildWindow(GraphicsContext context)
+{
+	switch (context)
+	{
+	case GraphicsContext::OPEN_GL:
+	{
+		return std::make_shared<WindowGLFW>(width, height, std::dynamic_pointer_cast<InputGLFW, Input>(inputHandler)); //Assume using GLFW input for GLFW window...
+	}
+	default: //Default to GLFW
+		return std::make_shared<WindowGLFW>(width, height, std::dynamic_pointer_cast<InputGLFW, Input>(inputHandler));
+	};
+}
+
+shared_ptr<Input> Engine::buildInput(Input::InputImpl impl)
+{
+	switch (impl)
+	{
+	case Input::InputImpl::GLFW:
+		return std::make_shared<InputGLFW>();
+	case Input::InputImpl::GLUT:
+		return nullptr; //TODO... maybe
+	default: //Default to GLFW
+		return std::make_shared<InputGLFW>();
+	}
 }

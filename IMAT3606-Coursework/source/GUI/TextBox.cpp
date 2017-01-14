@@ -1,6 +1,6 @@
 #include "..\..\include\GUI\TextBox.h"
 
-TextBox::TextBox(string text, Font textfont, Transform pos, shared_ptr<Graphics>& graphics, glm::vec3& colour, string id)
+TextBox::TextBox(string text, Font textfont, shared_ptr<Transform> pos, shared_ptr<Graphics>& graphics, glm::vec3& colour, string id)
 {
 	this->text = text;
 	this->graphics = graphics;
@@ -9,7 +9,7 @@ TextBox::TextBox(string text, Font textfont, Transform pos, shared_ptr<Graphics>
 	init(textfont, pos);
 }
 
-TextBox::TextBox(const char * text, Font textfont, Transform pos, shared_ptr<Graphics>& graphics, glm::vec3& colour, string id)
+TextBox::TextBox(const char * text, Font textfont, shared_ptr<Transform> pos, shared_ptr<Graphics>& graphics, glm::vec3& colour, string id)
 {
 	this->text = string(text);
 	this->graphics = graphics;
@@ -40,7 +40,7 @@ void TextBox::updateText(string newText)
 
 void TextBox::render()
 {
-	if (!haveVAO) {
+	if (!haveVAO) { //If VAO hasn't been created (on this thread) yet create it now.
 		VAO = graphics->createTextVertexArrayObject(VBO);
 		haveVAO = true;
 	} 
@@ -52,11 +52,11 @@ string TextBox::getId()
 	return id;
 }
 
-void TextBox::init(Font textfont, Transform pos)
+void TextBox::init(Font textfont, shared_ptr<Transform> pos)
 {
 	font = textfont;
 	transform = pos;
-	charX = pos.position.x;
-	charY = pos.position.y;
+	charX = pos->position.x;
+	charY = pos->position.y;
 	graphics->buildTextShader(VAO, VBO, textShader);
 }

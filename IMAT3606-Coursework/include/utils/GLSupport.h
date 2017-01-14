@@ -3,7 +3,9 @@
 #include "GL/glew.h"
 #include <string>
 using std::string;
-
+/////////////////////////////////////////////////
+/// TAKEN FROM SECOND YEAR - DO NOT CREDIT.
+/////////////////////////////////////////////////
 class OpenGLSupport
 {
 public:

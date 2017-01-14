@@ -122,15 +122,10 @@ string AssetManager::getRootFolder(ResourceType resourceType)
 
 void AssetManager::exit()
 {
-	//probably don't need this but be extra sure to free memory
-	for (auto it : textures) {
-		it.second.reset();
-	}
-	for (auto it : fonts) {
-		it.second.reset();
-	}
 	textures.clear();
 	fonts.clear();
+	shaders.clear();
+	modelData.clear();
 }
 
 string AssetManager::buildFilePath(ResourceType resourceType, const char * path)

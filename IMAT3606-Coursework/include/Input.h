@@ -1,7 +1,6 @@
 #pragma once
 #ifndef INPUT_H
 #define INPUT_H
-#include <gl\glfw3.h>
 #include <vector>
 using std::vector;
 #include "GUI\EventListener.h"
@@ -10,29 +9,39 @@ using std::vector;
 using std::shared_ptr;
 
 /*
-	This should probably be abstract and have concrete impls for each windowing systems.
-	But for now just sitck with GLFW.
+	Abstract base for Input management.
 */
 class Input {
 public:
-	static Input& getInstance();
-	static void mouseMovementCallback(GLFWwindow* window, double xpos, double ypos);
-	static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
-	static void keyboardCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
-	static void registerKeyListener(shared_ptr<EventListener> listener);
-	static void registerMouseListener(shared_ptr<EventListener> listener);
-	static void removeKeyListener(shared_ptr<EventListener> listener);
-	static void removeMouseListener(shared_ptr<EventListener> listener);
-
+	Input();
 	~Input();
-private:
-	static Input instance;
-	static bool initialised;
+	/*
+		Registers an EventListener for Keyboard events.
+	*/
+	virtual void registerKeyListener(shared_ptr<EventListener> listener);
+	/*
+		Registers an EventListener for Mouse events.
+	*/
+	virtual void registerMouseListener(shared_ptr<EventListener> listener);
+	/*
+		Removes an EventListener from the Key listeners.
+	*/
+	virtual void removeKeyListener(shared_ptr<EventListener> listener);
+	/*
+		Removes an EventListener from the Mouse listeners.
+	*/
+	virtual void removeMouseListener(shared_ptr<EventListener> listener);
+	/*
+		Enum specifying the implementation of the Input system.
+	*/
+	enum InputImpl
+	{
+		GLFW,
+		GLUT,
+	};
+protected:
 	vector<shared_ptr<EventListener>>keySubs;
 	vector<shared_ptr<EventListener>>mouseSubs;
-	Input();
-	Input(Input const&) {}; // prevent copies
-	void operator=(Input const&) {}; // prevent assignments
 };
 
 #endif // !INPUT_H

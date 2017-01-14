@@ -5,8 +5,6 @@ struct Material
 	vec3 Ka;
 	vec3 Kd;
 	vec3 Ks;
-	vec3 Ke;
-	float Ni;
 	float d;
 	float Ns;
 };

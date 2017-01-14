@@ -1,4 +1,4 @@
-#include "Shader.h"
+#include "Graphics\Shader.h"
 #include "utils\GLSupport.h"
 #include <gl\glm\glm\gtc\type_ptr.hpp>
 
@@ -344,14 +344,8 @@ void Shader::setUniform(const char * name, Material val)
 	locationName += ".Kd";
 	setUniform(locationName.c_str(), val.Kd);
 	locationName = name;
-	locationName += ".Ke";
-	setUniform(locationName.c_str(), val.Ke);
-	locationName = name;
 	locationName += ".Ks";
 	setUniform(locationName.c_str(), val.Ks);
-	locationName = name;
-	locationName += ".Ni";
-	setUniform(locationName.c_str(), val.Ni);
 	locationName = name;
 	locationName += ".Ns";
 	setUniform(locationName.c_str(), val.Ns);

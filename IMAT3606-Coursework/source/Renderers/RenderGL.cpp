@@ -1,4 +1,4 @@
-#include "RenderGL.h"
+#include "Renderers\RenderGL.h"
 #ifndef NDEBUG
 #include <utils\GLSupport.h>
 #endif
@@ -75,10 +75,10 @@ void RenderGL::buildTextShader(unsigned int &vertArrayObj, unsigned int &vertBuf
 	glFlush();
 }
 
-void RenderGL::renderText(string& text, Font& font, Transform& transform, unsigned int VAO, unsigned int VBO, shared_ptr<Shader>& textShader, glm::vec3 colour)
+void RenderGL::renderText(string& text, Font& font, shared_ptr<Transform>& transform, unsigned int VAO, unsigned int VBO, shared_ptr<Shader>& textShader, glm::vec3 colour)
 {
-	float charX = transform.position.x;
-	float charY = transform.position.y;
+	float charX = transform->position.x;
+	float charY = transform->position.y;
 	glEnable(GL_BLEND);
 #ifndef NDEBUG
 	string check = OpenGLSupport().GetError();
@@ -93,11 +93,11 @@ void RenderGL::renderText(string& text, Font& font, Transform& transform, unsign
 	glBindVertexArray(VAO);
 	for (char c : text) {
 		Font::Character character = font.getChar(c);
-		GLfloat xpos = charX + character.bearing.x * transform.scale.x;
-		GLfloat ypos = charY - (character.size.y - character.bearing.y) * transform.scale.y;
+		GLfloat xpos = charX + character.bearing.x * transform->scale.x;
+		GLfloat ypos = charY - (character.size.y - character.bearing.y) * transform->scale.y;
 
-		GLfloat w = character.size.x * transform.scale.x;
-		GLfloat h = character.size.y * transform.scale.y;
+		GLfloat w = character.size.x * transform->scale.x;
+		GLfloat h = character.size.y * transform->scale.y;
 		// Update VBO for each character
 		GLfloat vertices[6][4] = {
 			{ xpos,     ypos + h,   0.0, 0.0 },
@@ -116,7 +116,7 @@ void RenderGL::renderText(string& text, Font& font, Transform& transform, unsign
 		// Render quad
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 		// Now advance cursors for next glyph (note that advance is number of 1/64 pixels)
-		charX += (character.offset >> 6) *  transform.scale.x; // Bitshift by 6 to get value in pixels (2^6 = 64)
+		charX += (character.offset >> 6) *  transform->scale.x; // Bitshift by 6 to get value in pixels (2^6 = 64)
 	}
 #ifndef NDEBUG
 	check = OpenGLSupport().GetError();
@@ -250,14 +250,14 @@ unsigned int RenderGL::createTextVertexArrayObject(unsigned int & vboHandle)
 	return vertArrayObj;
 }
 
-void RenderGL::renderModel(Model& model, shared_ptr<Shader>& shaderProgram, shared_ptr<Camera>& camera)
+void RenderGL::renderModel(ModelComponent& model, shared_ptr<Shader>& shaderProgram, shared_ptr<Camera>& camera)
 {
 	vector<Light> defaultLights;
 	defaultLights.push_back(Light());
 	renderModel(model, shaderProgram, camera, defaultLights);
 }
 
-void RenderGL::renderModel(Model& model, shared_ptr<Shader>& shaderProgram, shared_ptr<Camera>& camera, vector<Light>& lights)
+void RenderGL::renderModel(ModelComponent& model, shared_ptr<Shader>& shaderProgram, shared_ptr<Camera>& camera, vector<Light>& lights)
 {
 #ifndef NDEBUG
 	string check = OpenGLSupport().GetError();
@@ -269,8 +269,8 @@ void RenderGL::renderModel(Model& model, shared_ptr<Shader>& shaderProgram, shar
 	glBindVertexArray(model.getVertArray());
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, model.getTexture()->object());
-	glm::quat orientation = model.transform.orientation;
-	glm::mat4 mMat = modelMat * glm::translate(model.transform.position) * glm::rotate(orientation.w, glm::vec3(orientation.x, orientation.y, orientation.z)) * glm::scale(model.transform.scale);
+	glm::quat orientation = model.transform->orientation;
+	glm::mat4 mMat = modelMat * glm::translate(model.transform->position) * glm::rotate(orientation.w, glm::vec3(orientation.x, orientation.y, orientation.z)) * glm::scale(model.transform->scale);
 	shaderProgram->setUniform("tex", 0);
 	shaderProgram->setUniform("mView", camera->getView());
 	shaderProgram->setUniform("mProjection", camera->getProjection());
@@ -291,7 +291,7 @@ void RenderGL::renderModel(Model& model, shared_ptr<Shader>& shaderProgram, shar
 	glBindVertexArray(0);
 }
 
-void RenderGL::renderModel(Model & model, shared_ptr<Shader>& shaderProgram, shared_ptr<Camera>& camera, unsigned int lightingBuffer, unsigned int lightingBlockId)
+void RenderGL::renderModel(ModelComponent & model, shared_ptr<Shader>& shaderProgram, shared_ptr<Camera>& camera, unsigned int lightingBuffer, unsigned int lightingBlockId)
 {
 #ifndef NDEBUG
 	string check = OpenGLSupport().GetError();
@@ -310,8 +310,8 @@ void RenderGL::renderModel(Model & model, shared_ptr<Shader>& shaderProgram, sha
 		shaderProgram = AssetManager::getInstance()->getShader(std::pair<std::string, std::string>("phong_no_texture.vert", "phong_no_texture.frag"));
 		shaderProgram->bindShader();
 	}
-	glm::quat orientation = model.transform.orientation;
-	glm::mat4 mMat = modelMat * glm::translate(model.transform.position) * glm::rotate(glm::radians(orientation.w), glm::vec3(orientation.x, orientation.y, orientation.z)) * glm::scale(model.transform.scale);
+	glm::quat orientation = model.transform->orientation;
+	glm::mat4 mMat = modelMat * glm::translate(model.transform->position) * glm::rotate(glm::radians(orientation.w), glm::vec3(orientation.x, orientation.y, orientation.z)) * glm::scale(model.transform->scale);
 	shaderProgram->setUniform("mView", camera->getView());
 	shaderProgram->setUniform("mProjection", camera->getProjection());
 	shaderProgram->setUniform("mModel", mMat);

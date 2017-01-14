@@ -8,16 +8,36 @@
 #include <sys/time.h>
 #endif
 
+/*
+	High Resolution (Microsecond) timer for Windows and Unix based systems.
+*/
 class Timer {
 public:
+	/*
+		Default constructor.
+	*/
 	Timer();
 	~Timer() {};
 
+	/*
+		Starts the timer.
+	*/
 	void start();
+	/*
+		Stops the timer.
+	*/
 	void stop();
-	// get elapsed time in seconds
+	/*
+		Returns the current elapsed time in seconds.
+	*/
 	double getElapsedTime();   
+	/*
+		Returns the current elapsed time in Milliseconds.
+	*/
 	double getElapsedTimeMilliSec();
+	/*
+		Returns the current elapsed time in Microseconds.
+	*/
 	double getElapsedTimeMicroSec();
 private:
 	double startTimeInMicroSec;                 

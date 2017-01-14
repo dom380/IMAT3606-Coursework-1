@@ -1,4 +1,4 @@
-#include <GUI\MenuScreen.h>
+#include <Screens\MenuScreen.h>
 
 MenuScreen::MenuScreen(shared_ptr<Graphics>& graphics, Engine* engine)
 {

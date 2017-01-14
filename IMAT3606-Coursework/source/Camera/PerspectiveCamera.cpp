@@ -1,4 +1,4 @@
-#include <Graphics\PerspectiveCamera.h>
+#include <Camera\PerspectiveCamera.h>
 
 PerspectiveCamera::PerspectiveCamera(int width, int height, float aspect, glm::vec3 pos, glm::vec3 up, glm::vec3 direction)
 {

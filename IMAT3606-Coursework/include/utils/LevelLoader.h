@@ -2,9 +2,11 @@
 #ifndef LEVELLOADER_H
 #define LEVELLOADER_H
 #include <Engine.h>
-#include <Graphics.h>
-#include <GUI\MenuScreen.h>
-#include <GameScreen.h>
+#include <Renderers\Graphics.h>
+#include <Screens\MenuScreen.h>
+#include <Screens\GameScreen.h>
+#include <GameObject.h>
+#include <Components\LogicComponent.h>
 #include "OnClickFunctions.h"
 #include "tinyxml2.h"
 #ifndef NDEBUG
@@ -22,7 +24,7 @@ public:
 
 		Returns false if an error occured.
 	*/
-	static bool loadLevel(Engine* engine, shared_ptr<Graphics> renderer, const char* filePath) 
+	static bool loadLevel(Engine* engine, shared_ptr<Graphics> renderer, shared_ptr<Input> input, const char* filePath)
 	{
 		try
 		{
@@ -35,10 +37,10 @@ public:
 			tinyxml2::XMLElement* screenElement = doc.FirstChildElement("screen");
 			const char* type = screenElement->Attribute("type");
 			if (string(type) == string("menu")) {
-				return loadMenu(engine, renderer, screenElement);
+				return loadMenu(engine, renderer, input, screenElement);
 			}
 			else if (string(type) == string("level")) {
-				return loadGameLevel(engine, renderer, screenElement);
+				return loadGameLevel(engine, renderer, input, screenElement);
 			}
 			else
 			{
@@ -67,7 +69,7 @@ private:
 		Utility method to load MenuScreens
 		Returns true on success.
 	*/
-	static bool loadMenu(Engine* engine, shared_ptr<Graphics>& renderer, tinyxml2::XMLElement* screenElement)
+	static bool loadMenu(Engine* engine, shared_ptr<Graphics>& renderer, shared_ptr<Input>& input, tinyxml2::XMLElement* screenElement)
 	{
 		shared_ptr<MenuScreen> menuScreen = std::make_shared<MenuScreen>(renderer, engine);
 		menuScreen->setID(screenElement->Attribute("name"));
@@ -79,7 +81,7 @@ private:
 		}
 		tinyxml2::XMLElement* buttonElement = screenElement->FirstChildElement("buttons")->FirstChildElement();
 		while (buttonElement != NULL) {
-			loadButtonElement(engine, renderer, menuScreen, buttonElement);
+			loadButtonElement(engine, renderer, input, menuScreen, buttonElement);
 			buttonElement = buttonElement->NextSiblingElement();
 		}
 		engine->registerScreen(menuScreen);
@@ -93,7 +95,7 @@ private:
 	{
 		Font font = *AssetManager::getInstance()->getFont("arial.ttf", renderer);
 		const char* text = stringElement->FirstChildElement("value")!=NULL ? stringElement->FirstChildElement("value")->GetText() : "MISSING_STRING";
-		Transform transform;
+		shared_ptr<Transform> transform = std::make_shared<Transform>();
 		loadTransform(transform, stringElement);
 		glm::vec3 colour;
 		stringElement->FirstChildElement("colour") != NULL ? loadColour(colour, stringElement->FirstChildElement("colour"), glm::vec3(1.0, 1.0, 1.0)) : colour = glm::vec3(1.0, 1.0, 1.0);
@@ -106,11 +108,11 @@ private:
 	/*
 		Utility method to load Button elements
 	*/
-	static void loadButtonElement(Engine* engine, shared_ptr<Graphics>& renderer, shared_ptr<MenuScreen> menuScreen, tinyxml2::XMLElement* buttonElement)
+	static void loadButtonElement(Engine* engine, shared_ptr<Graphics>& renderer, shared_ptr<Input> input, shared_ptr<MenuScreen> menuScreen, tinyxml2::XMLElement* buttonElement)
 	{
 		Font font = *AssetManager::getInstance()->getFont("arial.ttf", renderer);
 		const char* text = buttonElement->FirstChildElement("value")!=NULL ? buttonElement->FirstChildElement("value")->GetText() : "MISSING_STRING";
-		Transform transform;
+		shared_ptr<Transform> transform = std::make_shared<Transform>();
 		loadTransform(transform, buttonElement);
 		glm::vec3 colour;
 		buttonElement->FirstChildElement("colour") != NULL ? loadColour(colour, buttonElement->FirstChildElement("colour"), glm::vec3(1.0, 1.0, 1.0)) : colour = glm::vec3(1.0, 1.0, 1.0);
@@ -118,7 +120,7 @@ private:
 		buttonElement->Attribute("id") != NULL ? id = buttonElement->Attribute("id") : id = "";
 		shared_ptr<Button> button = std::make_shared<Button>(text, font, transform, renderer, colour, id);
 		menuScreen->addButton(button);
-		Input::getInstance().registerMouseListener(button);
+		input->registerMouseListener(button);
 		string funcName = string(buttonElement->FirstChildElement("function")->Attribute("type"));
 		loadButtonFunc(funcName, buttonElement, button, engine);
 	}
@@ -128,7 +130,7 @@ private:
 	*/
 	static void loadButtonFunc(string funcName, tinyxml2::XMLElement* buttonElement, shared_ptr<Button> button, Engine* engine)
 	{
-		switch (enumParser.parse(funcName))
+		switch (funcEnumParser.parse(funcName))
 		{
 			case OnClickFunctions::FunctionType::SWITCH_SCREEN: {
 				tinyxml2::XMLElement* paramElement = buttonElement->FirstChildElement("function")->FirstChildElement("params")->FirstChildElement();
@@ -173,19 +175,19 @@ private:
 		Utility method to load GameScreens
 		Returns true on sucess.
 	*/
-	static bool loadGameLevel(Engine* engine, shared_ptr<Graphics>& renderer, tinyxml2::XMLElement* screenElement) 
+	static bool loadGameLevel(Engine* engine, shared_ptr<Graphics>& renderer, shared_ptr<Input>& input, tinyxml2::XMLElement* screenElement)
 	{
 #ifndef NDEBUG
 			Timer timer;
 			timer.start();
 #endif
 		shared_ptr<Camera> camera = std::make_shared<PerspectiveCamera>(engine->getWindowWidth(), engine->getWindowHeight(), 45.f);
-		shared_ptr<GameScreen> gameScreen = std::make_shared<GameScreen>(renderer, camera);
+		shared_ptr<GameScreen> gameScreen = std::make_shared<GameScreen>(renderer, input, camera);
 		gameScreen->setID(screenElement->Attribute("name"));
-		tinyxml2::XMLElement* modelElement = screenElement->FirstChildElement("models")->FirstChildElement();
-		while (modelElement != NULL) {
-			loadModel(renderer, gameScreen, modelElement);
-			modelElement = modelElement->NextSiblingElement();
+		tinyxml2::XMLElement* gameObjElement = screenElement->FirstChildElement("gameObjects")->FirstChildElement();
+		while (gameObjElement != NULL) {
+			loadGameObject(renderer, gameScreen, gameObjElement);
+			gameObjElement = gameObjElement->NextSiblingElement();
 		}
 		tinyxml2::XMLElement* lightElement = screenElement->FirstChildElement("lights")->FirstChildElement();
 		int lightCount = 0;
@@ -203,11 +205,61 @@ private:
 		}
 		gameScreen->updateLighting();
 		engine->registerScreen(gameScreen);
-		Input::getInstance().registerKeyListener(gameScreen);
+		input->registerKeyListener(gameScreen);
 #ifndef NDEBUG
 		double time = timer.getElapsedTime();
 #endif
 		return true;
+	}
+
+	static void loadGameObject(shared_ptr<Graphics>& renderer, shared_ptr<GameScreen> gameSceen, tinyxml2::XMLElement* gameObjElement)
+	{
+		if (gameObjElement->FirstChildElement("components") == NULL)
+			return;
+		shared_ptr<GameObject> gameObject = std::make_shared<GameObject>();
+		tinyxml2::XMLElement* componentElement = gameObjElement->FirstChildElement("components")->FirstChildElement();
+		while (componentElement != NULL)
+		{
+			if (componentElement->Attribute("type") == NULL)
+			{
+				std::cerr << "Unknown component type, skipping" << std::endl;
+				continue;
+			}
+			ComponentType type = componentEnumParser.parse(string(componentElement->Attribute("type")));
+			switch (type)
+			{
+				case ComponentType::MODEL:
+					loadModel(renderer, gameObject, componentElement);
+					break;
+				case ComponentType::ANIMATION:
+					//todo
+					break;
+				case ComponentType::RIGID_BODY:
+					//todo
+					break;
+				case ComponentType::LOGIC:
+					gameObject->AddComponent(std::make_shared<LogicComponent>(gameObject, gameSceen));
+					break;
+				case ComponentType::TRANSFORM:
+					{
+						auto transform = std::make_shared<Transform>();
+						loadTransform(transform, componentElement);
+						gameObject->AddComponent(transform);
+					}
+				break;
+				default:
+					break;
+			}
+			if (gameObject->HasComponent(ComponentType::TRANSFORM) && gameObject->HasComponent(ComponentType::MODEL)) //Ensure the model is using the same transform as the object
+			{
+				shared_ptr<ModelComponent> model = std::dynamic_pointer_cast<ModelComponent, Component>(gameObject->GetComponent(ComponentType::MODEL));
+				shared_ptr<Transform> transform = std::dynamic_pointer_cast<Transform, Component>(gameObject->GetComponent(ComponentType::TRANSFORM));
+				model->transform = transform;
+			}
+			componentElement = componentElement->NextSiblingElement();
+		}
+		gameSceen->addGameObject(gameObject);
+			
 	}
 
 	/*
@@ -215,22 +267,22 @@ private:
 
 		Currently only supports Wavefront .obj format.
 	*/
-	static void loadModel(shared_ptr<Graphics>& renderer, shared_ptr<GameScreen> gameScreen, tinyxml2::XMLElement* modelElement)
+	static void loadModel(shared_ptr<Graphics>& renderer, shared_ptr<GameObject> gameObject, tinyxml2::XMLElement* modelElement)
 	{
-		shared_ptr<Model> model = std::make_shared<Model>(renderer);
+		shared_ptr<ModelComponent> mesh = std::make_shared<ModelComponent>(renderer, gameObject);
 		const char* modelPath = modelElement->FirstChildElement("file")->GetText();
 		const char* texturePath = modelElement->FirstChildElement("texture")!=NULL ? modelElement->FirstChildElement("texture")->GetText():NULL;
 		string id;
 		modelElement->Attribute("id") != NULL ? id = modelElement->Attribute("id") : id = "";
-		model->init(modelPath, texturePath, id);
-		loadTransform(model->transform, modelElement);
-		gameScreen->addModel(model);
+		mesh->init(modelPath, texturePath, id);
+		//loadTransform(mesh->transform, modelElement);
+		gameObject->AddComponent(mesh);
 	}
 
 	/*
 		Utility method to load Transform objects
 	*/
-	static void loadTransform(Transform &transform, tinyxml2::XMLElement* element) 
+	static void loadTransform(shared_ptr<Transform> &transform, tinyxml2::XMLElement* element) 
 	{
 		glm::vec3 pos;
 		glm::vec3 scale = glm::vec3(1.0,1.0,1.0);
@@ -263,9 +315,9 @@ private:
 					quatElement->FirstChildElement("z")!=NULL ? quatElement->FirstChildElement("z")->FloatText() : 0.0f
 				);
 		}
-		transform.orientation = quat;
-		transform.position = pos;
-		transform.scale = scale;
+		transform->orientation = quat;
+		transform->position = pos;
+		transform->scale = scale;
 	}
 
 	/*
@@ -315,9 +367,11 @@ private:
 			);
 	}
 
-	static EnumParser<OnClickFunctions::FunctionType> enumParser;
+	static EnumParser<OnClickFunctions::FunctionType> funcEnumParser;
+	static EnumParser<ComponentType> componentEnumParser;
 
 };
-EnumParser<OnClickFunctions::FunctionType> LevelLoader::enumParser;
+EnumParser<OnClickFunctions::FunctionType> LevelLoader::funcEnumParser;
+EnumParser<ComponentType> LevelLoader::componentEnumParser;
 #endif // !LEVELLOADER_H
 

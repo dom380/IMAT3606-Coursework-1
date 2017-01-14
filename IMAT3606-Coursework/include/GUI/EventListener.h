@@ -4,6 +4,9 @@
 #include "MouseEvent.h"
 #include "KeyEvent.h"
 
+/*
+	Interface for objects that respond to input events.
+*/
 class EventListener {
 public:
 	virtual void  handle(MouseEvent event) = 0;

@@ -312,12 +312,17 @@ void Robot::handle(KeyEvent event)
 	}
 }
 
-bool Robot::checkCollision(shared_ptr<Model> model)
+glm::vec3 Robot::getPosition()
 {
-	glm::vec2 dist(robot_Pos.x - model->transform.position.x, robot_Pos.z - model->transform.position.z);
-	float distance = glm::length(dist);
-	return  distance < 5;
+	return robot_Pos;
 }
+
+//bool Robot::checkCollision(shared_ptr<Model> model)
+//{
+//	glm::vec2 dist(robot_Pos.x - model->transform.position.x, robot_Pos.z - model->transform.position.z);
+//	float distance = glm::length(dist);
+//	return  distance < 5;
+//}
 
 void Robot::setCamera(shared_ptr<Camera> newCamera)
 {

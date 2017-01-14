@@ -1,14 +1,13 @@
 #ifndef __ROBOT_H
 #define __ROBOT_H
-#include <Shader.h>
+#include <Graphics\Shader.h>
 #include <memory>
 using std::shared_ptr;
 #include <gl\glm\glm\glm.hpp>
 #include <vector>
 using std::vector;
 #include <GUI\EventListener.h>
-#include <Model.h>
-#include <Graphics\Camera.h>
+#include <Camera\Camera.h>
 
 // constants for arm and leg movement states
 const char BACKWARD_STATE = 0;
@@ -18,6 +17,9 @@ const char FORWARD_STATE = 1;
 const char LEFT = 0;
 const char RIGHT = 1;
 
+/*
+	Player Character
+*/
 class Robot : public EventListener
 {
 private:
@@ -78,8 +80,8 @@ public:
 
 	void  handle(MouseEvent event);
 	void  handle(KeyEvent event);
-
-	bool checkCollision(shared_ptr<Model> model);
+	glm::vec3 getPosition();
+	//bool checkCollision(shared_ptr<Model> model);
 
 	void setCamera(shared_ptr<Camera> newCamera);
 	shared_ptr<Camera> getCamera();

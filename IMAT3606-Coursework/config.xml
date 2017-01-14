@@ -8,4 +8,5 @@
 	<shaderLocation>./shaders/</shaderLocation>
 	<initScreen>MainMenu</initScreen>
 	<renderer>OPEN_GL</renderer>
+	<input>GLFW</input>
 </game>

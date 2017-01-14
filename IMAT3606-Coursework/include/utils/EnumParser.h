@@ -5,7 +5,9 @@
 using std::string;
 #include <map>
 using std::map;
-
+/*
+	Maps string values to Enums.
+*/
 template<typename T>
 class EnumParser
 {

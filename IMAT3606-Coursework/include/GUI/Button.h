@@ -6,17 +6,19 @@
 using std::string;
 #include "EventListener.h"
 #include "Font.h"
-#include "Shader.h"
+#include "Graphics\Shader.h"
 #include <Graphics\Transform.h>
 #include <GUI\TextBox.h>
-#include <Graphics.h>
+#include <Renderers\Graphics.h>
 #include <gl\glm\glm\gtc\matrix_transform.hpp>
 #include <algorithm> 
 #include <functional>
 #include <memory>
 using std::shared_ptr;
 
-
+/*
+	Button UI element
+*/
 class Button : public EventListener {
 private:
 	struct AABB {
@@ -30,47 +32,74 @@ private:
 
 	std::string id;
 
-	void init(Font textfont, Transform pos, glm::vec3& colour = glm::vec3(1.0, 1.0, 1.0)) {
+	/*
+		Inititalise the Button, creating a Textbox for rendering and building an AABB around the text.
+	*/
+	void init(Font textfont, shared_ptr<Transform> pos, glm::vec3& colour = glm::vec3(1.0, 1.0, 1.0)) {
 		textbox = std::make_shared<TextBox>(text, textfont, pos, graphics);
 		font = textfont;
 		transform = pos;
 		buildAABB();
 	};
 
+	/*
+		Calculates a bounding box around the button text.
+	*/
 	void buildAABB() {
 		float maxHeight = 0;
-		aabb.x = transform.position.x;
-		aabb.y = transform.position.y;
+		aabb.x = transform->position.x;
+		aabb.y = transform->position.y;
 		aabb.width = 0;
-		for (char c : text) {
+		for (char c : text) { //For each character in text
 			Font::Character character = font.getChar(c);
-			aabb.y = std::min((transform.position.y - (character.size.y - character.bearing.y) * transform.scale.y), aabb.y);
-			maxHeight = std::max(character.size.y * transform.scale.y, maxHeight);
-			aabb.width += (character.offset >> 6) *  transform.scale.x;
+			aabb.y = std::min((transform->position.y - (character.size.y - character.bearing.y) * transform->scale.y), aabb.y); //Set button position of AABB to the current lowest (From top left) character bearing.
+			maxHeight = std::max(character.size.y * transform->scale.y, maxHeight); //Get current tallest character
+			aabb.width += (character.offset >> 6) *  transform->scale.x; //increment width for each character
 		}
-		aabb.height = (transform.position.y - aabb.y) + maxHeight; //Height of AABB is the maximum character height add the maximum underline bearing
+		aabb.height = (transform->position.y - aabb.y) + maxHeight; //Height of AABB is the maximum character height add the maximum underline bearing
 	};
 	
 protected:
 	string text;
 	Font font;
-	Transform transform;
+	shared_ptr<Transform> transform;
 public:
 	//Constructors
 	Button() {};
-	Button(string text, Font textfont, Transform pos, shared_ptr<Graphics>& graphics, glm::vec3& colour = glm::vec3(1.0,1.0,1.0), string id ="") {
+	/*
+		Constructor
+		string text, The text to display for the button.
+		Font textfont, The font to use for the text.
+		shared_ptr<Transform>& pos, The position, scale and orientation of the button.
+		shared_ptr<Graphics>& graphics, Pointer to the graphics system.
+		glm::vec3& colour, The colour of the text, normalised to 0..1. Defaulted to white (1.0,1.0,1.0), 
+		string id, The button#s Id.
+	*/
+	Button(string text, Font textfont, shared_ptr<Transform>& pos, shared_ptr<Graphics>& graphics, glm::vec3& colour = glm::vec3(1.0,1.0,1.0), string id ="") {
 		this->text = text;
 		this->graphics = graphics;
 		this->id = id;
 		init(textfont, pos, colour);
 	};
-	Button(const char* text, Font textfont, Transform pos, shared_ptr<Graphics>& graphics, glm::vec3& colour = glm::vec3(1.0, 1.0, 1.0), string id = "") {
+	/*
+		Constructor
+		const char* text, The text to display for the button.
+		Font textfont, The font to use for the text.
+		shared_ptr<Transform>& pos, The position, scale and orientation of the button.
+		shared_ptr<Graphics>& graphics, Pointer to the graphics system.
+		glm::vec3& colour, The colour of the text, normalised to 0..1. Defaulted to white (1.0,1.0,1.0),
+		string id, The button#s Id.
+	*/
+	Button(const char* text, Font textfont, shared_ptr<Transform>& pos, shared_ptr<Graphics>& graphics, glm::vec3& colour = glm::vec3(1.0, 1.0, 1.0), string id = "") {
 		this->text = string(text);
 		this->graphics = graphics;
 		this->id = id;
 		init(textfont, pos, colour);
 	};
 	~Button(){};
+	/*
+		Copy constructor.
+	*/
 	Button& operator=(Button& other) {
 		this->text = other.text;
 		this->transform = other.transform;
@@ -81,9 +110,9 @@ public:
 	};
 
 	/*
-		Method to notify Button of Events it has subscribed to. 
-		If the event was a click within the button's bounding box provided 
-		OnClick method will be called.
+		Method to notify Button of Mouse Events it has subscribed to. 
+		If the event was a click within the button's bounding box the  
+		OnClick callback method will be called.
 	*/
 	void handle(MouseEvent event) {
 		//if not a click event we don't care
@@ -97,15 +126,26 @@ public:
 			onClickCallback();
 		}
 	};
-	
+	/*
+		Empty implementation of KeyEvent handeling.
+	*/
 	void handle(KeyEvent event) {
 		//NOP
 	}
 
+	/*
+		Sets the button's onClick callback function. 
+		The callback function does not have to be void with no parameters as long as it is correctly bound
+		using std::bind().
+		std::function<void()> c, The callback function. 
+	*/
 	void addOnClickFn(std::function<void()> c) {
 		onClickCallback = c;
 	};
 
+	/*
+		Call to the graphics system to render this button.
+	*/
 	void render() {
 		textbox->render();
 	}

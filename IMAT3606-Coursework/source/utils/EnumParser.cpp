@@ -1,7 +1,9 @@
 #include <utils\EnumParser.h>
 #include <Engine.h>
 #include <utils\OnClickFunctions.h>
-#include <Graphics\Camera.h>
+#include <Camera\Camera.h>
+#include <Components\ComponentType.h>
+#include <Input.h>
 
 EnumParser<Engine::GraphicsContext>::EnumParser()
 {
@@ -47,4 +49,26 @@ EnumParser<Camera::CameraClass>::EnumParser()
 	map["perspective"] = Camera::CameraClass::PERSPECTIVE;
 	map["ORTHOGRAPHIC"] = Camera::CameraClass::ORTHOGRAPHIC;
 	map["orthographic"] = Camera::CameraClass::ORTHOGRAPHIC;
+}
+
+EnumParser<ComponentType>::EnumParser()
+{
+	map["MODEL"] = ComponentType::MODEL;
+	map["model"] = ComponentType::MODEL;
+	map["ANIMATION"] = ComponentType::ANIMATION;
+	map["animation"] = ComponentType::ANIMATION;
+	map["RIGID_BODY"] = ComponentType::RIGID_BODY;
+	map["rigid_body"] = ComponentType::RIGID_BODY;
+	map["LOGIC"] = ComponentType::LOGIC;
+	map["logic"] = ComponentType::LOGIC;
+	map["TRANSFORM"] = ComponentType::TRANSFORM;
+	map["transform"] = ComponentType::TRANSFORM;
+}
+
+EnumParser<Input::InputImpl>::EnumParser()
+{
+	map["GLFW"] = Input::InputImpl::GLFW;
+	map["glfw"] = Input::InputImpl::GLFW;
+	map["GLUT"] = Input::InputImpl::GLUT;
+	map["glut"] = Input::InputImpl::GLUT;
 }

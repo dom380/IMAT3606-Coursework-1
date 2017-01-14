@@ -1,3 +1,8 @@
+##Third Party Code
+Tinyxml2 - https://github.com/leethomason/tinyxml2 (ZLib license)
+GLFW - http://www.glfw.org/index.html (ZLib license)
+GLEW - https://github.com/nigels-com/glew (MIT License)
+OpenGL - https://www.opengl.org/ - (Khronos License)
 
 ##Model Credits
 

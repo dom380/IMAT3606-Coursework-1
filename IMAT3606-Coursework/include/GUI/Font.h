@@ -7,14 +7,36 @@
 #include <map>
 using std::map;
 #include <gl\glm\glm\glm.hpp>
-#include <Graphics.h>
+#include <Renderers\Graphics.h>
 class Graphics;
+
+/*
+	Class that represents a Font.  Wraps Freetype Library.
+*/
 class Font {
 public:
+	//Constructors
 	Font() {};
+	/*
+		Copy constructor
+	*/
 	Font(Font* font);
+	/*
+		Constructor.
+		FT_Library ftLib, Instance of the Freetype Library. Assumes it has been successfully initialised.
+		const char* fontPath, File path, relative to the 'fontLocation' property, to the TrueType font to load. 
+		shared_ptr<Graphics>& graphics, Pointer to the graphics system.
+	*/
 	Font(FT_Library ftLib, const char* fontPath, shared_ptr<Graphics>& graphics);
+	/*
+		Constructs and buffers the glyph textures for the first 128 ASCII characters 
+		of the the supplied TrueType font. 
+		Must be called before font can be used.
+	*/
 	void compile();
+	/*
+		Inline class representing an individual character in the font.
+	*/
 	class Character {
 	public:
 		Character() {};
@@ -33,7 +55,7 @@ public:
 private:
 	FT_Library ft;
 	FT_Face fontFace;
-	map<char, Character> charMap;
+	map<char, Character> charMap; //Map of char to Character to allow quick access to glyph texture information.
 	bool compiled = false;
 	shared_ptr<Graphics> graphics;
 };

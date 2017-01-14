@@ -161,14 +161,6 @@ void ObjReader::readMtl(const char * filePath, Material & material)
 		{
 			material.Ks = readVec3(stringStream);
 		}
-		else if (lineStart == "Ke")
-		{
-			material.Ke = readVec3(stringStream);
-		} 
-		else if (lineStart == "Ni")
-		{
-			stringStream >> material.Ni;
-		}
 		else if (lineStart == "d")
 		{
 			stringStream >> material.d;
